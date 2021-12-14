@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Admin</title>
+  </head>
+  <body id="body">
+    <input type="checkbox" name="" id="menu-toggle" />
+    <div class="overlay">
+      <label for="menu-toggle"></label>
+    </div>
+
+    <%- include("./includes/sidebar.ejs") %>
+
+    <div class="main">
+      <%- include("./includes/nav.ejs") %>
+
+      <div class="main-content">
+        <div class="report-container">
+          <div class="actions">
+            <div class="actions__address">
+              <select name="address" id="address">
+                <option value="0">Dusun Budi Budaya</option>
+                <option value="1">Dusun Sari Buana</option>
+              </select>
+            </div>
+
+            <div class="actions__button">
+              <a href="/admin/add-member" class="btn btn-success"
+                ><i class="bx bx-plus-medical"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="table">
+            <table>
+              <thead>
+                <th>No</th>
+                <th>NIK</th>
+                <th>Nama Balita</th>
+                <th>Nama Ibu</th>
+                <th>Alamat</th>
+                <th>Action</th>
+              </thead>
+              <tbody>
+                <% members.forEach((member, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><%= member.nik %></td>
+                  <td>
+                    <a href="/admin/nutrition-report?id=<%= member.id %>"
+                      ><%= member.namabalita %></a
+                    >
+                  </td>
+                  <td><%= member.namaibu %></td>
+                  <td><%= member.alamat %></td>
+                  <td>
+                    <form action="/admin/delete-member" method="post">
+                      <div class="action-container">
+                        <a
+                          href="/admin/edit-member?id=<%= member.id %>&edit=true"
+                          class="btn oc btn-warning"
+                          ><i class="bx bx-edit"></i
+                        ></a>
+                        <input
+                          type="hidden"
+                          name="id"
+                          value="<%= member.id%>"
+                        />
+                        <button type="submit" class="btn oc btn-danger">
+                          <i class="bx bx-trash"></i>
+                        </button>
+                        <a
+                          href="/admin/add-data?id=<%= member.id %>"
+                          class="btn oc btn-success"
+                          ><i class="bx bx-add-to-queue"></i
+                        ></a>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+                <% })%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets//js/admin.js"></script>
+  </body>
+</html>

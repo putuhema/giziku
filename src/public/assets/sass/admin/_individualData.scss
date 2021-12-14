@@ -1,0 +1,21 @@
+.in-container {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  column-gap: 2rem;
+  margin-top: 2rem;
+
+  .profile {
+    width: 30%;
+    height: max-content;
+    border: 2px solid #f0f0f0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+
+    img {
+      width: 9rem;
+    }
+  }
+}

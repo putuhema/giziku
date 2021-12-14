@@ -1,0 +1,33 @@
+.add-container {
+  margin: 1rem;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+
+  label {
+    font-weight: bold;
+  }
+
+  input,
+  select {
+    margin-top: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    border: 1px solid black;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+  }
+}

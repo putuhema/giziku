@@ -1,0 +1,77 @@
+@media only screen and (max-width: 1224px) {
+  .container {
+    grid-template-columns: 30% auto;
+  }
+
+  /*================= admin =================*/
+  .sidebar {
+    left: -298px;
+    z-index: 30;
+  }
+
+  .main {
+    width: 100vw;
+    margin-left: 0;
+  }
+
+  #menu-toggle:checked ~ .sidebar {
+    left: 0;
+  }
+
+  #menu-toggle:checked ~ .overlay {
+    display: block;
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: 100%;
+  }
+
+  .bar {
+    position: sticky;
+    align-items: center;
+    background-color: #fff;
+    left: 0;
+    top: 0;
+    padding: 0 0.5rem;
+
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+    .account,
+    .logo {
+      margin: 0;
+    }
+  }
+
+  .chart__nutrition-up {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+
+  /*========= input ========*/
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  .in-container {
+    flex-direction: column;
+
+    .profile {
+      width: 100% !important;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .nutrition__info {
+    width: 100%;
+    margin: 0.1rem;
+    &-logo {
+      display: none !important;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.individual-report {
+  table {
+    th {
+      font-size: 0.9rem;
+    }
+
+    td {
+      text-align: center;
+    }
+  }
+}
+
+.chart-section {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 2rem;
+
+  .chart-box {
+    border: 2px solid #f0f0f0;
+    border-radius: 0.5rem;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    padding: 0.8rem;
+
+    p {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

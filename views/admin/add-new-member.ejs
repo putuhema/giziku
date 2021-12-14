@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Tambah Data</title>
+  </head>
+  <body id="body">
+    <input type="checkbox" name="" id="menu-toggle" />
+    <div class="overlay">
+      <label for="menu-toggle"></label>
+    </div>
+
+    <%- include("./includes/sidebar.ejs") %>
+
+    <div class="main">
+      <%- include("./includes/nav.ejs") %>
+      <div class="main-content">
+        <div class="add-container">
+          <form action="/admin/<%= edit ? "edit-member" : "add-member" %>" method="post">
+            <input type="hidden" name="id" value="<%= edit ? user.id : "" %>">
+            <div class="input-row">
+              <div class="col">
+                <label for="nik">NIK</label>
+                <input type="text" name="nik" id="nik" value="<%= edit ? user.nik : "" %>">
+                <input type="hidden" name="password" value="<%= edit ? user.password : "" %>">
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="col">
+                <label for="namaibu">Nama Ibu</label>
+                <input type="text" name="namaibu" id="namaibu" placeholder="Nama Ibu" value="<%= edit ? user.namaibu : "" %>" />
+              </div>
+              <div class="col">
+                <label for="balita">Nama Balita</label>
+                <input type="text" name="namabalita" id="namabalita"
+                placeholder="Nama Balita" value="<%= edit ? user.namabalita : ""
+                %>" />
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="col">
+                <label for="umur">Umur</label>
+                <input type="text" name="umur" id="umur" placeholder="Umur"
+                value="<%= edit ? user.umur : "" %>" />
+              </div>
+              <div class="col">
+                <label for="dusun">Dusun</label>
+                <select name="address" id="address">
+                  <option value="0" <% if(fn(edit, user.alamat, 0)) {%>
+                    selected <% } %> >Dusun Budi Budaya
+                  </option>
+                  <option value="1" <% if(fn(edit, user.alamat, 1)) {%>
+                    selected <% } %> >Dusun Taman Sari
+                  </option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn <%= edit ?  "btn-warning" : "btn-input" %> ">
+              <%= edit ? "Edit" : "Simpan" %> 
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets//js/admin.js"></script>
+  </body>
+</html>

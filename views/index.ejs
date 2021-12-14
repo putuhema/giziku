@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Giziku</title>
+  </head>
+  <body>
+    <div class="bar">
+      <div class="logo">
+        <h1>Giziku</h1>
+      </div>
+
+      <div class="account">
+        <div class="account__bar">
+          <p><%= member.namaibu %></p>
+          <img src="./assets/img/avataaars.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="profile">
+        <div class="profile__detail">
+          <img src="./assets/img/avataaars.png" alt="" />
+          <div class="profile__name">Ibu <%= member.namabalita %></div>
+          <div class="profile__status">Normal</div>
+        </div>
+        <div class="nutrition">
+          <div class="nutrition__info">
+            <div class="nutrition__info-logo">
+              <i class="las la-weight"></i>
+            </div>
+            <div class="nutrition__info-details">
+              <p class="title">berat</p>
+              <p class="value"><%= nutrition.weight %> kg</p>
+            </div>
+          </div>
+          <div class="nutrition__info">
+            <div class="nutrition__info-logo">
+              <i class="las la-ruler-vertical"></i>
+            </div>
+            <div class="nutrition__info-details">
+              <p class="title">tinggi</p>
+              <p class="value"><%= nutrition.height %> cm</p>
+            </div>
+          </div>
+          <div class="nutrition__info">
+            <div class="nutrition__info-logo">
+              <i class="las la-calendar"></i>
+            </div>
+            <div class="nutrition__info-details">
+              <p class="title">umur</p>
+              <p class="value"><%= nutrition.age %> bulan</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="notes__title">Catatan</div>
+          <div class="notes__item">
+            <ul>
+              <li>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                earum.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                earum.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                earum.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="chart">
+        <div class="chart__nutrition-up">
+          <div class="box">
+            <div class="box__title">Berat</div>
+            <div class="box__chart">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box__title">Tinggi</div>
+            <div class="box__chart">
+              <canvas id="heightChart"></canvas>
+            </div>
+          </div>
+          <!-- <div class="box">
+            <div class="box__title">IMT</div>
+            <div class="box__chart">
+              <canvas id="imtChart"></canvas>
+            </div>
+          </div> -->
+        </div>
+
+        <div class="chart__big">
+          <div class="title">Gizi</div>
+          <div class="chart">
+            <canvas id="nutritionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

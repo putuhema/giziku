@@ -1,0 +1,49 @@
+.chart {
+  background: $main-bg;
+
+  &__nutrition-up {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+    column-gap: 1rem;
+
+    .box {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+      &__title {
+        font-weight: bold;
+      }
+    }
+
+    .box:nth-child(1) {
+      border: 1px solid $accent-blue;
+      background-color: $pale-blue;
+    }
+
+    .box:nth-child(2) {
+      border: 1px solid $accent-red;
+      background-color: $pale-red;
+    }
+
+    .box:nth-child(3) {
+      border: 1px solid $accent-green;
+      background-color: $pale-green;
+    }
+  }
+
+  &__big {
+    padding: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin: 1rem;
+
+    .title {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+  }
+}

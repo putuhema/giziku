@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Login Giziku</title>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="form-container">
+        <div class="img">
+          <img src="/assets/img/avataaars.png" alt="" />
+        </div>
+        <div class="desc">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur rerum
+          quos dolorem expedita itaque veritatis autem fugit dolorum. At facilis
+          nemo cupiditate ratione, possimus voluptate officiis sapiente.
+          Accusamus architecto est dolorum molestiae aliquam harum nostrum.
+        </div>
+      </div>
+      <div class="form-container">
+        <div class="logo">
+          <p>Giziku</p>
+        </div>
+        <form action="/login" method="post">
+          <div class="input-container">
+            <label for="nik">NIK</label>
+            <input type="text" name="nik" id="nik" placeholder="NIK" />
+          </div>
+          <div class="input-container">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="password"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-submit">
+            Masuk <i class="bx bx-log-in"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

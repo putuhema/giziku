@@ -1,0 +1,98 @@
+.profile {
+  background: $second-bg;
+
+  &__detail {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+
+    img {
+      width: 8rem;
+    }
+
+    .profile__name {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  }
+
+  .nutrition {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+
+    &__info {
+      display: flex;
+      align-items: center;
+      border-radius: 0.5rem;
+      padding: 0.3rem;
+      //   column-gap: 0.5rem;
+      //   margin: 0.2rem;
+
+      &-logo {
+        font-size: 1.5rem;
+        width: 2rem;
+        height: 2rem;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        border-radius: 50%;
+        color: $secondary-text;
+      }
+
+      &-details {
+        margin-left: 0.8rem;
+        .title {
+          font-size: 0.8rem;
+        }
+        .value {
+          font-weight: bold;
+        }
+      }
+    }
+
+    &__info:nth-child(1) {
+      background-color: $pale-blue;
+      border: 1px solid $accent-blue;
+
+      .nutrition__info-logo {
+        background-color: $accent-blue;
+      }
+    }
+
+    &__info:nth-child(2) {
+      background-color: $pale-red;
+      border: 1px solid $accent-red;
+      .nutrition__info-logo {
+        background-color: $accent-red;
+      }
+    }
+
+    &__info:nth-child(3) {
+      background-color: $pale-green;
+      border: 1px solid $accent-green;
+      .nutrition__info-logo {
+        background-color: $accent-green;
+      }
+    }
+  }
+
+  .notes {
+    background: $pale-blue;
+    margin: 1rem 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid $accent-blue;
+    &__title {
+      font-weight: bold;
+    }
+
+    ul {
+      margin-left: 1rem;
+    }
+    li {
+      list-style-type: disc;
+    }
+  }
+}

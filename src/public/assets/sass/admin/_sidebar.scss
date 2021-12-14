@@ -1,0 +1,71 @@
+.sidebar {
+  width: $size;
+  height: 100%;
+  margin: 1rem;
+  padding: 0 1.2rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: left 0.3s;
+  overflow-y: auto;
+
+  &__container {
+    height: 96%;
+    width: 100%;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &__logo {
+    text-align: center;
+    span {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+  }
+
+  &__profile {
+    border: 2px solid #d7d7d7;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0.5rem;
+    align-items: center;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+    img {
+      width: 50px;
+    }
+
+    &-details {
+      margin-left: 1rem;
+      .name {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__menu {
+    ul {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .sidebar__link {
+      background: #d7dbf0;
+      margin: 1rem 0;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+
+      .icon {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Data Ibu Mentari</title>
+  </head>
+  <body id="body">
+    <input type="checkbox" name="" id="menu-toggle" />
+    <div class="overlay">
+      <label for="menu-toggle"></label>
+    </div>
+
+    <%- include("./includes/sidebar.ejs") %>
+    <div class="main">
+      <%- include("./includes/nav.ejs") %>
+
+      <div class="main-content">
+        <div class="in-container">
+          <div class="profile">
+            <div class="action">
+              <a href="/admin/">
+                <i class="bx bx-left-arrow-alt"></i> kembali</a
+              >
+            </div>
+            <img src="/assets/img/avataaars.png" alt="avataaars" />
+            <h4>Ibu <%= member.namaibu %></h4>
+            <p><%= member.namabalita %></p>
+            <p><%= member.alamat %></p>
+          </div>
+          <div class="table individual-report">
+            <div class="act">
+              <a
+                href="/admin/add-data?id=<%= member.id %>"
+                class="btn btn-success"
+                >Tambah Data <i class="bx bx-plus-medical"></i>
+              </a>
+            </div>
+            <table>
+              <thead>
+                <th>No</th>
+                <th>Berat (kg)</th>
+                <th>Tinggi/Panjang (cm)</th>
+                <th>Umur</th>
+                <th>Bulan Pengukuran</th>
+                <th>Action</th>
+              </thead>
+              <tbody>
+                <% nutritions.forEach( (nutrition, index) => { %>
+                <tr>
+                  <td><%= (index + 1) %></td>
+                  <td><%= nutrition.weight %> kg</td>
+                  <td><%= nutrition.height %> cm</td>
+                  <td><%= nutrition.age %> bulan</td>
+                  <td><%= nutrition.month %></td>
+                  <td>
+                    <form action="/admin/delete-data" method="post">
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="<%= nutrition.id %>"
+                      />
+                      <div class="action-container">
+                        <a
+                          href="/admin/edit-data?id=<%= nutrition.id %>&edit=true"
+                          class="btn oc btn-warning"
+                          ><i class="bx bx-edit"></i
+                        ></a>
+                        <button type="submit" class="btn oc btn-danger">
+                          <i class="bx bx-trash"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="chart-section">
+          <div class="chart-box">
+            <p>Grafik Berat (Kg)/Bulan</p>
+            <canvas id="weightChart"></canvas>
+          </div>
+          <div class="chart-box">
+            <p>Grafik Tinggi (Cm)/Bulan</p>
+            <canvas id="heightChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+    <script src="/assets/js/admin.js"></script>
+  </body>
+</html>
