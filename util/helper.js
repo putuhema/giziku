@@ -1,10 +1,11 @@
-export const addressById = (id: number) => {
+// @ts-check
+exports.addressById = (id) => {
   const addresses = ["Dusun Budi Budaya", "Dusun Taman Sari"];
 
   return addresses[id];
 };
 
-export const monthById = (id: number) => {
+exports.monthById = (id) => {
   const months = [
     "Januari",
     "Februari",
@@ -23,11 +24,13 @@ export const monthById = (id: number) => {
   return months[id];
 };
 
-export const selectedOption = (
-  edit: boolean,
-  address: string,
-  index: number
-) => {
+/**
+ *
+ * @param {boolean} edit
+ * @param {string} address
+ * @param {number} index
+ */
+exports.selectedOption = (edit, address, index) => {
   const addresses = ["Dusun Budi Budaya", "Dusun Taman Sari"];
   let selected = false;
   if (edit) {
@@ -42,7 +45,7 @@ export const selectedOption = (
   return selected;
 };
 
-export const selectedMonth = (edit: boolean, month: string, index: number) => {
+exports.selectedMonth = (edit, month, index) => {
   const months = [
     "Januari",
     "Februari",

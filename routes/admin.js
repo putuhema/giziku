@@ -1,8 +1,6 @@
-import { Router } from "express";
+const router = require("express").Router();
 
-import * as adminController from "../controller/admin";
-
-const router = Router();
+const adminController = require("../controller/admin");
 
 router.get("/", adminController.getReport);
 router.get("/add-member", adminController.getAddNewMember);
@@ -19,4 +17,4 @@ router.post("/add-data", adminController.postNutritionData);
 router.post("/edit-data", adminController.postEditNutrition);
 router.post("/delete-data", adminController.postDeleteNutritionData);
 
-export default router;
+module.exports = router;

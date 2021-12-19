@@ -37,7 +37,11 @@
     padding: 1rem;
 
     .table {
-      overflow-x: auto;
+      .table-container {
+        overflow-y: auto;
+        overflow-x: auto;
+        height: 250px;
+      }
       table {
         width: 100%;
         border-collapse: collapse;

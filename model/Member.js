@@ -1,14 +1,5 @@
-import { DataTypes, ModelAttributes } from "sequelize";
-import sequelize from "../util/database";
-
-export type MemberType = ModelAttributes & {
-  nik: string;
-  password: string;
-  namaibu: string;
-  namabalita: string;
-  umur: number;
-  alamat: string;
-};
+const { DataTypes } = require("sequelize");
+const sequelize = require("../util/database");
 
 const Member = sequelize.define("member", {
   id: {
@@ -24,4 +15,4 @@ const Member = sequelize.define("member", {
   alamat: DataTypes.STRING,
 });
 
-export default Member;
+module.exports = Member;

@@ -1,0 +1,67 @@
+.bar {
+  display: flex;
+  justify-content: space-between;
+
+  .logo {
+    display: grid;
+    justify-content: center;
+    margin: 1rem;
+  }
+
+  .account {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    position: relative;
+    margin-right: 1rem;
+
+    &__bar {
+      display: flex;
+      align-items: center;
+      background-color: $pale-blue;
+      border: 1px solid $accent-blue;
+      margin: 1rem 0 1rem 1rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 0.7rem;
+      p {
+        margin-right: 0.5rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      img {
+        width: 2rem;
+      }
+    }
+
+    &__menu {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: -100px;
+      border: 1px solid $accent-blue;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: $pale-blue;
+      visibility: none;
+      opacity: 0;
+      transition: 0.3s;
+
+      ul {
+        list-style-type: none;
+      }
+
+      a {
+        color: $secondary-text;
+        &:hover {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .show-menu {
+      bottom: -60px !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  }
+}

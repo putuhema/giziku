@@ -8,6 +8,10 @@
       rel="stylesheet"
       href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <title>Giziku</title>
   </head>
@@ -18,9 +22,19 @@
       </div>
 
       <div class="account">
-        <div class="account__bar">
-          <p><%= member.namaibu %></p>
-          <img src="./assets/img/avataaars.png" alt="" />
+        <div class="account__bar dropdown">
+          <p class="dropdown"><%= member.namaibu %></p>
+          <img class="dropdown" src="./assets/img/avataaars.png" alt="" />
+        </div>
+        <div class="account__menu">
+          <ul>
+            <li>
+              <a href="#"><i class="bx bxs-user"></i> Profile</a>
+            </li>
+            <li>
+              <a href="#"><i class="bx bx-log-out"></i> Keluar</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

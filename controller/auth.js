@@ -1,7 +1,6 @@
-import { Request, Response } from "express";
-import Member from "../model/Member";
+const Member = require("../model/Member");
 
-export const getLogin = (req: Request, res: Response) => {
+exports.getLogin = (_req, res) => {
   try {
     res.render("login");
   } catch (err) {
@@ -9,7 +8,7 @@ export const getLogin = (req: Request, res: Response) => {
   }
 };
 
-export const postLogin = async (req: Request, res: Response) => {
+exports.postLogin = async (req, res) => {
   try {
     const nik = req.body.nik;
     const password = req.body.password;
@@ -23,7 +22,11 @@ export const postLogin = async (req: Request, res: Response) => {
     if (member) {
       if (password == member.getDataValue("password")) {
         res.redirect(`/home?id=${member.getDataValue("id")}`);
+      } else {
+        res.redirect("/");
       }
+    } else {
+      res.redirect("/");
     }
   } catch (err) {
     console.log(err);

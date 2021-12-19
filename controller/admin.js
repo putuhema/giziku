@@ -1,16 +1,14 @@
-import { Request, Response, NextFunction } from "express";
-import { Identifier } from "sequelize/dist";
-
-import Member, { MemberType } from "../model/Member";
-import Nutrition, { NutritionAttributes } from "../model/Nutrition";
-import {
-  addressById,
-  monthById,
+// @ts-check
+const Member = require("../model/Member");
+const Nutrition = require("../model/Nutrition");
+const {
   selectedMonth,
   selectedOption,
-} from "../util/helper";
+  monthById,
+  addressById,
+} = require("../util/helper");
 
-export const getReport = async (_req: Request, res: Response) => {
+exports.getReport = async (_req, res) => {
   try {
     const members = await Member.findAll();
     res.render("admin/report", {
@@ -21,7 +19,7 @@ export const getReport = async (_req: Request, res: Response) => {
   }
 };
 
-export const getAddNewMember = async (_req: Request, res: Response) => {
+exports.getAddNewMember = async (_req, res) => {
   try {
     res.render("admin/add-new-member", {
       edit: false,
@@ -33,7 +31,7 @@ export const getAddNewMember = async (_req: Request, res: Response) => {
   }
 };
 
-export const getEditMember = async (req: Request, res: Response) => {
+exports.getEditMember = async (req, res) => {
   const id = req.query.id;
   const edit = req.query.edit == "true" ? true : false;
   try {
@@ -53,7 +51,7 @@ export const getEditMember = async (req: Request, res: Response) => {
   }
 };
 
-export const getAddData = async (req: Request, res: Response) => {
+exports.getAddData = async (req, res) => {
   try {
     const id = req.query.id;
     const member = await Member.findOne({
@@ -72,7 +70,7 @@ export const getAddData = async (req: Request, res: Response) => {
   }
 };
 
-export const getEditData = async (req: Request, res: Response) => {
+exports.getEditData = async (req, res) => {
   try {
     const id = req.query.id;
     const edit = req.query.edit == "true" ? true : false;
@@ -100,19 +98,13 @@ export const getEditData = async (req: Request, res: Response) => {
   }
 };
 
-type API = {
-  weight: number[];
-  height: number[];
-  month: string[];
-};
-
-let nutritionAPI: API = {
+let nutritionAPI = {
   weight: [],
   height: [],
   month: [],
 };
 
-export const getIndividualReport = async (req: Request, res: Response) => {
+exports.getIndividualReport = async (req, res) => {
   try {
     const id = req.query.id;
     const member = await Member.findOne({
@@ -127,9 +119,9 @@ export const getIndividualReport = async (req: Request, res: Response) => {
       },
     });
 
-    const weight: number[] = [];
-    const height: number[] = [];
-    const month: string[] = [];
+    const weight = [];
+    const height = [];
+    const month = [];
 
     nutritions.forEach((nutrition) => {
       weight.push(nutrition.getDataValue("weight"));
@@ -150,7 +142,11 @@ export const getIndividualReport = async (req: Request, res: Response) => {
   }
 };
 
-export const getWeightApi = async (req: Request, res: Response) => {
+/**
+ *
+ * Send Nutrition data to frontend js
+ */
+exports.getWeightApi = async (_req, res) => {
   try {
     res.status(200).json(nutritionAPI);
   } catch (err) {
@@ -159,18 +155,14 @@ export const getWeightApi = async (req: Request, res: Response) => {
 };
 
 // member
-export const postNewMember = async (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
+exports.postNewMember = async (req, res, _next) => {
   const nik = req.body.nik;
   const namaibu = req.body.namaibu;
   const namabalita = req.body.namabalita;
   const umur = req.body.umur;
   const id = req.body.address;
   const address = addressById(id);
-  const value: MemberType = {
+  const value = {
     nik: nik,
     password: nik,
     namaibu: namaibu,
@@ -187,7 +179,7 @@ export const postNewMember = async (
   }
 };
 
-export const postEditMember = async (req: Request, res: Response) => {
+exports.postEditMember = async (req, res) => {
   try {
     const id = req.body.id;
 
@@ -199,7 +191,7 @@ export const postEditMember = async (req: Request, res: Response) => {
     const addressId = req.body.address;
     const address = addressById(addressId);
 
-    const value: MemberType = {
+    const value = {
       nik: nik,
       password: password,
       namaibu: namaibu,
@@ -220,7 +212,7 @@ export const postEditMember = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteMember = async (req: Request, res: Response) => {
+exports.deleteMember = async (req, res) => {
   const id = req.body.id;
   try {
     await Nutrition.destroy({
@@ -242,7 +234,7 @@ export const deleteMember = async (req: Request, res: Response) => {
 
 // nutrition data
 
-export const postNutritionData = async (req: Request, res: Response) => {
+exports.postNutritionData = async (req, res) => {
   try {
     const id = req.body.id;
     const weight = req.body.berat;
@@ -252,7 +244,7 @@ export const postNutritionData = async (req: Request, res: Response) => {
     const month = monthById(monthId);
     console.log({ weight, height });
 
-    const value: NutritionAttributes = {
+    const value = {
       weight: weight,
       height: height,
       age: age,
@@ -268,7 +260,7 @@ export const postNutritionData = async (req: Request, res: Response) => {
   }
 };
 
-export const postEditNutrition = async (req: Request, res: Response) => {
+exports.postEditNutrition = async (req, res) => {
   try {
     const id = req.body.nutritionId;
     const memberId = req.body.id;
@@ -278,7 +270,7 @@ export const postEditNutrition = async (req: Request, res: Response) => {
     const monthId = req.body.bulan;
     const month = monthById(monthId);
 
-    const value: NutritionAttributes = {
+    const value = {
       weight: weight,
       height: height,
       age: age,
@@ -297,7 +289,7 @@ export const postEditNutrition = async (req: Request, res: Response) => {
   }
 };
 
-export const postDeleteNutritionData = async (req: Request, res: Response) => {
+exports.postDeleteNutritionData = async (req, res) => {
   try {
     const id = req.body.id;
     const nutrition = await Nutrition.findOne({

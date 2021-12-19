@@ -42,46 +42,48 @@
                 >Tambah Data <i class="bx bx-plus-medical"></i>
               </a>
             </div>
-            <table>
-              <thead>
-                <th>No</th>
-                <th>Berat (kg)</th>
-                <th>Tinggi/Panjang (cm)</th>
-                <th>Umur</th>
-                <th>Bulan Pengukuran</th>
-                <th>Action</th>
-              </thead>
-              <tbody>
-                <% nutritions.forEach( (nutrition, index) => { %>
-                <tr>
-                  <td><%= (index + 1) %></td>
-                  <td><%= nutrition.weight %> kg</td>
-                  <td><%= nutrition.height %> cm</td>
-                  <td><%= nutrition.age %> bulan</td>
-                  <td><%= nutrition.month %></td>
-                  <td>
-                    <form action="/admin/delete-data" method="post">
-                      <input
-                        type="hidden"
-                        name="id"
-                        value="<%= nutrition.id %>"
-                      />
-                      <div class="action-container">
-                        <a
-                          href="/admin/edit-data?id=<%= nutrition.id %>&edit=true"
-                          class="btn oc btn-warning"
-                          ><i class="bx bx-edit"></i
-                        ></a>
-                        <button type="submit" class="btn oc btn-danger">
-                          <i class="bx bx-trash"></i>
-                        </button>
-                      </div>
-                    </form>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <th>No</th>
+                  <th>Berat (kg)</th>
+                  <th>Tinggi/Panjang (cm)</th>
+                  <th>Umur</th>
+                  <th>Bulan Pengukuran</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <% nutritions.forEach( (nutrition, index) => { %>
+                  <tr>
+                    <td><%= (index + 1) %></td>
+                    <td><%= nutrition.weight %> kg</td>
+                    <td><%= nutrition.height %> cm</td>
+                    <td><%= nutrition.age %> bulan</td>
+                    <td><%= nutrition.month %></td>
+                    <td>
+                      <form action="/admin/delete-data" method="post">
+                        <input
+                          type="hidden"
+                          name="id"
+                          value="<%= nutrition.id %>"
+                        />
+                        <div class="action-container">
+                          <a
+                            href="/admin/edit-data?id=<%= nutrition.id %>&edit=true"
+                            class="btn oc btn-warning"
+                            ><i class="bx bx-edit"></i
+                          ></a>
+                          <button type="submit" class="btn oc btn-danger">
+                            <i class="bx bx-trash"></i>
+                          </button>
+                        </div>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

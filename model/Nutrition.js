@@ -1,13 +1,5 @@
-import { DataTypes, ModelAttributes } from "sequelize";
-
-import sequelize from "../util/database";
-
-export type NutritionAttributes = ModelAttributes & {
-  weight: number;
-  height: number;
-  age: number;
-  month: string;
-};
+const { DataTypes } = require("sequelize");
+const sequelize = require("../util/database");
 
 const Nutrition = sequelize.define("nutrition", {
   id: {
@@ -22,4 +14,4 @@ const Nutrition = sequelize.define("nutrition", {
   month: DataTypes.STRING,
 });
 
-export default Nutrition;
+module.exports = Nutrition;
