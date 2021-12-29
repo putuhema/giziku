@@ -1,0 +1,18 @@
+<div class="account">
+  <div class="account__bar dropdown">
+    <p class="dropdown"><%= member.mothername %></p>
+    <img class="dropdown" src="<%= member.imgsrc %>" alt="" />
+  </div>
+  <div class="account__menu">
+    <ul>
+      <li>
+        <a href="/user-setting"><i class="bx bx-cog"></i> Profile</a>
+      </li>
+      <li>
+        <form action="/logout" method="post">
+          <button class="btn"><i class="bx bx-log-out"></i> Keluar</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>

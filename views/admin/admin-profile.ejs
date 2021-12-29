@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Profile</title>
+  </head>
+  <body id="body">
+    <input type="checkbox" name="" id="menu-toggle" />
+    <div class="overlay">
+      <label for="menu-toggle"></label>
+    </div>
+
+    <%- include("./includes/sidebar.ejs", {activeMember}) %>
+
+    <div class="main">
+      <%- include("./includes/nav.ejs", {activeMember}) %>
+      <div class="main-content">
+        <div class="select-img">
+          <i class="left bx bx-chevron-left"></i>
+          <img id="img" src="<%= activeMember.imgsrc %>" alt="" />
+          <i class="right bx bx-chevron-right"></i>
+        </div>
+        <div class="add-container">
+          <form
+            action="/admin/update-setting"
+            method="post"
+            class="input-group"
+          >
+            <input type="hidden" name="id" value="<%= activeMember.id %>" />
+            <input
+              type="hidden"
+              id="imgsrc"
+              name="imgsrc"
+              value="<%= activeMember.imgsrc %>"
+            />
+            <div class="flex-row">
+              <div class="flex-col">
+                <label for="nik">NIK</label>
+                <input
+                  type="text"
+                  name="nik"
+                  id="nik"
+                  value="<%= activeMember.nik %>"
+                />
+              </div>
+            </div>
+            <div class="flex-row">
+              <div class="flex-col">
+                <label for="mothername">Nama Ibu</label>
+                <input
+                  type="text"
+                  name="mothername"
+                  id="mothername"
+                  value="<%= activeMember.mothername%>"
+                />
+              </div>
+              <div class="flex-col">
+                <label for="childname">Nama Balita</label>
+                <input
+                  type="text"
+                  name="childname"
+                  id="childname"
+                  value="<%= activeMember.childname %>"
+                />
+              </div>
+            </div>
+            <div class="flex-row">
+              <div class="flex-col">
+                <label for="address">Alamat</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  value="<%= activeMember.address%>"
+                />
+              </div>
+            </div>
+            <div class="flex-row">
+              <div class="flex-col">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value="<%= activeMember.password %>"
+                />
+              </div>
+            </div>
+            <button type="submit" class="ml-5 btn btn-secondary">Simpan</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/event.js"></script>
+  </body>
+</html>

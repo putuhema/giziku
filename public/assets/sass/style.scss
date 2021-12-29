@@ -1,10 +1,12 @@
 @import "./variable";
 @import "./config";
+@import "./shared_style";
 @import "./bar";
 @import "./profile";
 @import "./chart";
 @import "./admin/sidebar";
 @import "./admin/main";
+@import "./setting";
 @import "./login";
 
 #body {
@@ -14,20 +16,21 @@
 .container {
   display: grid;
   grid-template-columns: 30% auto;
-  margin-right: 1rem;
+  margin: 0 1rem;
+  margin-top: 100px;
 }
 
 #menu-toggle {
   display: none;
 
-  &:checked ~ .sidebar {
-    left: -$size;
-  }
+  // &:checked ~ .sidebar {
+  //   left: -$size;
+  // }
 
-  &:checked ~ .main {
-    margin-left: 0;
-    width: 100vw;
-  }
+  // &:checked ~ .main {
+  //   margin-left: 0;
+  //   width: 100vw;
+  // }
 }
 
 .show {
@@ -49,6 +52,10 @@
     height: 100%;
     width: 100%;
   }
+}
+
+.ml-5 {
+  margin-left: 0.5rem;
 }
 
 @import "./mediaqueries";

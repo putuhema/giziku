@@ -5,17 +5,46 @@
   column-gap: 2rem;
   margin-top: 2rem;
 
-  .profile {
-    width: 30%;
-    height: max-content;
-    border: 2px solid #f0f0f0;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  .notes-container {
+    display: flex;
+    column-gap: 0.5rem;
 
-    img {
-      width: 9rem;
+    .btn {
+      margin-top: 0;
+    }
+
+    textarea {
+      width: 100%;
+    }
+
+    #notes-btn {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .notes-input {
+    position: relative;
+    margin-top: 1rem;
+    text-align: justify;
+    visibility: visible;
+    opacity: 1;
+    top: 0;
+    transition: 0.3s ease-in;
+
+    .head {
+      padding: 0.5rem;
+      border-bottom: 2px solid $grey;
+      p {
+        color: $secondary-color;
+      }
+    }
+
+    ol.notes-view {
+      margin: 0.5rem;
+      margin-left: 1rem;
     }
   }
 }

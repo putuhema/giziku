@@ -7,8 +7,8 @@
   left: 0;
   top: 0;
   bottom: 0;
-  transition: left 0.3s;
-  overflow-y: auto;
+  transition: left 0.2s;
+  z-index: 100;
 
   &__container {
     height: 96%;
@@ -17,6 +17,7 @@
     background: #fff;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
   }
 
   &__logo {
@@ -54,17 +55,54 @@
 
     a {
       text-decoration: none;
-      color: black;
+      color: #fff;
     }
 
     .sidebar__link {
-      background: #d7dbf0;
+      background: $secondary-color;
+      color: #fff;
       margin: 1rem 0;
       border-radius: 0.25rem;
-      padding: 0.5rem;
+
+      .link {
+        display: flex;
+        padding: 0.5rem;
+        border-radius: 5px;
+
+        &:hover {
+          background-color: $secondary-accent;
+        }
+      }
+
+      .parent {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .child {
+        margin-top: 0.2rem;
+        padding: 0.5rem;
+        display: none;
+
+        li {
+          display: flex;
+          width: 100%;
+          margin: 0.5rem 0;
+
+          a {
+            width: 100%;
+          }
+        }
+      }
 
       .icon {
         font-size: 1.2rem;
+      }
+
+      .active {
+        display: block;
       }
     }
   }

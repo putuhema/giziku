@@ -22,6 +22,21 @@
     display: block;
     text-align: right;
   }
+
+  .chart-section {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+
+  .table-container {
+    width: 600px !important;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .table-container {
+    width: 500px !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -30,7 +45,8 @@
   }
 
   .bar {
-    position: sticky;
+    width: 100%;
+    position: fixed;
     align-items: center;
     background-color: #fff;
     left: 0;
@@ -43,6 +59,17 @@
     .logo {
       margin: 0;
     }
+  }
+
+  .container {
+    margin-top: 35px;
+    .profile {
+      margin-top: 100px;
+    }
+  }
+
+  .nutrition__info-details {
+    font-size: 0.8rem;
   }
 
   .chart__nutrition-up {
@@ -63,6 +90,18 @@
       width: 100% !important;
       margin-bottom: 1rem;
     }
+
+    .table-container {
+      width: 450px;
+    }
+  }
+  .chart-section {
+    .title {
+      h3,
+      p {
+        font-size: 0.8rem;
+      }
+    }
   }
 }
 
@@ -72,6 +111,25 @@
     margin: 0.1rem;
     &-logo {
       display: none !important;
+    }
+  }
+
+  .chart-section {
+    .title {
+      h3,
+      p {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  .table-container {
+    width: 220px !important;
+  }
+
+  .in-container {
+    .flex-row {
+      flex-direction: column;
     }
   }
 }

@@ -17,12 +17,14 @@
       <label for="menu-toggle"></label>
     </div>
 
-    <%- include("./includes/sidebar.ejs") %>
+    <%- include("./includes/sidebar.ejs", {activeMember}) %>
 
     <div class="main">
-      <%- include("./includes/nav.ejs") %>
+      <%- include("./includes/nav.ejs", {activeMember}) %>
       <div class="main-content">
         <div class="in-container">
+          <div class="profile-container">
+
           <div class="profile">
             <div class="action">
               <a href="/admin/nutrition-report?id=<%= member.id  %>">
@@ -30,34 +32,45 @@
               >
             </div>
             <img src="/assets/img/avataaars.png" alt="avataaars" />
-            <h4>Ibu <%= member.namaibu %></h4>
-            <p><%= member.namabalita %></p>
-            <p><%= member.alamat %></p>
+            <h4>Ibu <%= member.mothername %></h4>
+            <p><%= member.childname%></p>
+            <p><%= member.address %></p>
+
           </div>
+            <div class="card notes-input">
+              <div class="head">
+                <p>Catatan</p>
+              </div>
+              <ol class="notes-view">
+              </ol>
+            </div>
+          </div>
+
+
           <div class="input">
-            <form action="/admin/<%= edit ? "edit-data" : "add-data" %>" method="post">
+            <form action="/admin/<%= edit ? "edit-data" : "add-data" %>" method="post" class="input-group">
               <input type="hidden" name="nutritionId" value="<%= nutrition.id %>">
               <input type="hidden" name="id" value="<%= member.id %>" />
-              <div class="input-row">
-                <div class="col">
+              <div class="flex-row">
+                <div class="flex-col">
                   <label for="berat">Berat (kg)</label>
                   <input step="0.01"  type="text" name="berat" id="berat" value="<%= edit ?
                   nutrition.weight : "" %>"/>
                 </div>
-                <div class="col">
+                <div class="flex-col">
                   <label for="tinggi">Tinggi/Panjang (cm)</label>
                   <input  step="0.01" type="text" name="tinggi" id="tinggi" value="<%= edit ?
                   nutrition.height : "" %>" />
                 </div>
               </div>
 
-              <div class="input-row">
-                <div class="col">
+              <div class="flex-row">
+                <div class="flex-col">
                   <label for="umur">Umur (bulan)</label>
                   <input  step="0.01" type="text" name="umur" id="umur" value="<%= edit ?
                   nutrition.age : "" %>" />
                 </div>
-                <div class="col">
+                <div class="flex-col">
                   <label for="bulan">Bulan Pengukuran</label>
                   <select name="bulan" id="bulan">
                     <option value="0" <% if (fn(edit, nutrition.month, 0)) { %> selected <% } %> >Januari</option>
@@ -75,7 +88,18 @@
                   </select>
                 </div>
               </div>
-              <button type="submit" class="btn <%= edit ? "btn-warning" : "btn-input" %> ">
+              <div class="flex-row">
+                <div class="flex-col">
+                  <label for="notes">Catatan</label>
+                  <div class="notes-container">
+                    <input type="hidden" name="notesValue" id="notes-value" value="">
+                    <textarea name="notes" id="notes" cols="30" rows="5"></textarea>
+                    <div id="notes-btn" class="btn btn-input"><i class='bx bx-plus-medical'></i></div>
+                  </div>
+                </div>
+              </div>
+           
+              <button type="submit" class="ml-05 btn <%= edit ? "btn-warning" : "btn-secondary" %> ">
                 <%= edit ? "Edit" : "Simpan" %>
               </button>
             </form>
@@ -84,6 +108,6 @@
       </div>
     </div>
 
-    <script src="/assets//js/admin.js"></script>
+    <script src="/assets/js/event.js"></script>
   </body>
 </html>

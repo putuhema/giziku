@@ -1,11 +1,21 @@
-.profile {
+.profile-main {
   background: $second-bg;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  box-shadow: none;
+  width: 100%;
 
   &__detail {
     display: flex;
     justify-items: center;
     align-items: center;
     flex-direction: column;
+
+    a {
+      font-size: 1.5rem;
+      color: $secondary-text;
+    }
 
     img {
       width: 8rem;
@@ -19,16 +29,17 @@
 
   .nutrition {
     display: flex;
-    justify-content: space-around;
-    padding: 1rem;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    column-gap: 1rem;
 
     &__info {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      width: 100%;
       border-radius: 0.5rem;
-      padding: 0.3rem;
-      //   column-gap: 0.5rem;
-      //   margin: 0.2rem;
+      padding: 0.2rem 0.5rem;
 
       &-logo {
         font-size: 1.5rem;
@@ -79,20 +90,64 @@
   }
 
   .notes {
+    position: relative;
     background: $pale-blue;
-    margin: 1rem 2rem;
-    padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid $accent-blue;
     &__title {
-      font-weight: bold;
+      text-align: start;
+      padding: 0.5rem;
+      border-bottom: 1px solid $grey;
     }
 
-    ul {
-      margin-left: 1rem;
+    &__item {
+      padding: 1rem;
+      .note-container {
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        input {
+          cursor: pointer;
+          height: 20px;
+          width: 20px;
+        }
+
+        input[type="checkbox"] {
+          opacity: 0;
+        }
+      }
     }
-    li {
-      list-style-type: disc;
+
+    &__btn {
+      position: absolute;
+      right: 0;
+      bottom: -70px;
+      padding: 0.2rem 0.5rem;
+      text-align: center;
+      border: 1px solid #d7dbf0;
+      border-radius: 0.3rem;
+      font-size: 1rem;
+      background-color: #f5f7fb;
+      color: $secondary-text;
+      opacity: 0;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: #e0e5f0;
+      }
+    }
+
+    .notes__btn-show {
+      bottom: -40px;
+      opacity: 1;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: #999;
     }
   }
 }

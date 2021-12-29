@@ -1,6 +1,4 @@
 .chart {
-  background: $main-bg;
-
   &__nutrition-up {
     display: flex;
     justify-content: space-between;
@@ -9,12 +7,17 @@
 
     .box {
       width: 100%;
-      padding: 1rem;
       border-radius: 0.5rem;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 
       &__title {
         font-weight: bold;
+        padding: 1rem;
+        border-bottom: 1px solid $grey;
+      }
+
+      &__chart {
+        padding: 1rem;
       }
     }
 

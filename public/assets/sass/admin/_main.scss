@@ -1,8 +1,8 @@
 .main {
-  margin-left: $size;
-  width: calc(100vw - $size);
+  margin-left: 280px;
+  width: calc(100vw - 280px);
   padding: 0.5rem 2rem;
-  transition: margin-left 0.3s;
+  // transition: margin-left 0.4s;
 
   .nav {
     display: flex;
@@ -22,10 +22,54 @@
     &__profile {
       display: flex;
       align-items: center;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.3rem;
+      position: relative;
+      cursor: pointer;
+      z-index: 100;
+
+      &-name {
+        margin-right: 0.5rem;
+        font-weight: bold;
+      }
       img {
         width: 32px;
         height: 32px;
       }
+    }
+
+    &__dropdown {
+      width: max-content;
+      border: 1px solid #bfbfbf;
+      position: absolute;
+      right: 0;
+      top: 70px;
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #fff;
+      border-radius: 0.3rem;
+      visibility: hidden;
+      display: grid;
+      place-content: center;
+      opacity: 0;
+      transition: 0.2s;
+
+      a {
+        color: black;
+      }
+
+      .btn {
+        padding: 0;
+        cursor: pointer;
+      }
+    }
+
+    .dropdown-show {
+      opacity: 1;
+      visibility: visible;
+      top: 50px;
     }
   }
 
@@ -35,129 +79,17 @@
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     margin: 1rem;
     padding: 1rem;
+    position: relative;
 
-    .table {
-      .table-container {
-        overflow-y: auto;
-        overflow-x: auto;
-        height: 250px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th,
-      td {
-        border: 1px solid #bfbfbf;
-        padding: 0.3rem 0.5rem;
-      }
-
-      th {
-        text-transform: uppercase;
-      }
-
-      td:nth-child(1) {
-        text-align: center;
-      }
-      tr:nth-child(even) {
-        background-color: #f3f3f3;
-      }
-
-      .action-container {
-        display: flex;
-        justify-content: space-around;
-      }
-    }
-
-    .profile {
-      position: relative;
-    }
-
-    .action {
-      font-size: 1.2rem;
-      position: absolute;
-      top: -40px;
-      left: 0;
-
-      i {
-        font-weight: bold;
-      }
-
-      a {
-        text-decoration: none;
-        color: $secondary-text;
-      }
-    }
-
-    /** =========================== button style ===========================**/
-    .btn {
-      padding: 0.2rem 0.5rem;
-      text-align: center;
-      margin-left: 0.5rem;
-      background-color: #f2f8ff;
-      border: 1px solid #537ba9;
-      border-radius: 0.3rem;
-      font-weight: bold;
-      color: #537ba9;
-      font-size: 1rem;
-    }
-
-    .oc {
-      width: 100%;
-    }
-
-    .btn-input {
-      background-color: #f2f8ff;
-      border-color: #537ba9;
-      color: #537ba9;
-
-      &:hover {
-        background-color: #c8dcf3;
-      }
-    }
-
-    .btn-warning {
-      background-color: #fff3cd;
-      color: #856404;
-      border-color: #ffeeba;
-
-      &:hover {
-        background-color: #ffeeba;
-      }
-    }
-
-    .btn-danger {
-      background-color: #f8d7da;
-      color: #9d1c24;
-      border-color: #f5c6cb;
-
-      &:hover {
-        background-color: #f5c6cb;
-      }
-    }
-
-    .btn-success {
-      background-color: #d4edda;
-      color: #155724;
-      border-color: #c3e6cb;
-
-      &:hover {
-        background-color: #c3e6cb;
-      }
-    }
-
-    /** =========================== end of button style ===========================**/
-    @import "./report";
-    @import "./add";
-    @import "./individualData";
-    @import "./individual-report";
-
-    /** indiviudal report **/
-    .act {
+    .add-container {
       display: flex;
-      margin-bottom: 0.5rem;
-      justify-content: end;
+      justify-content: center;
+      width: 100%;
     }
   }
 }
+@import "./report";
+@import "./individualData";
+@import "./individual-report";
+@import "./member-form";
+@import "./bbu";

@@ -1,72 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <title>Admin</title>
-  </head>
+  <%- include("./includes/head.ejs") %>
   <body id="body">
-    <input type="checkbox" name="" id="menu-toggle" />
-    <div class="overlay">
-      <label for="menu-toggle"></label>
-    </div>
-
-    <%- include("./includes/sidebar.ejs") %>
+    <%- include("./includes/sidebar.ejs", {activeMember}) %>
 
     <div class="main">
-      <%- include("./includes/nav.ejs") %>
+      <%- include("./includes/nav.ejs", {activeMember}) %>
 
       <div class="main-content">
         <div class="report-container">
           <div class="actions">
-            <div class="actions__address">
-              <select name="address" id="address">
-                <option value="0">Dusun Budi Budaya</option>
-                <option value="1">Dusun Sari Buana</option>
-              </select>
-            </div>
-
             <div class="actions__button">
-              <a href="/admin/add-member" class="btn btn-success"
-                ><i class="bx bx-plus-medical"></i
-              ></a>
+              <a href="/admin/add-member" class="btn btn-secondary"
+                >input data</a
+              >
             </div>
           </div>
 
           <div class="table">
             <table>
               <thead>
-                <th>No</th>
-                <th>NIK</th>
-                <th>Nama Balita</th>
-                <th>Nama Ibu</th>
-                <th>Alamat</th>
-                <th>Action</th>
+                <tr>
+                  <th colspan="2" rowspan="2">NIK</th>
+                  <th rowspan="2">Nama Balita</th>
+                  <th rowspan="2">Nama Ibu</th>
+                  <th colspan="5">Alamat</th>
+                  <th rowspan="2">Action</th>
+                </tr>
+                <tr>
+                  <th>Alamat</th>
+                  <th>Desa</th>
+                  <th>Kecamatan</th>
+                  <th>Kabupaten</th>
+                  <th>Provinsi</th>
+                </tr>
               </thead>
               <tbody>
                 <% members.forEach((member, index) => { %>
                 <tr>
-                  <td><%= index + 1 %></td>
+                  <td><img src="<%= member.imgsrc %> " alt="" /></td>
                   <td><%= member.nik %></td>
                   <td>
                     <a href="/admin/nutrition-report?id=<%= member.id %>"
-                      ><%= member.namabalita %></a
+                      ><%= member.childname %></a
                     >
                   </td>
-                  <td><%= member.namaibu %></td>
-                  <td><%= member.alamat %></td>
+                  <td><%= member.mothername %></td>
+                  <td><%= member.address %></td>
+                  <td><%= member.village %></td>
+                  <td><%= member.subregency %></td>
+                  <td><%= member.regency %></td>
+                  <td><%= member.province %></td>
                   <td>
                     <form action="/admin/delete-member" method="post">
                       <div class="action-container">
                         <a
                           href="/admin/edit-member?id=<%= member.id %>&edit=true"
-                          class="btn oc btn-warning"
+                          class="btn w-100 btn-warning"
                           ><i class="bx bx-edit"></i
                         ></a>
                         <input
@@ -74,12 +64,12 @@
                           name="id"
                           value="<%= member.id%>"
                         />
-                        <button type="submit" class="btn oc btn-danger">
+                        <button type="submit" class="btn w-100 btn-danger">
                           <i class="bx bx-trash"></i>
                         </button>
                         <a
                           href="/admin/add-data?id=<%= member.id %>"
-                          class="btn oc btn-success"
+                          class="btn w-100 btn-input"
                           ><i class="bx bx-add-to-queue"></i
                         ></a>
                       </div>
@@ -94,6 +84,6 @@
       </div>
     </div>
 
-    <script src="/assets//js/admin.js"></script>
+    <script src="/assets/js/event.js"></script>
   </body>
 </html>

@@ -11,12 +11,10 @@
     <link rel="stylesheet" href="/assets/css/style.css" />
     <title>Login Giziku</title>
   </head>
-  <body>
+  <body id="login">
     <div class="login-container">
-      <div class="form-container">
-        <div class="img">
-          <img src="/assets/img/avataaars.png" alt="" />
-        </div>
+      <div class="box profile-container">
+        <h1>Giziku</h1>
         <div class="desc">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur rerum
           quos dolorem expedita itaque veritatis autem fugit dolorum. At facilis
@@ -24,17 +22,12 @@
           Accusamus architecto est dolorum molestiae aliquam harum nostrum.
         </div>
       </div>
-      <div class="form-container">
-        <div class="logo">
-          <p>Giziku</p>
-        </div>
-        <form action="/login" method="post">
+      <div class="box form-container">
+        <form class="form" action="/login" method="post">
           <div class="input-container">
-            <label for="nik">NIK</label>
             <input type="text" name="nik" id="nik" placeholder="NIK" />
           </div>
           <div class="input-container">
-            <label for="password">Password</label>
             <input
               type="password"
               name="password"
@@ -43,11 +36,80 @@
             />
           </div>
 
-          <button type="submit" class="btn btn-submit">
-            Masuk <i class="bx bx-log-in"></i>
-          </button>
+          <button type="submit" class="btn btn-primary fill">Masuk</button>
         </form>
+        <hr />
+        <div class="signup">
+          <button id="modal" class="btn btn-secondary">Buat Akun Baru</button>
+        </div>
       </div>
     </div>
+
+    <div class="bg-modal">
+      <div class="modal-content">
+        <div id="close-modal" class="close">+</div>
+        <div class="title">
+          <h1>Daftar</h1>
+          <p>masukkan data diri, dan daftar dengan cepat dan mudah.</p>
+        </div>
+        <div class="form input-group">
+          <form action="/signup" method="post">
+            <div class="flex-row mb-1">
+              <input type="text" name="nik" id="nikInput" placeholder="Nik" />
+            </div>
+            <div class="flex-row mb-1">
+              <div class="flex-col">
+                <input
+                  type="text"
+                  name="motherName"
+                  id="motherNameInput"
+                  placeholder="Nama Ibu"
+                />
+              </div>
+              <div class="flex-col">
+                <input
+                  type="text"
+                  name="toddlerName"
+                  id="toddlerName"
+                  placeholder="Nama Balita"
+                />
+              </div>
+            </div>
+
+            <div class="flex-row mb-1">
+              <div class="flex-col">
+                <label for="placeOfBirth">Tempat Lahir Balita</label>
+                <input type="text" name="placeOfBirth" id="placeOfBirth" />
+              </div>
+              <div class="flex-col">
+                <label for="dateOfBirth">Tanggal Lahir Balita</label>
+                <input type="date" name="dateOfBirth" id="dateOfBirth" />
+              </div>
+            </div>
+            <div class="flex-row mb-1">
+              <div class="flex-col">
+                <label for="">Jenis Kelamin</label>
+                <select name="gender" id="gender">
+                  <option value="Laki - Laki">Laki - Laki</option>
+                  <option value="Perempuan">Perempuan</option>
+                </select>
+              </div>
+              <div class="flex-col flex-end">
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  placeholder="alamat"
+                />
+              </div>
+            </div>
+            <div class="flex-row center">
+              <button class="btn btn-secondary">Daftar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/assets/js/event.js"></script>
   </body>
 </html>

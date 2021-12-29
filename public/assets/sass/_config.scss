@@ -5,10 +5,17 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  color: $secondary-text;
+body,
+html {
+  overflow-x: hidden;
+}
 
+body {
   a {
     text-decoration: none;
+  }
+
+  li {
+    list-style-type: none;
   }
 }

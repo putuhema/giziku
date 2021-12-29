@@ -21,28 +21,13 @@
         <h1>Giziku</h1>
       </div>
 
-      <div class="account">
-        <div class="account__bar dropdown">
-          <p class="dropdown"><%= member.namaibu %></p>
-          <img class="dropdown" src="./assets/img/avataaars.png" alt="" />
-        </div>
-        <div class="account__menu">
-          <ul>
-            <li>
-              <a href="#"><i class="bx bxs-user"></i> Profile</a>
-            </li>
-            <li>
-              <a href="#"><i class="bx bx-log-out"></i> Keluar</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <%- include("./includes/account.ejs", {member}) %>
     </div>
     <div class="container">
-      <div class="profile">
+      <div class="profile-main">
         <div class="profile__detail">
-          <img src="./assets/img/avataaars.png" alt="" />
-          <div class="profile__name">Ibu <%= member.namabalita %></div>
+          <img src="<%= member.imgsrc %>" alt="" />
+          <div class="profile__name">Ibu <%= member.childname %></div>
           <div class="profile__status">Normal</div>
         </div>
         <div class="nutrition">
@@ -77,34 +62,46 @@
 
         <div class="notes">
           <div class="notes__title">Catatan</div>
-          <div class="notes__item">
-            <ul>
-              <li>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                earum.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                earum.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                earum.
-              </li>
-            </ul>
-          </div>
+          <form action="/notes-state" method="post">
+            <div class="notes__item">
+              <% notes.forEach(note => { %>
+              <label class="note-container">
+                <span class="note-text"><%= note.text %></span>
+                <input
+                  type="hidden"
+                  id="noteId"
+                  name="noteId"
+                  value="<%= note.id %>"
+                />
+                <input
+                  type="hidden"
+                  name="memberId"
+                  value="<%= note.memberId %>"
+                />
+                <input
+                  type="checkbox"
+                  name="state"
+                  class="state"
+                  value="<%= note.id %>"
+                />
+              </label>
+              <% })%>
+            </div>
+
+            <button class="notes__btn">Simpan</button>
+          </form>
         </div>
       </div>
       <div class="chart">
         <div class="chart__nutrition-up">
           <div class="box">
-            <div class="box__title">Berat</div>
+            <div class="box__title">Berat (kg)/Bulan</div>
             <div class="box__chart">
               <canvas id="myChart"></canvas>
             </div>
           </div>
           <div class="box">
-            <div class="box__title">Tinggi</div>
+            <div class="box__title">Tinggi (cm)/Bulan</div>
             <div class="box__chart">
               <canvas id="heightChart"></canvas>
             </div>
@@ -126,7 +123,14 @@
       </div>
     </div>
 
+    <footer class="footer-container">
+      <div class="left">
+        <p>Giziku &copy; 2022</p>
+      </div>
+      <div class="right">Putu Hendra Mahendra</div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/event.js"></script>
   </body>
 </html>

@@ -1,0 +1,35 @@
+.setting-container {
+  display: flex;
+  justify-content: center;
+}
+
+.setting {
+  margin-top: 100px;
+  width: 500px;
+  position: relative;
+
+  .action {
+    left: 0;
+  }
+}
+
+.select-img {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  i {
+    font-size: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+
+  img {
+    width: 100px;
+  }
+}

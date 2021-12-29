@@ -10,9 +10,11 @@ const Member = sequelize.define("member", {
   },
   nik: DataTypes.STRING,
   password: DataTypes.STRING,
-  namaibu: DataTypes.STRING,
-  namabalita: DataTypes.STRING,
-  alamat: DataTypes.STRING,
+  mothername: DataTypes.STRING,
+  childname: DataTypes.STRING,
+  address: DataTypes.STRING,
+  role: DataTypes.STRING,
+  imgsrc: DataTypes.STRING,
 });
 
 module.exports = Member;

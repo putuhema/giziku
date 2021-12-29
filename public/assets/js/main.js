@@ -1,8 +1,6 @@
 const ctx = document.getElementById("myChart").getContext("2d");
 const heightCtx = document.getElementById("heightChart").getContext("2d");
 const nutritionCtx = document.getElementById("nutritionChart").getContext("2d");
-const menu = document.querySelector(".account__menu");
-const dropdown = document.querySelector(".dropdown");
 
 const charts = (ctx, labels, data, label) => {
   new Chart(ctx, {
@@ -46,9 +44,11 @@ const charts = (ctx, labels, data, label) => {
 const req = async () => {
   const res = await fetch("http://localhost:8080/nutrition-api");
   const nutrition = await res.json();
-  charts(ctx, nutrition.month, nutrition.weight, "Berat (Kg)/Bulan");
-  charts(heightCtx, nutrition.month, nutrition.height, "Tinggi (Cm)/Bulan");
+  charts(ctx, nutrition.month, nutrition.weight.weight, "Berat (Kg)");
+  charts(heightCtx, nutrition.month, nutrition.height.height, "Tinggi (Cm)");
 };
+
+req();
 
 const nutritionChart = new Chart(nutritionCtx, {
   type: "line",
@@ -86,21 +86,3 @@ const nutritionChart = new Chart(nutritionCtx, {
     },
   },
 });
-
-dropdown.addEventListener("click", () => {
-  menu.classList.toggle("show-menu");
-});
-
-window.onclick = function (e) {
-  if (!e.target.matches(".dropdown")) {
-    let op = document.getElementsByClassName("account__menu");
-    for (let i = 0; i < op.length; i++) {
-      let open = op[i];
-      if (open.classList.contains("show-menu")) {
-        open.classList.remove("show-menu");
-      }
-    }
-  }
-};
-
-req();

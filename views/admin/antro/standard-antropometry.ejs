@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <title>Tambah Data</title>
+  </head>
+  <body id="body">
+    <input type="checkbox" name="" id="menu-toggle" />
+    <div class="overlay">
+      <label for="menu-toggle"></label>
+    </div>
+
+    <%- include("../includes/sidebar.ejs", {activeMember}) %>
+
+    <div class="main">
+      <%- include("../includes/nav.ejs", {activeMember}) %>
+      <div class="main-content">
+        <div class="actions">
+          <div class="actions__button">
+            <a href="/admin/add-<%= link %> " class="btn btn-secondary"
+              >input <%= type %>
+            </a>
+          </div>
+        </div>
+        <div class="table antro">
+          <table>
+            <thead>
+              <tr>
+                <th rowspan="2">Umur(bulan)</th>
+                <th colspan="7">Berat Badan (Kg)</th>
+                <th rowspan="2">action</th>
+              </tr>
+              <tr>
+                <th>-3SD</th>
+                <th>-2SD</th>
+                <th>-1SD</th>
+                <th>Median</th>
+                <th>+1SD</th>
+                <th>+2SD</th>
+                <th>+3SD</th>
+              </tr>
+              <tr></tr>
+            </thead>
+            <tbody>
+              <% indexes.forEach( b => { %>
+              <tr>
+                <td><%= b.X %></td>
+                <td><%= b.MIN3SD %></td>
+                <td><%= b.MIN2SD %></td>
+                <td><%= b.MIN1SD %></td>
+                <td><%= b.MEDIAN %></td>
+                <td><%= b.PLUS1SD %></td>
+                <td><%= b.PLUS2SD %></td>
+                <td><%= b.PLUS3SD %></td>
+                <td>
+                  <form action="/admin/delete-<%= link %>" method="post">
+                    <input type="hidden" name="id" value="<%= b.id %>" />
+                    <div class="action-container">
+                      <a
+                        href="admin/edit-<%= link %>?id=<%= b.id  %>"
+                        class="btn w-100 btn-warning"
+                        ><i class="bx bx-edit"></i
+                      ></a>
+                      <button type="submit" class="btn w-100 btn-danger">
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/event.js"></script>
+    <script src="/assets/js/index.js"></script>
+  </body>
+</html>
