@@ -1,16 +1,16 @@
-const Member = require("../model/Member");
+const Member = require('../model/Member');
 
 exports.getLogin = async (req, res) => {
   try {
-    const id = req.session.memberId;
-    if (id) {
-      const member = await Member.findOne({ where: { id: id } });
-      if (member.getDataValue("role") == "admin") {
-        return res.redirect("/admin");
+    const { memberId } = req.session.memberId;
+    if (memberId) {
+      const member = await Member.findOne({ where: { id: memberId } });
+      if (member.getDataValue('role') === 'admin') {
+        return res.redirect('/admin');
       }
-      return res.redirect(`/home?id=${id}`);
+      return res.redirect(`/home?id=${memberId}`);
     }
-    res.render("login");
+    res.render('login');
   } catch (err) {
     console.log(err);
   }
@@ -18,29 +18,28 @@ exports.getLogin = async (req, res) => {
 
 exports.postLogin = async (req, res) => {
   try {
-    const nik = req.body.nik;
-    const password = req.body.password;
+    const { nik, password } = req.body;
 
     const member = await Member.findOne({
       where: {
-        nik: nik,
+        nik,
       },
     });
 
     if (member) {
-      console.log(member.get("id"));
-      if (password == member.getDataValue("password")) {
+      console.log(member.get('id'));
+      if (password === member.getDataValue('password')) {
         req.session.isLoggin = true;
-        req.session.memberId = member.get("id");
-        if (member.getDataValue("role") == "admin") {
-          return res.redirect("/admin");
+        req.session.memberId = member.get('id');
+        if (member.getDataValue('role') === 'admin') {
+          return res.redirect('/admin');
         }
-        res.redirect(`/home?id=${member.getDataValue("id")}`);
+        res.redirect(`/home?id=${member.getDataValue('id')}`);
       } else {
-        res.redirect("/");
+        res.redirect('/');
       }
     } else {
-      res.redirect("/");
+      res.redirect('/');
     }
   } catch (err) {
     console.log(err);
@@ -49,12 +48,8 @@ exports.postLogin = async (req, res) => {
 
 exports.postSingup = async (req, res) => {
   try {
-    const nik = req.body.nik;
-    const mohterName = req.body.mohterName;
-    const toddlerName = req.body.toddlerName;
-    const gender = req.body.gender;
-    const dateOfBirth = req.body.dateOfBirth;
-    const address = req.body.address;
+    const { nik, mohterName, toddlerName, gender, dateOfBirth, address } =
+      req.body;
   } catch (err) {
     console.log(err);
   }
@@ -63,8 +58,8 @@ exports.postSingup = async (req, res) => {
 exports.postLogout = async (req, res) => {
   try {
     req.session.destroy((err) => {
-      res.clearCookie("session_member");
-      res.redirect("/");
+      res.clearCookie('session_member');
+      res.redirect('/');
     });
   } catch (err) {
     console.log(err);

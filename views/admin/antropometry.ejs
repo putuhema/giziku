@@ -54,12 +54,12 @@
               <div class="flex-row">
                 <div class="flex-col">
                   <label for="berat">Berat (kg)</label>
-                  <input step="0.01"  type="text" name="berat" id="berat" value="<%= edit ?
+                  <input step="0.01"  type="text" name="weight" id="weight" value="<%= edit ?
                   nutrition.weight : "" %>"/>
                 </div>
                 <div class="flex-col">
                   <label for="tinggi">Tinggi/Panjang (cm)</label>
-                  <input  step="0.01" type="text" name="tinggi" id="tinggi" value="<%= edit ?
+                  <input  step="0.01" type="text" name="height" id="height" value="<%= edit ?
                   nutrition.height : "" %>" />
                 </div>
               </div>
@@ -67,12 +67,12 @@
               <div class="flex-row">
                 <div class="flex-col">
                   <label for="umur">Umur (bulan)</label>
-                  <input  step="0.01" type="text" name="umur" id="umur" value="<%= edit ?
+                  <input  step="0.01" type="text" name="age" id="age" value="<%= edit ?
                   nutrition.age : "" %>" />
                 </div>
                 <div class="flex-col">
-                  <label for="bulan">Bulan Pengukuran</label>
-                  <select name="bulan" id="bulan">
+                  <label for="month">Bulan Pengukuran</label>
+                  <select name="month" id="month">
                     <option value="0" <% if (fn(edit, nutrition.month, 0)) { %> selected <% } %> >Januari</option>
                     <option value="1" <% if (fn(edit, nutrition.month, 1)) { %> selected <% } %> >Februari</option>
                     <option value="2" <% if (fn(edit, nutrition.month, 2)) { %> selected <% } %> >Maret</option>
@@ -99,7 +99,7 @@
                 </div>
               </div>
            
-              <button type="submit" class="ml-05 btn <%= edit ? "btn-warning" : "btn-secondary" %> ">
+              <button type="submit" class="ml-05 btn <%= edit ? "btn-warning" : "btn-secondary" %>">
                 <%= edit ? "Edit" : "Simpan" %>
               </button>
             </form>

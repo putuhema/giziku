@@ -11,9 +11,7 @@
         <div class="report-container">
           <div class="actions">
             <div class="actions__button">
-              <a href="/admin/add-member" class="btn btn-secondary"
-                >input data</a
-              >
+              <a href="/admin/add-member" class="btn btn-secondary">input data</a>
             </div>
           </div>
 
@@ -59,17 +57,11 @@
                           class="btn w-100 btn-warning"
                           ><i class="bx bx-edit"></i
                         ></a>
-                        <input
-                          type="hidden"
-                          name="id"
-                          value="<%= member.id%>"
-                        />
+                        <input type="hidden" name="id" value="<%= member.id%>" />
                         <button type="submit" class="btn w-100 btn-danger">
                           <i class="bx bx-trash"></i>
                         </button>
-                        <a
-                          href="/admin/add-data?id=<%= member.id %>"
-                          class="btn w-100 btn-input"
+                        <a href="/admin/add-data?id=<%= member.id %>" class="btn w-100 btn-input"
                           ><i class="bx bx-add-to-queue"></i
                         ></a>
                       </div>

@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <title>Profile</title>
   </head>
@@ -28,27 +27,13 @@
           <i class="right bx bx-chevron-right"></i>
         </div>
         <div class="add-container">
-          <form
-            action="/admin/update-setting"
-            method="post"
-            class="input-group"
-          >
+          <form action="/admin/update-setting" method="post" class="input-group">
             <input type="hidden" name="id" value="<%= activeMember.id %>" />
-            <input
-              type="hidden"
-              id="imgsrc"
-              name="imgsrc"
-              value="<%= activeMember.imgsrc %>"
-            />
+            <input type="hidden" id="imgsrc" name="imgsrc" value="<%= activeMember.imgsrc %>" />
             <div class="flex-row">
               <div class="flex-col">
                 <label for="nik">NIK</label>
-                <input
-                  type="text"
-                  name="nik"
-                  id="nik"
-                  value="<%= activeMember.nik %>"
-                />
+                <input type="text" name="nik" id="nik" value="<%= activeMember.nik %>" />
               </div>
             </div>
             <div class="flex-row">
@@ -58,8 +43,7 @@
                   type="text"
                   name="mothername"
                   id="mothername"
-                  value="<%= activeMember.mothername%>"
-                />
+                  value="<%= activeMember.mothername%>" />
               </div>
               <div class="flex-col">
                 <label for="childname">Nama Balita</label>
@@ -67,19 +51,13 @@
                   type="text"
                   name="childname"
                   id="childname"
-                  value="<%= activeMember.childname %>"
-                />
+                  value="<%= activeMember.childname %>" />
               </div>
             </div>
             <div class="flex-row">
               <div class="flex-col">
                 <label for="address">Alamat</label>
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  value="<%= activeMember.address%>"
-                />
+                <input type="text" name="address" id="address" value="<%= activeMember.address%>" />
               </div>
             </div>
             <div class="flex-row">
@@ -89,8 +67,7 @@
                   type="password"
                   name="password"
                   id="password"
-                  value="<%= activeMember.password %>"
-                />
+                  value="<%= activeMember.password %>" />
               </div>
             </div>
             <button type="submit" class="ml-5 btn btn-secondary">Simpan</button>

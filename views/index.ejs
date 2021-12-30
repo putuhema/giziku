@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
-    />
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <title>Giziku</title>
   </head>
@@ -67,23 +65,9 @@
               <% notes.forEach(note => { %>
               <label class="note-container">
                 <span class="note-text"><%= note.text %></span>
-                <input
-                  type="hidden"
-                  id="noteId"
-                  name="noteId"
-                  value="<%= note.id %>"
-                />
-                <input
-                  type="hidden"
-                  name="memberId"
-                  value="<%= note.memberId %>"
-                />
-                <input
-                  type="checkbox"
-                  name="state"
-                  class="state"
-                  value="<%= note.id %>"
-                />
+                <input type="hidden" id="noteId" name="noteId" value="<%= note.id %>" />
+                <input type="hidden" name="memberId" value="<%= note.memberId %>" />
+                <input type="checkbox" name="state" class="state" value="<%= note.id %>" />
               </label>
               <% })%>
             </div>

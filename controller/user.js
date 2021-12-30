@@ -1,7 +1,7 @@
-const Member = require("../model/Member");
-const Note = require("../model/Note");
-const Nutrition = require("../model/Nutrition");
-const { zScore } = require("../util/helper");
+const Member = require('../model/Member');
+const Note = require('../model/Note');
+const Nutrition = require('../model/Nutrition');
+const { zScore } = require('../util/helper');
 
 let nutritionAPI = {
   weight: {},
@@ -11,17 +11,17 @@ let nutritionAPI = {
 
 exports.getUserMainPage = async (req, res) => {
   try {
-    const id = req.session.memberId;
-    const member = await Member.findOne({ where: { id: id } });
+    const { memberId } = req.session;
+    const member = await Member.findOne({ where: { id: memberId } });
     const nutritionsInOrder = await Nutrition.findAll({
       where: {
-        memberId: id,
+        memberId,
       },
-      order: [["createdAt", "DESC"]],
+      order: [['createdAt', 'DESC']],
     });
     const nutritions = await Nutrition.findAll({
       where: {
-        memberId: id,
+        memberId,
       },
     });
 
@@ -36,19 +36,19 @@ exports.getUserMainPage = async (req, res) => {
     const month = [];
 
     nutritions.forEach(async (nutrition) => {
-      weight.weight.push(nutrition.get("weight"));
-      height.height.push(nutrition.get("height"));
-      month.push(nutrition.get("month").toString().slice(0, 3));
+      weight.weight.push(nutrition.get('weight'));
+      height.height.push(nutrition.get('height'));
+      month.push(nutrition.get('month').toString().slice(0, 3));
 
       const zWeight = await zScore(
-        +nutrition.get("age"),
-        nutrition.get("weight"),
-        "BBU"
+        +nutrition.get('age'),
+        nutrition.get('weight'),
+        'BBU'
       );
       const zHeight = await zScore(
-        +nutrition.get("age"),
-        nutrition.get("height"),
-        "TBU"
+        +nutrition.get('age'),
+        nutrition.get('height'),
+        'TBU'
       );
 
       height.hZScore.push(zHeight);
@@ -61,10 +61,10 @@ exports.getUserMainPage = async (req, res) => {
       month,
     };
 
-    res.render("index", {
-      member: member,
+    res.render('index', {
+      member,
+      notes,
       nutrition: nutritionsInOrder[0] || [],
-      notes: notes,
     });
   } catch (err) {
     console.log(err);
@@ -85,11 +85,11 @@ exports.getWeightApi = async (_req, res) => {
 
 exports.getUserSetting = async (req, res) => {
   try {
-    const id = req.session.memberId;
-    const member = await Member.findOne({ where: { id: id } });
-    console.log(member.getDataValue("imgsrc"));
-    res.render("settings", {
-      member: member,
+    const { memberId } = req.session.memberId;
+    const member = await Member.findOne({ where: { id: memberId } });
+    console.log(member.getDataValue('imgsrc'));
+    res.render('settings', {
+      member,
     });
   } catch (err) {
     console.log(err);
@@ -98,10 +98,10 @@ exports.getUserSetting = async (req, res) => {
 
 exports.postNoteState = async (req, res) => {
   try {
-    const memberId = req.session.memberId;
+    const { memberId } = req.session;
     const states = req.body.state;
 
-    if (typeof states == "object") {
+    if (typeof states === 'object') {
       states.forEach(async (id) => {
         await Note.update(
           {
@@ -135,17 +135,8 @@ exports.postNoteState = async (req, res) => {
 
 exports.postUserSetting = async (req, res) => {
   try {
-    const id = req.body.id;
-    const imgsrc = req.body.imgsrc;
-    const nik = req.body.nik;
-    const mothername = req.body.mothername;
-    const childname = req.body.childname;
-    const address = req.body.address;
-    const village = req.body.village;
-    const subregency = req.body.subregency;
-    const regency = req.body.regency;
-    const province = req.body.province;
-    const password = req.body.password;
+    const { id, mothername, childname, address, nik, password, imgsrc } =
+      req.body;
 
     await Member.update(
       {
@@ -153,21 +144,18 @@ exports.postUserSetting = async (req, res) => {
         mothername,
         childname,
         address,
-        village,
-        subregency,
-        regency,
-        province,
+
         password: password.toString().trim(),
         imgsrc,
       },
       {
         where: {
-          id: id,
+          id,
         },
       }
     );
 
-    res.redirect("/user-setting");
+    res.redirect('/user-setting');
   } catch (err) {
     console.log(err);
   }

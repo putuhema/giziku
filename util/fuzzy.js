@@ -36,7 +36,7 @@ exports.fuzzificationWeightAge = (z) => {
   };
 };
 
-const fuzzificationHeightAge = (z) => {
+exports.fuzzificationHeightAge = (z) => {
   let severelyStunted = 0;
   let stunted = 0;
   let normal = 0;
@@ -69,7 +69,7 @@ const fuzzificationHeightAge = (z) => {
   };
 };
 
-const fuzzificationWeightHeight = (z) => {
+exports.fuzzificationWeightHeight = (z) => {
   let severelyWasted = 0;
   let wasted = 0;
   let normal = 0;
@@ -121,7 +121,7 @@ const fuzzificationWeightHeight = (z) => {
  * @param {number[][]} inference
  * @returns z-value
  */
-const defuzzification = (inference) => {
+exports.defuzzification = (inference) => {
   let x = 0;
   let y = 0;
 
@@ -132,30 +132,31 @@ const defuzzification = (inference) => {
 
   return x / y;
 };
-
-const thenWasted = (WA, HA, WH, inference) => {
-  if (WA != 0 && HA != 0 && WH != 0) inference.push([Math.min(WA, WH, WH), 50]);
+exports.thenWasted = (WA, HA, WH, inference) => {
+  if (WA !== 0 && HA !== 0 && WH !== 0)
+    inference.push([Math.min(WA, WH, WH), 50]);
 };
 
-const thenNormal = (WA, HA, WH, inference) => {
-  if (WA != 0 && HA != 0 && WH != 0) inference.push([Math.min(WA, WH, WH), 75]);
+exports.thenNormal = (WA, HA, WH, inference) => {
+  if (WA !== 0 && HA !== 0 && WH !== 0)
+    inference.push([Math.min(WA, WH, WH), 75]);
 };
 
-const thenOver = (WA, HA, WH, inference) => {
-  if (WA != 0 && HA != 0 && WH != 0)
+exports.thenOver = (WA, HA, WH, inference) => {
+  if (WA !== 0 && HA !== 0 && WH !== 0)
     inference.push([Math.min(WA, WH, WH), 100]);
 };
 
-const findZValue = (f, m) => {
+exports.findZValue = (f, mf) => {
   let z = 0;
 
-  if (mf == 1) {
+  if (mf === 1) {
     z = 75 - 25 * f;
-  } else if (mf == 2) {
+  } else if (mf === 2) {
     z = 90 - 15 * f;
-  } else if (mf == 2.5) {
+  } else if (mf === 2.5) {
     z = 15 * f + 60;
-  } else if (mf == 3) {
+  } else if (mf === 3) {
     z = 25 * f + 75;
   }
 
