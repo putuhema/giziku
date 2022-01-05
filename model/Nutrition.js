@@ -11,7 +11,7 @@ const Nutrition = sequelize.define('nutrition', {
   weight: DataTypes.FLOAT,
   height: DataTypes.FLOAT,
   age: DataTypes.INTEGER,
-  month: DataTypes.STRING,
+  date: DataTypes.STRING,
 });
 
 module.exports = Nutrition;

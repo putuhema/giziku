@@ -5,7 +5,7 @@ const { isAuth } = require('../middleware/is-auth');
 
 router.get('/home', isAuth, userController.getUserMainPage);
 router.get('/nutrition-api', userController.getWeightApi);
-router.get('/user-setting', isAuth, userController.getUserSetting);
+router.get('/setting', isAuth, userController.getUserSetting);
 
 router.post('/notes-state', isAuth, userController.postNoteState);
 router.post('/update-profile', isAuth, userController.postUserSetting);

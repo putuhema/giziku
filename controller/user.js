@@ -35,21 +35,13 @@ exports.getUserMainPage = async (req, res) => {
     const height = { height: [], hZScore: [] };
     const month = [];
 
-    nutritions.forEach(async (nutrition) => {
+    nutritions.forEach(async nutrition => {
       weight.weight.push(nutrition.get('weight'));
       height.height.push(nutrition.get('height'));
       month.push(nutrition.get('month').toString().slice(0, 3));
 
-      const zWeight = await zScore(
-        +nutrition.get('age'),
-        nutrition.get('weight'),
-        'BBU'
-      );
-      const zHeight = await zScore(
-        +nutrition.get('age'),
-        nutrition.get('height'),
-        'TBU'
-      );
+      const zWeight = await zScore(+nutrition.get('age'), nutrition.get('weight'), 'BBU');
+      const zHeight = await zScore(+nutrition.get('age'), nutrition.get('height'), 'TBU');
 
       height.hZScore.push(zHeight);
       weight.wZScore.push(zWeight);
@@ -62,9 +54,11 @@ exports.getUserMainPage = async (req, res) => {
     };
 
     res.render('index', {
+      title: 'Home',
       member,
       notes,
       nutrition: nutritionsInOrder[0] || [],
+      nutritions: nutritionsInOrder,
     });
   } catch (err) {
     console.log(err);
@@ -85,10 +79,10 @@ exports.getWeightApi = async (_req, res) => {
 
 exports.getUserSetting = async (req, res) => {
   try {
-    const { memberId } = req.session.memberId;
+    const { memberId } = req.session;
     const member = await Member.findOne({ where: { id: memberId } });
-    console.log(member.getDataValue('imgsrc'));
-    res.render('settings', {
+    res.render('setting', {
+      title: 'Setting',
       member,
     });
   } catch (err) {
@@ -102,7 +96,7 @@ exports.postNoteState = async (req, res) => {
     const states = req.body.state;
 
     if (typeof states === 'object') {
-      states.forEach(async (id) => {
+      states.forEach(async id => {
         await Note.update(
           {
             state: true,
@@ -135,8 +129,7 @@ exports.postNoteState = async (req, res) => {
 
 exports.postUserSetting = async (req, res) => {
   try {
-    const { id, mothername, childname, address, nik, password, imgsrc } =
-      req.body;
+    const { id, mothername, childname, address, nik, password, imgsrc } = req.body;
 
     await Member.update(
       {

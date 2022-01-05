@@ -37,17 +37,7 @@ async function getAddForm(req, res, link, type, label) {
 
 async function postDatatoDB(req, res, model, link) {
   try {
-    const {
-      age: X,
-      gender,
-      min3sd,
-      min2sd,
-      min1sd,
-      median,
-      plus1sd,
-      plus2sd,
-      plus3sd,
-    } = req.body;
+    const { age: X, gender, min3sd, min2sd, min1sd, median, plus1sd, plus2sd, plus3sd } = req.body;
 
     await model.create({
       X,

@@ -16,9 +16,9 @@ const addresses = [
   'Dusun Mukti Tama',
   'Dusun Wonosari',
 ];
-exports.addressById = (id) => addresses[id];
+exports.addressById = id => addresses[id];
 
-exports.monthById = (id) => {
+exports.monthById = id => {
   const months = [
     'Januari',
     'Februari',

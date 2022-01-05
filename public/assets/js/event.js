@@ -1,23 +1,40 @@
 const parents = document.querySelector('.parent');
 const child = document.querySelector('.child');
-const modal = document.getElementById('modal');
-const closeModal = document.getElementById('close-modal');
-const bgModal = document.querySelector('.bg-modal');
+const signupModal = document.getElementById('signupModal');
+const closeSignupModal = document.getElementById('closeSignupModal');
+const modalSignUpToggle = document.getElementById('modalSignUpToggle');
+const profileMenu = document.getElementById('profileMenu');
+const submenuProfile = document.getElementById('submenuProfile');
 const navToggle = document.querySelector('.dropdown');
 const navDropdown = document.querySelector('.nav__dropdown');
-const left = document.querySelector('.left');
-const right = document.querySelector('.right');
-const img = document.getElementById('img');
-const imgsrc = document.getElementById('imgsrc');
-const notesInput = document.getElementById('notes');
+// note stuff
+const notesInput = document.getElementById('note');
 const notesButton = document.getElementById('notes-btn');
-const notesView = document.querySelector('.notes-view');
-const notesValue = document.getElementById('notes-value');
+const noteUl = document.getElementById('note-ul');
+const noteResult = document.getElementById('noteResult');
+const listItem = document.querySelectorAll('.listItem');
+
 const menu = document.querySelector('.account__menu');
 const dropdown = document.querySelector('.dropdown');
 const noteNodes = document.querySelectorAll('.state');
 const noteText = document.querySelectorAll('.note-text');
 const notesBtn = document.querySelector('.notes__btn');
+const avatar = document.getElementById('avatar');
+const menuNav = document.getElementById('menu');
+
+const weightModal = document.getElementById('weightModal');
+const heightModal = document.getElementById('heightModal');
+const weightHeightModal = document.getElementById('weightHeightModal');
+const modalId = document.getElementById('modalId');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalBorder = document.getElementById('borderModal');
+const mc = document.getElementById('modalContainer');
+const modalClose = document.getElementById('modalClose');
+const modalContainer = document.querySelector('.cmContainer');
+
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
 
 const windowOnClick = (e, target, toggle, className) => {
   if (!e.target.matches(target)) {
@@ -33,11 +50,36 @@ const windowOnClick = (e, target, toggle, className) => {
 
 window.onclick = function (e) {
   windowOnClick(e, '.dropdown', 'nav__dropdown', 'dropdown-show');
+
+  if (profileMenu) {
+    if (!e.target.matches('#profileMenu')) {
+      const op = document.getElementById('submenuProfile');
+      if (!op.classList.contains('hidden')) {
+        op.classList.add('hidden');
+      }
+    }
+  }
+
+  if (!e.target.matches('#sidebarToggle')) {
+    const op = document.getElementById('sidebar');
+    if (op.classList.contains('lg:translate-x-0')) {
+      op.classList.add('-translate-x-full');
+    }
+  }
+
+  if (avatar) {
+    if (!e.target.matches('#avatar')) {
+      const op = document.getElementById('menu');
+      if (!op.classList.contains('hidden')) {
+        op.classList.add('hidden');
+      }
+    }
+  }
 };
 
-window.onclick = function (e) {
-  windowOnClick(e, '.dropdown', 'account__menu', 'show-menu');
-};
+sidebarToggle.addEventListener('click', e => {
+  sidebar.classList.toggle('-translate-x-full');
+});
 
 if (dropdown) {
   dropdown.addEventListener('click', () => {
@@ -55,49 +97,45 @@ if (noteNodes) {
 }
 
 let notes = '';
+// let notesId = -1;
+const dbNotes = [];
 
 if (notesButton) {
   notesButton.addEventListener('click', () => {
     const input = notesInput.value.trim();
-    notes += `${input};`;
+    const tag = document.createElement('li');
+    const text = document.createTextNode(input);
     if (input.length > 5) {
-      const tag = document.createElement('li');
-      const text = document.createTextNode(input);
+      notes += `${input};`;
       tag.appendChild(text);
-      notesView.appendChild(tag);
+      noteUl.appendChild(tag);
       notesInput.value = '';
     }
 
-    notesValue.value = notes;
+    noteResult.value = notes;
   });
 }
 
-let index = 0;
-const MAX_INDEX = 3;
-if (right) {
-  right.addEventListener('click', () => {
-    if (index !== MAX_INDEX) {
-      index += 1;
-    } else {
-      index = 0;
-    }
-    const src = `/assets/img/ava-${index + 1}.png`;
-    img.src = src;
-    imgsrc.value = src;
+if (listItem) {
+  listItem.forEach(e => dbNotes.push(e.textContent));
+  dbNotes.forEach(note => {
+    notes += `${note};`;
+  });
+
+  listItem.forEach((item, i) => {
+    item.addEventListener('click', e => {
+      notesInput.value = item.textContent;
+      if (dbNotes[i] === item.textContent) {
+        notesId = i;
+      }
+    });
   });
 }
 
-if (left) {
-  left.addEventListener('click', () => {
-    if (index !== 0) {
-      index -= 1;
-    } else {
-      index = MAX_INDEX;
-    }
-
-    const src = `/assets/img/ava-${index + 1}.png`;
-    img.src = src;
-    imgsrc.value = src;
+if (avatar) {
+  avatar.addEventListener('click', () => {
+    console.log(1);
+    menuNav.classList.toggle('hidden');
   });
 }
 
@@ -107,16 +145,43 @@ if (navToggle) {
   });
 }
 
-if (modal) {
-  modal.addEventListener('click', () => {
-    console.log('click');
-    bgModal.classList.add('show-modal');
+if (modalSignUpToggle) {
+  modalSignUpToggle.addEventListener('click', () => {
+    signupModal.classList.remove('hidden');
   });
 }
 
-if (closeModal) {
-  closeModal.addEventListener('click', () => {
-    bgModal.classList.remove('show-modal');
+if (closeSignupModal) {
+  closeSignupModal.addEventListener('click', () => {
+    signupModal.classList.add('hidden');
+  });
+}
+
+if (profileMenu) {
+  profileMenu.addEventListener('click', () => {
+    submenuProfile.classList.toggle('hidden');
+  });
+}
+
+if (modalClose) {
+  modalClose.addEventListener('click', () => {
+    mc.classList.remove('bg-sky-50');
+    mc.classList.remove('bg-pink-50');
+    mc.classList.remove('bg-teal-50');
+    modalTitle.classList.remove('text-sky-500');
+    modalTitle.classList.remove('text-pink-500');
+    modalTitle.classList.remove('text-teal-500');
+    modalDesc.classList.remove('text-sky-500');
+    modalDesc.classList.remove('text-pink-500');
+    modalDesc.classList.remove('text-teal-500');
+    modalBorder.classList.remove('border-sky-600');
+    modalBorder.classList.remove('border-pink-600');
+    modalBorder.classList.remove('border-teal-600');
+    modalClose.classList.remove('text-sky-500');
+    modalClose.classList.remove('text-pink-500');
+    modalClose.classList.remove('text-teal-500');
+
+    modalContainer.classList.add('hidden');
   });
 }
 

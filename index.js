@@ -18,7 +18,7 @@ const adminRouter = require('./routes/admin');
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 app.set('views', 'views');
 
 app.use(cors());
@@ -57,6 +57,7 @@ Nutrition.hasMany(Note);
 Note.belongsTo(Nutrition);
 
 sequelize
+  // .sync({ force: true })
   .sync()
   .then(async () => {
     const member = await Member.findOne({ where: { nik: 'admin' } });
@@ -75,6 +76,6 @@ sequelize
       console.log('listening to port 8080 on http http://localhost:8080/');
     });
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err);
   });

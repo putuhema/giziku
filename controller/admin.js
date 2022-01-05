@@ -1,14 +1,9 @@
-// @ts-check
+// @ts-nocheck
 const sequelize = require('sequelize');
 const Member = require('../model/Member');
 const Note = require('../model/Note');
 const Nutrition = require('../model/Nutrition');
-const {
-  selectedMonth,
-  selectedOption,
-  monthById,
-  zScore,
-} = require('../util/helper');
+const { selectedMonth, selectedOption, monthById, zScore } = require('../util/helper');
 
 exports.getMain = async (req, res) => {
   try {
@@ -18,7 +13,7 @@ exports.getMain = async (req, res) => {
     const activeMember = await Member.findOne({
       where: { id: req.session.memberId },
     });
-    res.render('admin/main', {
+    res.render('admin/index', {
       members,
       activeMember,
     });
@@ -66,7 +61,7 @@ exports.getEditMember = async (req, res) => {
   }
 };
 
-exports.getAddData = async (req, res) => {
+exports.getAddMeasurement = async (req, res) => {
   try {
     const { id } = req.query;
     const member = await Member.findOne({
@@ -77,7 +72,7 @@ exports.getAddData = async (req, res) => {
     const activeMember = await Member.findOne({
       where: { id: req.session.memberId },
     });
-    res.render('admin/antropometry', {
+    res.render('admin/measurement-form', {
       activeMember,
       member,
       nutrition: {},
@@ -89,15 +84,17 @@ exports.getAddData = async (req, res) => {
   }
 };
 
-exports.getEditData = async (req, res) => {
+exports.getEditMeasurement = async (req, res) => {
   try {
-    const { id, edit } = req.query.id;
+    const { id, edit } = req.query;
 
     const nutrition = await Nutrition.findOne({
       where: {
         id,
       },
     });
+
+    const notes = await Note.findAll({ where: { nutritionId: id } });
 
     const member = await Member.findOne({
       where: {
@@ -107,9 +104,10 @@ exports.getEditData = async (req, res) => {
     const activeMember = await Member.findOne({
       where: { id: req.session.memberId },
     });
-    res.render('admin/antropometry', {
+    res.render('admin/measurement-form', {
       activeMember,
       edit,
+      notes,
       nutrition,
       member,
       fn: selectedMonth,
@@ -125,9 +123,9 @@ let nutritionAPI = {
   month: [],
 };
 
-exports.getIndividualReport = async (req, res) => {
+exports.getDetail = async (req, res) => {
   try {
-    const { id } = req.query.id;
+    const { id } = req.query;
     const member = await Member.findOne({
       where: {
         id,
@@ -144,24 +142,21 @@ exports.getIndividualReport = async (req, res) => {
     const height = { height: [], hZScore: [] };
     const month = [];
 
-    nutritions.forEach(async (nutrition) => {
-      weight.weight.push(nutrition.getDataValue('weight'));
-      height.height.push(nutrition.getDataValue('height'));
-      month.push(nutrition.getDataValue('month').toString().slice(0, 3));
-
-      const zWeight = await zScore(
-        +nutrition.get('age'),
-        nutrition.get('weight'),
-        'BBU'
-      );
-      const zHeight = await zScore(
-        +nutrition.get('age'),
-        nutrition.get('height'),
-        'TBU'
+    nutritions.forEach(async nutrition => {
+      weight.weight.push(nutrition.get('weight'));
+      height.height.push(nutrition.get('height'));
+      const monthId = nutrition.get('date').split('-')[1];
+      month.push(
+        monthById(+monthId - 1)
+          .toString()
+          .slice(0, 3)
       );
 
-      height.hZScore.push(zHeight);
-      weight.wZScore.push(zWeight);
+      // const zWeight = await zScore(+nutrition.get('age'), nutrition.get('weight'), 'BBU');
+      // const zHeight = await zScore(+nutrition.get('age'), nutrition.get('height'), 'TBU');
+
+      // height.hZScore.push(zHeight);
+      // weight.wZScore.push(zWeight);
     });
 
     nutritionAPI = {
@@ -173,18 +168,14 @@ exports.getIndividualReport = async (req, res) => {
       where: { id: req.session.memberId },
     });
 
-    Note.findAll({ where: { memberId: id } })
-      .then((notes) => {
-        res.render('admin/individual-report', {
-          activeMember,
-          member,
-          nutritions,
-          notes,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const notes = await Note.findAll({ where: { memberId: id } });
+
+    res.render('admin/detail', {
+      activeMember,
+      member,
+      nutritions,
+      notes,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -217,15 +208,18 @@ exports.getWeightApi = (_req, res) => {
 
 // member
 exports.postNewMember = async (req, res) => {
-  const { nik, mothername, childname, address } = req.body;
+  const { nik, mothername, toddlername, address, placeOfBirth, dateOfBirth } = req.body;
   const value = {
     nik,
     mothername,
-    childname,
+    toddlername,
     address,
+    status: undefined,
+    imgSeed: toddlername,
+    placeOfBirth,
+    dateOfBirth,
     password: nik,
     role: 'kader',
-    imgsrc: '/assets/img/ava-1.png',
   };
 
   try {
@@ -280,28 +274,20 @@ exports.deleteMember = async (req, res) => {
 };
 
 // nutrition data
-exports.postNutritionData = async (req, res) => {
+exports.postMeasurement = async (req, res) => {
   try {
-    const {
-      id,
-      weight,
-      height,
-      age,
-      month: monthId,
-      notesValue: notesInput,
-    } = req.body;
-    const currentMonth = monthById(monthId);
-    const notes = notesInput.split(';').filter((note) => note.length !== 0);
+    const { id, weight, height, age, date, notes: noteResult } = req.body;
+    const notes = noteResult.split(';').filter(note => note.length !== 0);
 
     const nutrition = await Nutrition.create({
       weight,
       height,
       age,
-      month: currentMonth,
+      date,
       memberId: id,
     });
 
-    notes.forEach(async (note) => {
+    notes.forEach(async note => {
       await Note.create({
         text: note,
         state: false,
@@ -310,28 +296,20 @@ exports.postNutritionData = async (req, res) => {
       });
     });
 
-    res.redirect(`/admin/add-data?id=${id}`);
+    res.redirect(`/admin/add-measurement?id=${id}`);
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.postEditNutrition = async (req, res) => {
+exports.postEditMeasurement = async (req, res) => {
   try {
-    const {
-      nutritionId,
-      id: memberId,
-      weight,
-      height,
-      age,
-      month: monthId,
-    } = req.body;
-    const currentMonth = monthById(monthId);
+    const { nutritionId, id: memberId, weight, height, age, date } = req.body;
     const value = {
       weight,
       height,
       age,
-      month: currentMonth,
+      date,
     };
 
     await Nutrition.update(value, {
@@ -340,13 +318,13 @@ exports.postEditNutrition = async (req, res) => {
       },
     });
 
-    res.redirect(`/admin/nutrition-report?id=${memberId}`);
+    res.redirect(`/admin/edit-measurement?id=${memberId}`);
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.postDeleteNutritionData = async (req, res) => {
+exports.postDeleteMeasurement = async (req, res) => {
   try {
     const { id } = req.body;
     const nutrition = await Nutrition.findOne({
@@ -365,9 +343,7 @@ exports.postDeleteNutritionData = async (req, res) => {
       where: { nutritionId: nutrition.getDataValue('id') },
     });
 
-    res.redirect(
-      `/admin/nutrition-report?id=${nutrition.getDataValue('memberId')}`
-    );
+    res.redirect(`/admin/detail?id=${nutrition.get('memberId')}`);
   } catch (err) {
     console.log(err);
   }

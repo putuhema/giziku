@@ -2,7 +2,7 @@ const Member = require('../model/Member');
 
 exports.getLogin = async (req, res) => {
   try {
-    const { memberId } = req.session.memberId;
+    const { memberId } = req.session;
     if (memberId) {
       const member = await Member.findOne({ where: { id: memberId } });
       if (member.getDataValue('role') === 'admin') {
@@ -10,7 +10,9 @@ exports.getLogin = async (req, res) => {
       }
       return res.redirect(`/home?id=${memberId}`);
     }
-    res.render('login');
+    res.render('login', {
+      title: 'Login',
+    });
   } catch (err) {
     console.log(err);
   }
@@ -27,7 +29,6 @@ exports.postLogin = async (req, res) => {
     });
 
     if (member) {
-      console.log(member.get('id'));
       if (password === member.getDataValue('password')) {
         req.session.isLoggin = true;
         req.session.memberId = member.get('id');
@@ -48,8 +49,8 @@ exports.postLogin = async (req, res) => {
 
 exports.postSingup = async (req, res) => {
   try {
-    const { nik, mohterName, toddlerName, gender, dateOfBirth, address } =
-      req.body;
+    // const { nik, mohterName, toddlerName, gender, dateOfBirth, address } =
+    //   req.body;
   } catch (err) {
     console.log(err);
   }
@@ -57,7 +58,7 @@ exports.postSingup = async (req, res) => {
 
 exports.postLogout = async (req, res) => {
   try {
-    req.session.destroy((err) => {
+    req.session.destroy(err => {
       res.clearCookie('session_member');
       res.redirect('/');
     });

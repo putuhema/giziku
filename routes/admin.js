@@ -6,9 +6,9 @@ const antropometriController = require('../controller/antropometri');
 router.get('/', adminController.getMain);
 router.get('/add-member', adminController.getAddNewMember);
 router.get('/edit-member', adminController.getEditMember);
-router.get('/add-data', adminController.getAddData);
-router.get('/edit-data', adminController.getEditData);
-router.get('/nutrition-report', adminController.getIndividualReport);
+router.get('/add-measurement', adminController.getAddMeasurement);
+router.get('/edit-measurement', adminController.getEditMeasurement);
+router.get('/detail', adminController.getDetail);
 router.get('/nutrition-api', adminController.getWeightApi);
 router.get('/profile', adminController.getProfile);
 
@@ -35,9 +35,9 @@ router.post('/delete-bbtb', antropometriController.postDeleteBBTB);
 router.post('/add-member', adminController.postNewMember);
 router.post('/edit-member', adminController.postEditMember);
 router.post('/delete-member', adminController.deleteMember);
-router.post('/add-data', adminController.postNutritionData);
-router.post('/edit-data', adminController.postEditNutrition);
-router.post('/delete-data', adminController.postDeleteNutritionData);
-router.post('/update-setting', adminController.postUpdateSetting);
+router.post('/add-measurement', adminController.postMeasurement);
+router.post('/edit-measurement', adminController.postEditMeasurement);
+router.post('/delete-measurement', adminController.postDeleteMeasurement);
+router.post('/setting', adminController.postUpdateSetting);
 
 module.exports = router;

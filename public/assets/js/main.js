@@ -1,8 +1,26 @@
-const ctx = document.getElementById('myChart').getContext('2d');
+const weightCtx = document.getElementById('weightChart').getContext('2d');
 const heightCtx = document.getElementById('heightChart').getContext('2d');
-const nutritionCtx = document.getElementById('nutritionChart').getContext('2d');
+const weightHeightCtx = document.getElementById('weightHeightChart').getContext('2d');
 
-const charts = (context, labels, data, label) => {
+const charts = (context, labels, data, label, code) => {
+  let selectedColor = {};
+  switch (code) {
+    case 'B': {
+      selectedColor = { bg: '#e0f2fe', border: '#0284c7' };
+      break;
+    }
+    case 'T': {
+      selectedColor = { bg: '#fce7f3', border: '#db2777' };
+      break;
+    }
+    case 'BT': {
+      selectedColor = { bg: '#ccfbf1', border: '#0d9488' };
+      break;
+    }
+    default: {
+      selectedColor = { bg: '#e0f2fe', border: '#0284c7' };
+    }
+  }
   // eslint-disable-next-line no-undef
   const _ = new Chart(context, {
     type: 'line',
@@ -12,27 +30,15 @@ const charts = (context, labels, data, label) => {
         {
           label,
           data,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-          ],
+          backgroundColor: selectedColor.bg,
+          borderColor: selectedColor.border,
           borderWidth: 1,
         },
       ],
     },
     options: {
+      color: selectedColor.border,
+      borderColor: selectedColor.border,
       scales: {
         y: {
           beginAtZero: false,
@@ -45,8 +51,15 @@ const charts = (context, labels, data, label) => {
 const req = async () => {
   const res = await fetch('http://localhost:8080/nutrition-api');
   const nutrition = await res.json();
-  charts(ctx, nutrition.month, nutrition.weight.weight, 'Berat (Kg)');
-  charts(heightCtx, nutrition.month, nutrition.height.height, 'Tinggi (Cm)');
+  charts(weightCtx, nutrition.month, nutrition.weight.weight, 'Berat (Kg)', 'B');
+  charts(heightCtx, nutrition.month, nutrition.height.height, 'Tinggi (Cm)', 'T');
+  charts(
+    weightHeightCtx,
+    nutrition.weight.weight,
+    nutrition.height.height,
+    'Berat (Kg) /Tinggi (Cm)',
+    'BT'
+  );
 };
 
 req();
