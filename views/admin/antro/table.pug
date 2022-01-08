@@ -1,0 +1,92 @@
+include ../includes/head.pug
+body
+    include ../includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ../includes/nav.pug
+            main.w-full.h-full.mt-10
+                .w-full.h-max.bg-white.rounded-md.shadow
+                    .flex.justify-between.items-center.p-2.mx-2(class='md:mx-4')
+                        .flex.flex-col
+                            p.text-sm.font-bold.border-b(class='md:text-base') Standar Berat Badan menurut Umur (BB/U) 
+                            p.text-sm.hidden.text-gray-700(class='md:block md:text-base max-w-[20rem]')
+                            | Anak Laki-Laki Umur 0-60 Bulan
+                        a.p-1.border.border-sky-400.text-sky-400.rounded.font-bold(href=`/admin/add-${link}` class='md:p-2 hover:bg-sky-100 focus:bg-sky-200')
+                            svg(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z")
+                    .mt-4.flex.gap-4.py-8.px-2
+                        div.flex.flex-col
+                            //- table
+                            div
+                                #head.bg-gray-200.border.flex.font-bold.text-center
+                                    div.w-40.p-2.flex-1 Kategori Status Gizi
+                                    div.w-40.p-2.flex-1 Ambang Batas #[br] (Z-Score)
+                                #body.flex.px-4.py-2
+                                    div.w-40.break-words.flex-1  Berat Badan Sangat Kurang
+                                    div.w-40.text-center.flex-1 < -3 SD
+                                #body.flex.px-4.py-2.bg-gray-100
+                                    div.w-40.break-words.flex-1  Berat Badan Kurang
+                                    div.w-40.text-center.flex-1 -3 SD sd < -2 SD
+                                #body.flex.px-4.py-2
+                                    div.w-40.break-words.flex-1  Berat Badan Normal
+                                    div.w-40.text-center.flex-1 -2 SD sd +1 SD
+                                #body.flex.px-4.py-2.bg-gray-100
+                                    div.w-40.break-words.flex-1  Resiko Berat Badan Lebih
+                                    div.w-40.text-center.flex-1 > +1 SD
+                            //- form
+                            //- div.p-2.mt-2
+                            //-     hr.border.mt-4
+                            //-     h1.font-bold.text-md.border-b.py-2 Hitung Z-Score BB/U
+                            //-     form(action="/admin/count-bbu" method="post") 
+                            //-         .flex.gap-4.mt-4
+                            //-             .flex.flex-col.flex-1
+                            //-                 label(for="weight") Berat Badan (Kg)
+                            //-                 input#weight(type="text", name="weight" step="0.01")
+                            //-             .flex.flex-col.flex-1
+                            //-                 label(for="age") Umur (bulan) 
+                            //-                 input#age(type="text", name="age" step="0.01")
+                            //-         .flex.gap-4.mt-4
+                            //-             .flex.flex-col.flex-1
+                            //-                 label(for="weight") Jenis Kelamin
+                            //-                 select#gender(name="gender") 
+                            //-                     option(value="Laki - Laki") Laki - Laki
+                            //-                     option(value="Perempuan") Perempuan
+                            //-             .flex.flex-col.flex-1
+                            //-         button.mt-2.w-full.bg-sky-400.font-bold.text-white.px-4.py-2.rounded(type="submit") Hitung
+                        #table-container.border.overflow-x-auto
+                            table
+                                thead
+                                    tr.bg-white-100.text-center
+                                        th.w-28.border-r(rowspan='2') Umur (bulan)
+                                        th(colspan='7') Berat Badan (Kg) 
+                                        th.border-l(rowspan='2')
+                                    tr.bg-white-100.text-center
+                                        th.w-20 -3 SD
+                                        th.w-20 -2 SD 
+                                        th.w-20 -1 SD 
+                                        th.w-20 Median 
+                                        th.w-20 +1 SD 
+                                        th.w-20 +2 SD 
+                                        th.w-20 +3SD
+                                tbody
+                                    tr(class="even:bg-gray-100 text-center")
+                                        td.text-center 0
+                                        td.bg-red-300 2.1
+                                        td.bg-red-200 2.5
+                                        td.bg-yellow-200 2.9
+                                        td.bg-green-100 3.3
+                                        td.bg-yellow-200 3.9
+                                        td.bg-red-200 4.4
+                                        td.bg-red-300 5.0
+                                        td.flex.justify-between.items-center.px-4.text-gray-400
+                                            .icon.group(class="before:content-['edit'] before:hidden hover:before:block before:text-sky-400 before:bg-sky-100")
+                                                a(href=`/admin/edit-member?id=1&edit=true`) 
+                                                    svg.h-5.w-5.cursor-pointer(xmlns='http://www.w3.org/2000/svg' class='hover:text-sky-400 hover:before:block' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                                        path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z')
+                                            .icon.group(class="before:content-['hapus'] before:hidden hover:before:block before:text-red-500 before:bg-red-100")
+                                                form(action="/admin/delete-member" method="post") 
+                                                    input(type="hidden", name="id" value="1")
+                                                    button(type="submit") 
+                                                        svg.h-5.w-5.cursor-pointer(xmlns='http://www.w3.org/2000/svg' class='hover:text-red-400 hover:before:block ' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                                            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16')
+script(src='/assets/js/event.js')

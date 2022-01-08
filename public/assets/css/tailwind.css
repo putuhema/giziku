@@ -66,4 +66,17 @@
   td {
     @apply border-t border-gray-200 py-4;
   }
+
+  /* timeline */
+  .container {
+    @apply m-0 pt-[100px] list-none relative py-[1px] px-[100px] space-y-10 text-sky-400 before:content-[''] before:w-[1px] before:h-full before:absolute before:border-l-2 before:border-dashed before:border-sky-400;
+  }
+
+  .box {
+    @apply relative ml-[30px] bg-sky-200/20 p-[14px] rounded-md w-max shadow-md;
+  }
+
+  .line {
+    @apply w-1 h-full bg-sky-400 -left-[30px] top-0 absolute before:content-[''] before:w-3 before:h-3 before:rounded-full before:border-2 before:border-sky-400 before:absolute before:bg-white before:-left-[4px] before:top-0 after:content-[''] after:w-3 after:h-3 after:rounded-full after:border-2 after:border-sky-400 after:absolute after:bg-white after:-left-[4px] after:top-full;
+  }
 }

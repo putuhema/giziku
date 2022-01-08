@@ -11,6 +11,7 @@ const Member = sequelize.define('member', {
   nik: DataTypes.STRING,
   password: DataTypes.STRING,
   mothername: DataTypes.STRING,
+  gender: DataTypes.STRING,
   dateOfBirth: DataTypes.STRING,
   placeOfBirth: DataTypes.STRING,
   toddlername: DataTypes.STRING,

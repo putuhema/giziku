@@ -12,6 +12,7 @@ exports.getLogin = async (req, res) => {
     }
     res.render('login', {
       title: 'Login',
+      data: req.cookies.nik,
     });
   } catch (err) {
     console.log(err);
@@ -49,8 +50,32 @@ exports.postLogin = async (req, res) => {
 
 exports.postSingup = async (req, res) => {
   try {
-    // const { nik, mohterName, toddlerName, gender, dateOfBirth, address } =
-    //   req.body;
+    const { nik, mothername, toddlername, gender, dateOfBirth, address } = req.body;
+
+    console.log(nik, mothername, toddlername, gender, dateOfBirth, address);
+
+    const member = await Member.findOne({ where: { nik } });
+
+    if (!member) {
+      await Member.create({
+        nik,
+        mothername,
+        toddlername,
+        gender,
+        dateOfBirth,
+        address,
+        role: 'kader',
+        password: nik,
+        imgSeed: toddlername,
+      });
+      res.cookie('nik', nik, {
+        maxAge: 10000,
+      });
+
+      res.redirect('/?success');
+    } else {
+      res.redirect('/?duplicate');
+    }
   } catch (err) {
     console.log(err);
   }

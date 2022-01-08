@@ -11,6 +11,7 @@ router.get('/edit-measurement', adminController.getEditMeasurement);
 router.get('/detail', adminController.getDetail);
 router.get('/nutrition-api', adminController.getWeightApi);
 router.get('/profile', adminController.getProfile);
+router.get('/fuzzy', adminController.getFuzzy);
 
 router.get('/bbu', antropometriController.getBBU);
 router.get('/add-bbu', antropometriController.getAddBBU);

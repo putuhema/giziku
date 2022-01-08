@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const { urlencoded } = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
@@ -22,6 +23,7 @@ app.set('view engine', 'pug');
 app.set('views', 'views');
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(urlencoded({ extended: false }));
 app.use(

@@ -77,9 +77,11 @@ window.onclick = function (e) {
   }
 };
 
-sidebarToggle.addEventListener('click', e => {
-  sidebar.classList.toggle('-translate-x-full');
-});
+if (sidebarToggle) {
+  sidebarToggle.addEventListener('click', e => {
+    sidebar.classList.toggle('-translate-x-full');
+  });
+}
 
 if (dropdown) {
   dropdown.addEventListener('click', () => {

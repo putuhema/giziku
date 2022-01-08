@@ -1,16 +1,16 @@
 include ./includes/head.pug
 body
-    div(class="flex flex-col md:flex-row items-center justify-center p-10 gap-4")
+    div(class="flex flex-col md:flex-row items-center justify-center h-screen p-10 gap-4")
         div(class="w-full md:w-1/2  grid place-content-center")
             img(class=" w-[30rem] p-10 md:w-[40rem]" src="/assets/img/bonbon-1.png", alt="")
         div(class="max-w-sm md:w-1/2 h-max border rounded grid place-content-center pb-16")
             form(action="/login", method="post", class="px-4 space-y-2 mt-10 w-[20rem]")
                 .flex.flex-col.w-full
                     label.text-sm(for="nik") NIK
-                    input#nik(type="text", name="nik")
+                    input#nik(type="text", name="nik", value= data)
                 .flex.flex-col.w-full 
                     label.text-sm(for="password") Password 
-                    input#password(type="password", name="password")
+                    input#password(type="password", name="password", value= data)
                 button.w-full.mt-4.bg-sky-400.px-2.py-1.rounded.text-white.font-bold(type="submit" class="hover:bg-sky-300") Masuk
             hr.my-4
             div.text-center belum punya akun ? 
@@ -26,10 +26,10 @@ body
             div.mt-4
                 form(action="/signup", method="post", class="space-y-3 px-4") 
                     .w-full 
-                        input#nik.w-full.bg-gray-100(type="text", name="nik", placeholder="NIK")
+                        input#nikSignup.w-full.bg-gray-100(type="text", name="nik", placeholder="NIK")
                     .flex.flex-col.gap-4 
-                        input#name.flex-1.bg-gray-100(type="text", name="name", placeholder="Nama Ibu")
-                        input#name.flex-1.bg-gray-100(type="text", name="name", placeholder="Nama Balita")
+                        input#mothername.flex-1.bg-gray-100(type="text", name="mothername", placeholder="Nama Ibu")
+                        input#toddlername.flex-1.bg-gray-100(type="text", name="toddlername", placeholder="Nama Balita")
                     .flex.flex-col.gap-4
                         .flex.flex-col 
                             label.text-sm(for="dateOfBirth") Tanggal Lahir 

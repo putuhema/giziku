@@ -1,7 +1,7 @@
 const Member = require('../model/Member');
 const Note = require('../model/Note');
 const Nutrition = require('../model/Nutrition');
-const { zScore } = require('../util/helper');
+const { zScore, monthById } = require('../util/helper');
 
 let nutritionAPI = {
   weight: {},
@@ -38,13 +38,17 @@ exports.getUserMainPage = async (req, res) => {
     nutritions.forEach(async nutrition => {
       weight.weight.push(nutrition.get('weight'));
       height.height.push(nutrition.get('height'));
-      month.push(nutrition.get('month').toString().slice(0, 3));
+      const monthId = nutrition.get('date').split('-')[1];
+      month.push(
+        monthById(+monthId - 1)
+          .toString()
+          .slice(0, 3)
+      );
+      // const zWeight = await zScore(+nutrition.get('age'), nutrition.get('weight'), 'BBU');
+      // const zHeight = await zScore(+nutrition.get('age'), nutrition.get('height'), 'TBU');
 
-      const zWeight = await zScore(+nutrition.get('age'), nutrition.get('weight'), 'BBU');
-      const zHeight = await zScore(+nutrition.get('age'), nutrition.get('height'), 'TBU');
-
-      height.hZScore.push(zHeight);
-      weight.wZScore.push(zWeight);
+      // height.hZScore.push(zHeight);
+      // weight.wZScore.push(zWeight);
     });
 
     nutritionAPI = {
@@ -84,6 +88,19 @@ exports.getUserSetting = async (req, res) => {
     res.render('setting', {
       title: 'Setting',
       member,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getSimulation = async (req, res) => {
+  const { id } = req.query;
+  const member = await Member.findOne({ where: { id } });
+  try {
+    res.render('simulation', {
+      member,
+      title: 'simulasi',
     });
   } catch (err) {
     console.log(err);

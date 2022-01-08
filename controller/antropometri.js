@@ -11,14 +11,15 @@ async function getTable(req, res, index, link, type) {
   const activeMember = await Member.findOne({
     where: { id: req.session.memberId },
   });
-  const bbus = await index.findAll();
+  const indexes = await index.findAll();
 
-  res.render('admin/antro/standard-antropometry', {
+  res.render('admin/antro/table', {
     activeMember,
-    indexes: bbus,
+    indexes,
     type,
     link,
     edit: false,
+    title: 'BB/U',
   });
 }
 

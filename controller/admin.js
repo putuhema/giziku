@@ -16,6 +16,7 @@ exports.getMain = async (req, res) => {
     res.render('admin/index', {
       members,
       activeMember,
+      title: 'Home',
     });
   } catch (err) {
     console.log(err);
@@ -32,6 +33,7 @@ exports.getAddNewMember = async (req, res) => {
       edit: false,
       user: {},
       fn: () => {},
+      title: 'Tambah Kader',
     });
   } catch (err) {
     console.log(err);
@@ -55,6 +57,7 @@ exports.getEditMember = async (req, res) => {
       member,
       fn: selectedOption,
       edit,
+      title: 'Edit Kader',
     });
   } catch (err) {
     console.log(err);
@@ -78,6 +81,7 @@ exports.getAddMeasurement = async (req, res) => {
       nutrition: {},
       edit: false,
       fn: () => {},
+      title: 'Tambah Pengukuran',
     });
   } catch (err) {
     console.log(err);
@@ -111,6 +115,21 @@ exports.getEditMeasurement = async (req, res) => {
       nutrition,
       member,
       fn: selectedMonth,
+      title: 'Edit Pengukuran',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getFuzzy = async (req, res) => {
+  try {
+    const activeMember = await Member.findOne({
+      where: { id: req.session.memberId },
+    });
+    res.render('admin/fuzzy', {
+      activeMember,
+      title: 'Fuzzy',
     });
   } catch (err) {
     console.log(err);
@@ -175,6 +194,7 @@ exports.getDetail = async (req, res) => {
       member,
       nutritions,
       notes,
+      title: 'Detail',
     });
   } catch (err) {
     console.log(err);
@@ -188,6 +208,7 @@ exports.getProfile = async (req, res) => {
     });
     res.render('admin/admin-profile', {
       activeMember,
+      title: 'Pengaturan',
     });
   } catch (err) {
     console.log(err);

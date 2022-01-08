@@ -136,14 +136,6 @@ exports.zScore = async (x, y, type) => {
     }
   }
 
-  // console.log({
-  //   min1sd,
-  //   median,
-  //   plus1sd,
-  //   x,
-  //   y,
-  // });
-
   up = y - median;
   if (up > 0) {
     devider = plus1sd - median;
