@@ -1,0 +1,254 @@
+{
+  "antropometri": {
+    "bbu": {
+      "L": [
+        {
+          "value": 0,
+          "min3sd": 2.1,
+          "min2sd": 2.5,
+          "min1sd": 2.9,
+          "median": 3.3,
+          "plus1sd": 3.9,
+          "plus2sd": 4.4,
+          "plus3sd": 5.0
+        },
+        {
+          "value": 1,
+          "min3sd": 2.9,
+          "min2sd": 3.4,
+          "min1sd": 3.9,
+          "median": 4.5,
+          "plus1sd": 5.1,
+          "plus2sd": 5.8,
+          "plus3sd": 6.6
+        },
+        {
+          "value": 2,
+          "min3sd": 3.8,
+          "min2sd": 4.3,
+          "min1sd": 4.9,
+          "median": 5.6,
+          "plus1sd": 6.3,
+          "plus2sd": 7.1,
+          "plus3sd": 8.0
+        },
+        {
+          "value": 3,
+          "min3sd": 4.4,
+          "min2sd": 5.0,
+          "min1sd": 5.7,
+          "median": 6.4,
+          "plus1sd": 7.2,
+          "plus2sd": 8.0,
+          "plus3sd": 9.0
+        },
+        {
+          "value": 4,
+          "min3sd": 4.9,
+          "min2sd": 5.6,
+          "min1sd": 6.2,
+          "median": 7.0,
+          "plus1sd": 7.8,
+          "plus2sd": 8.7,
+          "plus3sd": 9.7
+        },
+        {
+          "value": 5,
+          "min3sd": 5.3,
+          "min2sd": 6.0,
+          "min1sd": 6.7,
+          "median": 7.5,
+          "plus1sd": 8.4,
+          "plus2sd": 9.3,
+          "plus3sd": 10.4
+        },
+        {
+          "value": 6,
+          "min3sd": 5.7,
+          "min2sd": 6.4,
+          "min1sd": 7.1,
+          "median": 7.9,
+          "plus1sd": 8.8,
+          "plus2sd": 9.8,
+          "plus3sd": 10.9
+        },
+        {
+          "value": 7,
+          "min3sd": 5.9,
+          "min2sd": 6.7,
+          "min1sd": 7.4,
+          "median": 8.3,
+          "plus1sd": 9.2,
+          "plus2sd": 10.3,
+          "plus3sd": 11.4
+        },
+        {
+          "value": 8,
+          "min3sd": 6.2,
+          "min2sd": 6.9,
+          "min1sd": 7.7,
+          "median": 8.6,
+          "plus1sd": 9.6,
+          "plus2sd": 10.7,
+          "plus3sd": 11.9
+        },
+        {
+          "value": 9,
+          "min3sd": 6.4,
+          "min2sd": 6.9,
+          "min1sd": 7.7,
+          "median": 8.6,
+          "plus1sd": 9.6,
+          "plus2sd": 10.7,
+          "plus3sd": 12.3
+        }
+      ],
+      "P": []
+    },
+    "pbu": {
+      "L": [
+        {
+          "value": 0,
+          "min3sd": 44.2,
+          "min2sd": 46.1,
+          "min1sd": 48.0,
+          "median": 49.9,
+          "plus1sd": 51.8,
+          "plus2sd": 53.7,
+          "plus3sd": 55.6
+        },
+        {
+          "value": 1,
+          "min3sd": 48.9,
+          "min2sd": 48.9,
+          "min1sd": 52.8,
+          "median": 54.7,
+          "plus1sd": 56.7,
+          "plus2sd": 58.6,
+          "plus3sd": 60.6
+        },
+        {
+          "value": 2,
+          "min3sd": 52.4,
+          "min2sd": 54.4,
+          "min1sd": 56.4,
+          "median": 58.4,
+          "plus1sd": 60.4,
+          "plus2sd": 62.4,
+          "plus3sd": 64.4
+        },
+        {
+          "value": 3,
+          "min3sd": 55.3,
+          "min2sd": 57.3,
+          "min1sd": 59.4,
+          "median": 61.4,
+          "plus1sd": 63.5,
+          "plus2sd": 65.5,
+          "plus3sd": 67.6
+        },
+        {
+          "value": 4,
+          "min3sd": 57.6,
+          "min2sd": 59.7,
+          "min1sd": 61.8,
+          "median": 63.9,
+          "plus1sd": 66.0,
+          "plus2sd": 68.0,
+          "plus3sd": 70.1
+        },
+        {
+          "value": 5,
+          "min3sd": 59.6,
+          "min2sd": 61.7,
+          "min1sd": 63.8,
+          "median": 65.9,
+          "plus1sd": 68.0,
+          "plus2sd": 70.1,
+          "plus3sd": 72.2
+        }
+      ],
+      "P": []
+    },
+    "bbpb": {
+      "L": [
+        {
+          "value": 45.0,
+          "min3sd": 1.9,
+          "min2sd": 2.0,
+          "min1sd": 2.2,
+          "median": 2.4,
+          "plus1sd": 2.7,
+          "plus2sd": 3.0,
+          "plus3sd": 3.3
+        },
+        {
+          "value": 45.5,
+          "min3sd": 1.9,
+          "min2sd": 2.1,
+          "min1sd": 2.3,
+          "median": 2.5,
+          "plus1sd": 2.8,
+          "plus2sd": 3.1,
+          "plus3sd": 3.4
+        },
+        {
+          "value": 46.0,
+          "min3sd": 2.0,
+          "min2sd": 2.2,
+          "min1sd": 2.4,
+          "median": 2.6,
+          "plus1sd": 2.9,
+          "plus2sd": 3.1,
+          "plus3sd": 3.5
+        },
+        {
+          "value": 46.5,
+          "min3sd": 2.1,
+          "min2sd": 2.3,
+          "min1sd": 2.5,
+          "median": 2.7,
+          "plus1sd": 3.0,
+          "plus2sd": 3.2,
+          "plus3sd": 3.6
+        },
+        {
+          "value": 47.0,
+          "min3sd": 2.1,
+          "min2sd": 2.3,
+          "min1sd": 2.5,
+          "median": 2.8,
+          "plus1sd": 3.0,
+          "plus2sd": 3.3,
+          "plus3sd": 3.7
+        }
+      ],
+      "P": []
+    },
+    "bbtb": {
+      "L": [
+        {
+          "value": 65.0,
+          "min3sd": 5.9,
+          "min2sd": 6.3,
+          "min1sd": 6.9,
+          "median": 7.4,
+          "plus1sd": 8.1,
+          "plus2sd": 8.8,
+          "plus3sd": 9.6
+        },
+        {
+          "value": 65.5,
+          "min3sd": 6.0,
+          "min2sd": 6.4,
+          "min1sd": 7.0,
+          "median": 7.6,
+          "plus1sd": 8.2,
+          "plus2sd": 8.9,
+          "plus3sd": 9.8
+        }
+      ],
+      "P": []
+    }
+  }
+}

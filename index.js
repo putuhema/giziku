@@ -1,34 +1,30 @@
 const path = require('path');
 const express = require('express');
-const { urlencoded } = require('body-parser');
+const { urlencoded, json } = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
-const sequelize = require('./util/database');
-// data models
-const Member = require('./model/Member');
-const Nutrition = require('./model/Nutrition');
-const Note = require('./model/Note');
-
-// routes handlers
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
-const adminRouter = require('./routes/admin');
+const sequelize = require('./config/db');
+const { User, Measurement, Note, Fuzzy } = require('./components/users');
+const { authRouter } = require('./components/auth');
+const { userRouter } = require('./components/users');
+const { adminRouter } = require('./components/admin');
 
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', 'views');
+app.set('views', 'components');
 
 app.use(cors());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(urlencoded({ extended: false }));
+app.use(json());
 app.use(
   session({
-    key: 'session_member',
+    key: 'session_user',
     resave: false,
     saveUninitialized: false,
     secret: process.env.SECRET,
@@ -49,27 +45,30 @@ app.use(authRouter);
 app.use(userRouter);
 app.use('/admin', adminRouter);
 
-Member.hasMany(Nutrition);
-Nutrition.belongsTo(Member);
+User.hasMany(Measurement);
+Measurement.belongsTo(User);
 
-Member.hasMany(Note);
-Note.belongsTo(Member);
+User.hasMany(Note);
+Note.belongsTo(User);
 
-Nutrition.hasMany(Note);
-Note.belongsTo(Nutrition);
+User.hasMany(Fuzzy);
+Fuzzy.belongsTo(User);
+
+Measurement.hasMany(Note);
+Note.belongsTo(Measurement);
 
 sequelize
   // .sync({ force: true })
   .sync()
   .then(async () => {
-    const member = await Member.findOne({ where: { nik: 'admin' } });
-    if (!member) {
-      Member.create({
+    const user = await User.findOne({ where: { nik: 'admin' } });
+    if (!user) {
+      User.create({
         nik: 'admin',
         password: 'admin',
         mothername: 'admin',
         role: 'admin',
-        imgsrc: '/assets/img/ava-1.png',
+        imgSeed: 'admin',
       });
     }
   })

@@ -1,6 +1,9 @@
 {
   "name": "giziku-project",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=8.3.0"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -29,7 +32,7 @@
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-node": "^4.1.0",
+    "eslint-config-node": "^2.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",

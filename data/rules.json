@@ -1,0 +1,11 @@
+[
+  "IF tinggi NORMAL and gizi NORMAL then status_stunting NORMAL",
+  "IF tinggi NORMAL and gizi BERESIKO BURUK then status_stunting NORMAL",
+  "IF tinggi NORMAL and gizi BURUK then status_stunting NORMAL",
+  "IF tinggi PENDEK and gizi NORMAL then status_stunting BERESIKO STUNTING",
+  "IF tinggi PENDEK and gizi BERESIKO BURUK then status_stunting BERESIKO STUNTING ",
+  "IF tinggi PENDEK  and gizi BURUK then status_stunting BERESIKO STUNTING ",
+  "IF tinggi SANGAT PENDEK and gizi NORMAL then status_stunting BERESIKO STUNTING",
+  "IF tinggi SANGAT PENDEK and gizi BERESIKO BURUK then status_stunting STUNTING ",
+  "IF tinggi SANGAT PENDEK  and gizi BURUK then status_stunting STUNTING "
+]

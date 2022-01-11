@@ -1,0 +1,66 @@
+include ./includes/head.pug
+body
+    include ./includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ./includes/nav.pug
+            main.w-full.h-full.mt-10
+                div.w-full.h-max.mx-auto.rounded-md.shadow.bg-white
+                    a.flex.gap-2.mt-2.ml-2.group.mb-10.items-center(href=`/admin/detail?id=${id}`)
+                        svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' class="transform group-hover:-translate-x-1 transition" fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
+                        span Kembali
+                    .grid.place-content-center.overflow-hidden
+                        ul.timeline-container.pb-10(class=" w-[25rem] md:w-[35rem]")
+                            li.box
+                                span.line
+                                div.ml-3.flex.flex-col.gap-4.justify-between(class="lg:flex-row")
+                                    p.font-bold.border-b.pb-2.mb-2.border-sky-400(class=" md:hidden") Variable Input
+                                    div.text-center.border.border-sky-400.rounded.p-2
+                                        h1 Tinggi
+                                        div.relative.group
+                                            div.font-bold.text-xl(class="group-hover:block")= `${height.percentage.toFixed(2)}%`
+                                    div.text-center.border.border-sky-400.rounded.p-2
+                                        h1 Gizi
+                                        div.relative.group
+                                            //- div(class="hidden group-hover:block absolute bg-gray-500/70 text-white z-20  p-1 rounded-sm -top-8 left-2 ") placeholder
+                                            div.font-bold.text-xl= `${nutrition.percentage}%`
+                                    span.h-full
+                                        span(class="absolute text-sm hidden md:block -left-[135px] font-bold -top-1") Variable Input 
+                            li.box
+                                span.line
+                                div.ml-3
+                                    div.ml-3.flex.flex-col.gap-4.justify-between(class="lg:flex-row")
+                                        p.font-bold.border-b.pb-2.mb-2.border-sky-400(class=" md:hidden") Fuzzifikasi
+                                        div.text-center.border.border-sky-400.rounded.p-2
+                                            h1.font-bold Tinggi
+                                            div= `${height.fuzzy}`
+                                        div.text-center.border.border-sky-400.rounded.p-2
+                                            h1.font-bold Gizi
+                                            div= `${nutrition.fuzzy}`
+                                        span.h-full
+                                            span(class="absolute text-sm hidden md:block -left-[110px] font-bold -top-1") Fuzzifikasi
+                            li.box(class="w-[15rem] md:w-[25rem]")
+                                span.line
+                                div.ml-3
+                                    p.font-bold.border-b.pb-2.mb-2.border-sky-400(class=" md:hidden") Implikasi MIN
+                                    div.flex.flex-col.gap-4.overflow-x-auto.max-h-60.p-2
+                                        each rule, i in rules 
+                                            div= `R${i + 1} : ${rule}`
+                                    span.h-full
+                                        span(class="absolute text-sm hidden md:block -left-[130px] font-bold -top-1") Rules IF-THEN
+                            li.box
+                                span.line
+                                div.ml-3
+                                    p.font-bold.border-b.pb-2.mb-2.border-sky-400(class=" md:hidden") Defuzzifikasi
+                                    div.font-bold= `z = ${defuzzification}`
+                                    span.h-full
+                                        span(class="absolute text-sm hidden md:block -left-[130px] font-bold -top-1") Defuzzifikasi
+                            li.box
+                                span.line
+                                div.ml-3
+                                    p.font-bold.border-b.pb-2.mb-2.border-sky-400(class=" md:hidden") Diagnosa
+                                    div.font-bold= status
+                                    span.h-full
+                                        span(class="absolute text-sm hidden md:block -left-[110px] font-bold -top-1") Diagnosa
+script(src='/assets/js/event.js' type="module")

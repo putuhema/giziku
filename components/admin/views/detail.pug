@@ -1,0 +1,106 @@
+include ./includes/head.pug
+body
+    div.relative
+        include ./includes/sidebar.pug
+        div(class='lg:pl-80')
+            div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+                include ./includes/nav.pug
+                main.w-full.mt-10
+                    div(class='w-full h-max bg-white rounded-md shadow mb-20')
+                        div
+                            a.flex.gap-2.pl-2.pt-2.mb-10.group.items-center(href='/admin/')
+                                svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' class='transform group-hover:-translate-x-1 transition' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                    path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
+                                span Kembali
+                            div(class="flex flex-col lg:flex-row p-4")
+                                div(class="w-full lg:w-2/5 grid p-4 h-max place-items-center border rounded")
+                                    div(class="w-[20rem] h-max pb-5 ")
+                                        div(class="flex h-max flex-col items-center justify-center mt-5 ")
+                                            img#modalImg(src=`https://avatars.dicebear.com/api/big-smile/${user.imgSeed}.svg` alt='' class="w-32 h-32 rounded-full border border-sky-400")
+                                            h1.mt-2.font-bold.text-2xl= user.toddlername
+                                            h2.font-bold.text-xl= user.nutritionalStatus
+                                                span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-0.5  ${color.bg}`)= value
+                                            p.font-bold= user.placeOfBirth
+                                                span.font-normal= `, ${user.dateOfBirth}`
+                                            p.mt-2= user.address
+                                div(class="w-full lg:w-3/5 ")
+                                    div(class="p-2 flex items-center justify-between border rounded mb-4 mx-4")
+                                        a(href=`/admin/fuzzy?id=${user.id}` class="flex gap-1 hover:text-teal-400")
+                                            svg(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                                                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z")
+                                            | Fuzzy
+                                        a(href=`/admin/add-measurement?id=${user.id}` class="bg-sky-400 hover:bg-sky-300 transform hover:-translate-y-1 transition p-1 px-2 text-white rounded") Tambah Data
+                                    div.px-4.w-full.overflow-x-auto
+                                        div.w-max.px-2.border(class='md:w-full md:px-0 relative')
+                                            div#head.border-y.flex.items-center.h-14.px-4.text-center.uppercase
+                                                div(class='w-[3rem] md:w-1/12') id
+                                                div(class='w-[5rem] md:w-2/12') berat
+                                                div(class='w-[5rem] md:w-2/12') tinggi
+                                                div(class='w-[5rem] md:w-2/12') umur
+                                                div(class='w-[7rem] md:w-3/12') tanggal pengukuran
+                                                div(class='w-[10rem] md:w-4/12') catatan
+                                                div(class='w-[5rem] md:w-2/12') action
+                                            div#body.overflow-auto(class='h-[20rem] relative')
+                                                each measurement, index in measurements
+                                                    div.px-4.py-2.flex.border-t.items-center(class="even:bg-gray-100 relative ")
+                                                        div(class='w-[3rem] md:w-1/12 text-center')= index + 1
+                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.weight
+                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.height 
+                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.age
+                                                        div(class='w-[7em] md:w-3/12 text-center')= measurement.date 
+                                                        div(class='w-[10rem] md:w-4/12 text-center')
+                                                            ol.list-decimal 
+                                                                each note in notes 
+                                                                    if note.nutritionId == measurement.id 
+                                                                        li= note.text
+                                                        div(class='w-[5rem] md:w-2/12 flex gap-2 text-gray-400 items-center justify-between z-0 px-4 relative')
+                                                            div(class="icon group before:z-50 before:content-['edit'] before:hidden hover:before:block before:text-sky-400 before:bg-sky-100")
+                                                                a(href=`/admin/edit-measurement?id=${measurement.id}&edit=true`) 
+                                                                    svg.h-5.w-5.cursor-pointer.flex-1(xmlns='http://www.w3.org/2000/svg' class='hover:text-sky-400' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                                                        path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z')
+                                                            div(class="icon group before:z-50 before:content-['hapus'] before:hidden hover:before:block before:text-red-400 before:bg-red-100")        
+                                                                form(action="/admin/delete-measurement", method="post") 
+                                                                    input(type="hidden", name="id" value=`${measurement.id}`)
+                                                                    button(type="submit") 
+                                                                        svg.h-5.w-5.cursor-pointer.flex-1(xmlns='http://www.w3.org/2000/svg' class='hover:text-red-400' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                                                            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16')
+                        // chart
+                        div(class="w-full flex flex-col xl:flex-row gap-4 p-2 mt-5 pt-10 justify-between   pb-10")
+                            mixin chart(title, desc, id, bg, text, border)
+                                div(class=`w-full shadow-md ${bg} ${text} rounded-md`)
+                                    div(class=`p-4 border-b ${border} flex justify-between items-center`)
+                                        div
+                                            p.font-bold= title
+                                            p.text-sm.text-justify.pr-4(class="hidden md:block")= desc
+                                        div
+                                            svg.h-5.w-5.cursor-pointer.hidden( id=`${id}Modal` xmlns='http://www.w3.org/2000/svg' class='xl:block' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7')
+                                    canvas(id=`${id}Chart`)
+                            
+                            +chart("Berat (Kg)", "Indeks ini digunakan untuk menilai anak dengan berat badan kurang (underweight) atau sangat kurang (severely underweight), tetapi tidak dapat digunakan untuk mengklasifikasikan anak gemuk atau sangat gemuk.", "weight", "bg-sky-50", "text-sky-500", "border-sky-600")
+                            +chart("Tinggi (Cm)", "Indeks PB/U atau TB/U menggambarkan pertumbuhan panjang atau tinggi badan anak berdasarkan umurnya. Indeks ini dapat mengidentifikasi anak-anak yang pendek (stunted) atau sangat pendek (severely stunted), yang disebabkan oleh gizi kurang dalam waktu lama atau sering sakit.", "height", "bg-pink-50", "text-pink-500", "border-pink-600")
+                        // big chart
+                        .p-2.w-full.pt-10 
+                            div.shadow-md.bg-white.rounded-md.border.p-4
+                                div.p-4.border-b-2.flex.justify-between.items-center
+                                    div
+                                        p.font-bold Berat Badan (Kg) / Tinggi Badan (Cm)  
+                                        p.text-sm(class='xl:text-base hidden md:block') Indeks BB/PB atau BB/TB ini menggambarkan apakah berat badan anak sesuai terhadap pertumbuhan panjang/tinggi badannya. Indeks ini dapat digunakan untuk mengidentifikasi anak gizi kurang (wasted), gizi buruk (severely wasted) serta anak yang memiliki risiko gizi lebih (possible risk of overweight).
+                                canvas#weightHeightChart
+        // modal               
+        div.cmContainer.w-full.z-20.absolute.inset-0.grid.justify-center.hidden.transition(class='bg-white/50')
+            div#modalContainer.bg-white.z-50.top-0.shadow.border-1.mt-20.sticky.px-4(class='w-[70rem] h-[40rem]')
+                input#modalId(type="hidden", name="modalId")
+                div
+                    div#borderModal.p-4.mb-4.border-b-2.flex.justify-between.items-center
+                        div
+                            p#modalTitle.font-bold
+                            p#modalDesc.text-sm(class='xl:text-base w-[50rem]') 
+                        div
+                            svg#modalClose.h-6.w-6.cursor-pointer(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7')
+                    canvas#modalChart
+        
+script(src='https://cdn.jsdelivr.net/npm/chart.js')
+script(src='/assets/js/admin.js')
+script(src='/assets/js/event.js')

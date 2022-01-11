@@ -54,24 +54,30 @@ window.onclick = function (e) {
   if (profileMenu) {
     if (!e.target.matches('#profileMenu')) {
       const op = document.getElementById('submenuProfile');
-      if (!op.classList.contains('hidden')) {
-        op.classList.add('hidden');
+      if (op) {
+        if (!op.classList.contains('hidden')) {
+          op.classList.add('hidden');
+        }
       }
     }
   }
 
   if (!e.target.matches('#sidebarToggle')) {
     const op = document.getElementById('sidebar');
-    if (op.classList.contains('lg:translate-x-0')) {
-      op.classList.add('-translate-x-full');
+    if (op) {
+      if (op.classList.contains('lg:translate-x-0')) {
+        op.classList.add('-translate-x-full');
+      }
     }
   }
 
   if (avatar) {
     if (!e.target.matches('#avatar')) {
       const op = document.getElementById('menu');
-      if (!op.classList.contains('hidden')) {
-        op.classList.add('hidden');
+      if (op) {
+        if (!op.classList.contains('hidden')) {
+          op.classList.add('hidden');
+        }
       }
     }
   }

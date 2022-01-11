@@ -1,0 +1,55 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel='stylesheet' href='/assets/css/index.css')
+        title= `Giziku | ${title}`
+body
+    div(class="flex flex-col md:flex-row items-center justify-center h-screen p-10 gap-4")
+        div(class="w-full md:w-1/2  grid place-content-center")
+            img(class=" w-[30rem] p-10 md:w-[40rem]" src="/assets/img/bonbon-1.png", alt="")
+        div(class="max-w-sm md:w-1/2 h-max border rounded grid place-content-center pb-16")
+            form(action="/login", method="post", class="px-4 space-y-2 mt-10 w-[20rem]")
+                .flex.flex-col.w-full
+                    label.text-sm(for="nik") NIK
+                    input#nik(type="text", name="nik", value= data)
+                .flex.flex-col.w-full 
+                    label.text-sm(for="password") Password 
+                    input#password(type="password", name="password", value= data)
+                button.w-full.mt-4.bg-sky-400.px-2.py-1.rounded.text-white.font-bold(type="submit" class="hover:bg-sky-300") Masuk
+            hr.my-4
+            div.text-center belum punya akun ? 
+                span#modalSignUpToggle.cursor-pointer.underline.text-sky-500
+                    | daftar
+    div#signupModal.hidden.absolute.inset-0.w-full.h-full.grid.place-content-center(class="bg-white/75")
+        div(class="w-[18rem] md:w-[25rem] h-max border bg-white rounded pb-10")
+            svg#closeSignupModal(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 float-right m-1 cursor-pointer hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12")
+            div.p-2.px-4.border-b   
+                h1.font-bold.text-2xl(class="md:text-4xl") Daftar 
+                p.text-sm(class="md:text-base") masukkan data diri, dan daftar dengan cepat dan mudah.
+            div.mt-4
+                form(action="/signup", method="post", class="space-y-3 px-4") 
+                    .w-full 
+                        input#nikSignup.w-full.bg-gray-100(type="text", name="nik", placeholder="NIK")
+                    .flex.flex-col.gap-4 
+                        input#mothername.flex-1.bg-gray-100(type="text", name="mothername", placeholder="Nama Ibu")
+                        input#toddlername.flex-1.bg-gray-100(type="text", name="toddlername", placeholder="Nama Balita")
+                    .flex.flex-col.gap-4
+                        .flex.flex-col 
+                            label.text-sm(for="dateOfBirth") Tanggal Lahir 
+                            input#dateOfBirth.w-full.bg-gray-100(type="date", name="dateOfBirth")
+                        .flex.flex-col 
+                            label.text-sm(for="dateOfBirth") Jenis Kelamin
+                            select#gender.bg-gray-100(name="gender")
+                                option(value="Laki - Laki") Laki - Laki
+                                option(value="Perempuan") Perempuan
+                    .flex.flex-col 
+                        label(for="address") Alamat
+                        textarea#address.resize-none.w-full(name="address", cols="30", rows="4") 
+                    button.px-4.py-2.bg-sky-400.w-full.rounded.text-white.font-bold
+                        | Daftar
+script(src="/assets/js/event.js") 
+

@@ -68,8 +68,8 @@
   }
 
   /* timeline */
-  .container {
-    @apply m-0 pt-[100px] list-none relative py-[1px] px-[100px] space-y-10 text-sky-400 before:content-[''] before:w-[1px] before:h-full before:absolute before:border-l-2 before:border-dashed before:border-sky-400;
+  .timeline-container {
+    @apply m-0  list-none  py-[1px] px-[100px] space-y-10 text-sky-500 before:content-[''] before:w-[1px] before:h-full before:absolute before:border-l-2 before:border-dashed before:border-sky-400;
   }
 
   .box {

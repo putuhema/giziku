@@ -50,16 +50,10 @@ const charts = (context, labels, data, label, code) => {
 
 const req = async () => {
   const res = await fetch('http://localhost:8080/nutrition-api');
-  const nutrition = await res.json();
-  charts(weightCtx, nutrition.month, nutrition.weight.weight, 'Berat (Kg)', 'B');
-  charts(heightCtx, nutrition.month, nutrition.height.height, 'Tinggi (Cm)', 'T');
-  charts(
-    weightHeightCtx,
-    nutrition.weight.weight,
-    nutrition.height.height,
-    'Berat (Kg) /Tinggi (Cm)',
-    'BT'
-  );
+  const { weight, height, ages } = await res.json();
+  charts(weightCtx, ages, weight.value, 'Berat (Kg)', 'B');
+  charts(heightCtx, ages, height.value, 'Tinggi (Cm)', 'T');
+  charts(weightHeightCtx, weight.value, height.value, 'Berat (Kg) /Tinggi (Cm)', 'BT');
 };
 
 req();

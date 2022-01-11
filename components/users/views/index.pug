@@ -1,0 +1,102 @@
+include ./includes/head.pug
+body
+include ./includes/nav.pug
+div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relative")
+    //- profile
+    div(class="w-[22rem] sm:w-[35rem] md:w-[45rem] h-max  xl:w-[26rem] xl:fixed xl:h-full xl:shadow inset-0 bg-white p-8")
+        //- img section
+        section.flex.gap-4.flex-col(class="md:flex-row xl:flex-col mt-10 xl:mt-28")
+            div(class="shadow rounded h-max flex-1 text-center pb-4 relative  ")
+                a(class="absolute top-2 right-0 mt-2 mr-2 px-3 py-1 bg-sky-300 text-white rounded sm:px-4 sm:py-2" href=`/simulation?id=${user.id}`)
+                    svg(xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                        path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z")
+                img.mt-12.w-32.h-32.rounded-full.mx-auto.mt-4.border-2.border-sky-400(class="md:w-24 md:h-24 xl:w-32 xl:h-32" src=`https://avatars.dicebear.com/api/big-smile/${user.toddlername}.svg`, alt="profile picture")
+                p.mt-4.text-gray-500= user.nik
+                h1.font-bold.text-xl= user.toddlername
+                h1.font-bold= user.nutritionalStatus 
+                    - const {value, color} = ssColor(user.stuntingStatus)
+                    span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-1  ${color.bg}`)= value
+                p.pt-2
+                    span.font-bold= user.placeOfBirth
+                    = `, ${user.dateOfBirth}`
+            div.flex.flex-col.p-2.gap-2.flex-1
+                div.flex.gap-3.justify-between.h-max
+                    mixin info(title, value, container, titlecolor, valuecolor)
+                        div(class=`${container} md:flex-auto`).w-max.h-max.py-1.px-3.rounded.flex-1
+                            p(class=`text-sm ${titlecolor} hidden sm:flex`)= title
+                            p(class=`text base font-bold ${valuecolor}`)= value
+                    +info("Berat Badan", `${measurement.weight || '-'} Kg`, "bg-sky-100", "text-sky-400", "text-sky-600")
+                    +info("Tinggi Badan",`${measurement.height || '-'} Cm`, "bg-pink-100", "text-pink-400", "text-pink-600")
+                    +info("Umur",`${measurement.age || '-'} bulan`, "bg-teal-100", "text-teal-400", "text-teal-600")
+                //- notes
+                div.bg-sky-50.h-max.relative
+                    .w-full.bg-sky-100.flex.justify-between.px-4.py-2.rounded.font-bold.text-sky-600
+                        | catatan 
+                        svg(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01")
+                    ul(class="px-4 py-2 divide-y max-h-32 overflow-y-auto divide-sky-200 text-sky-600")
+                        mixin list(text)
+                            li.py-2.flex.justify-between.items-center
+                                span(class="max-w-[13rem] sm:max-w-full")= text
+                                unless notes.length === 0
+                                    input.ml-2.border(type="checkbox", name="isDone")
+                        if notes.length === 0
+                            +list('tidak ada catatan')
+                        else
+                            each note in notes 
+                                +list(note.text)
+                    button.hidden.px-4.py-2.bg-sky-100.text-sky-600.absolute.right-0.-bottom-12.rounded.font-bold(class="hover:bg-sky-200") Simpan
+    //- chart
+    div(class="xl:w-full xl:pl-[26rem] ")
+        div(class="max-w-[22rem] sm:max-w-[35rem] md:max-w-[45rem] xl:max-w-[70rem] mx-auto flex flex-col gap-4 p-8 bg-white")
+            div.flex.flex-col.gap-4(class="lg:flex-row")
+                div.flex-1.rounded-md
+                        div.px-4.py-2.border-b.border-teal-400(class="bg-teal-100")
+                            h1.font-bold.text-teal-600 Berat (Kg) / Tinggi (Cm) 
+                            p.text-teal-500 Lorem ipsum dolor sit amet.
+                        canvas#weightHeightChart
+                div(class="w-[18rem] md:w-full flex-1 overflow-x-auto")
+                    div.w-max.px-2.border(class='md:w-full md:px-0 rounded-md ')
+                        div#head.border-y.flex.items-center.justify-between.h-14.px-4.text-start.uppercase.text-center
+                            div(class='w-[3rem] md:w-1/12') id
+                            div(class='w-[5rem] md:w-2/12') berat
+                            div(class='w-[5rem] md:w-2/12') tinggi
+                            div(class='w-[5rem] md:w-2/12') umur
+                            div(class='w-[7rem] md:w-3/12') tanggal pengukuran
+                        div#body.overflow-auto(class='h-[20rem]')
+                            each measurement, index in measurements
+                                div.flex.items-center.justify-between(class="odd:bg-sky-50 px-4 py-2 text-sky-600 text-center")
+                                    div(class='w-[3rem] md:w-1/12')= index + 1
+                                    div(class='w-[5rem] md:w-2/12')= measurement.weight
+                                    div(class='w-[5rem] md:w-2/12')= measurement.height
+                                    div(class='w-[5rem] md:w-2/12')= measurement.age
+                                    div(class='w-[7em] md:w-3/12')= measurement.date
+            .flex.gap-4.flex-wrap
+                mixin chart(title, desc, id, bg, text, border)
+                    div(class=`w-full md:flex-1 shadow-md ${bg} ${text} rounded-md`)
+                        div(class=`p-4 border-b ${border} flex justify-between items-center`)
+                            div
+                                p.font-bold= title
+                                p.text-sm= desc
+                            div
+                                svg.h-5.w-5.cursor-pointer.hidden(id=`${id}Modal` xmlns='http://www.w3.org/2000/svg' class='xl:block' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                    path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7')
+                        canvas(id=`${id}Chart`)
+                        
+                +chart("Berat (Kg)", "Lorem ipsum dolor sit amet.", "weight", "bg-sky-50", "text-sky-500", "border-sky-600")
+                +chart("Tinggi (Cm)", "Lorem ipsum dolor sit amet.", "height", "bg-pink-50", "text-pink-500", "border-pink-600")
+div#cmContainer.w-full.z-20.absolute.inset-0.grid.justify-center.hidden.transition(class='bg-white/50')
+        div.bg-white.z-50.top-0.shadow.border-1.mt-20.sticky.px-4(class='w-[70rem] h-[40rem]')
+            div
+                div.p-4.border-b-2.flex.justify-between.items-center
+                    div
+                        p.font-bold Berat (Kg)
+                        p.text-sm(class='xl:text-base') Lorem ipsum dolor sit amet.
+                    div
+                        svg#chartModal.h-6.w-6.cursor-pointer(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7')
+                canvas#myChart5
+script(src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js") 
+script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+script(src="/assets/js/main.js")
+script(src="/assets/js/event.js") 

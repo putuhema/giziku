@@ -1,0 +1,60 @@
+include ./includes/head.pug
+body
+include ./includes/nav.pug
+div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relative")
+    //- profile
+    div(class="w-[22rem] sm:w-[35rem] md:w-[45rem] h-max  xl:w-[26rem] xl:fixed xl:h-full xl:shadow inset-0 bg-white p-8")
+        //- img section
+        section.flex.gap-4.flex-col(class=" xl:flex-col mt-10 xl:mt-28")
+            a.flex.items-center.group.gap-2(href="/home")
+                svg(xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:-translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                    path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18")
+                | Kembali
+            div(class="shadow rounded h-max flex-1 pb-4 relative  ")
+                .px-4.py-1.border-b.border-sky-400.bg-sky-100 
+                    h1.font-bold.text-xl.text-sky-500 SIMULASI STUNTING
+                    p.text-sky-400 simulasikan perkembangan balita untuk mencegah stunting dengan memasukkan berat, tinggi, dan umur.
+                form 
+                    .px-4.w-full.space-y-4.mt-5
+                        .flex.gap-4
+                            .flex.flex-col.flex-1
+                                label.text-sm(for="weight") Berat Badan (Kg)
+                                input#weight(type="text", name="weight", class="w-full" )
+                            .flex.flex-col.flex-1
+                                label.text-sm(for="weight") Tinggi Badan (Cm)
+                                input#height.w-full(type="text", name="height"  )
+                        .flex.flex-col
+                            label.text-sm(for="weight") Umur (Kg)
+                            input#age(type="text", name="age", class="w-full" )
+                        button#btnSubmit.px-4.py-2.bg-sky-400.rounded.font-bold.text-white.w-full.uppercase(class="hover:bg-sky-300") tambah
+    //- chart
+    mixin chart(title, id, bg, text, border)
+        div(class=`w- h-full md:flex-1 shadow-md ${bg} ${text} rounded-md`)
+            div(class=`p-4 border-b ${border} flex justify-between items-center`)
+                div
+                    p.font-bold= title
+            canvas(id= `${id}Chart`)
+    div(class="xl:w-full xl:pl-[26rem] ")
+        div(class="max-w-[22rem] sm:max-w-[35rem] md:max-w-[45rem] xl:max-w-[70rem] mx-auto flex flex-col gap-4 p-8 bg-white")
+            div.flex.flex-col.gap-4(class="lg:flex-row")
+                div.flex-1.rounded-md
+                    +chart("Berat/Tingi (Kg/Cm)", "hw", "bg-green-50", "text-green-500", "border-green-600")
+                div(class="w-[18rem] md:w-full flex-1 overflow-x-auto")
+                    div.w-max.px-2.border(class='md:w-full md:px-0 rounded-md ')
+                        div#head.border-y.flex.items-center.justify-between.h-14.px-4.text-start
+                            div(class='w-[3rem] md:w-1/12') id
+                            div(class='w-[5rem] md:w-2/12') berat
+                            div(class='w-[5rem] md:w-2/12') tinggi
+                            div(class='w-[5rem] md:w-2/12') umur
+                        div#body.px-4.space-y-4.overflow-auto(class='h-[20rem]')
+                            div.flex.border-t.items-center.justify-between
+                                div(class='w-[3rem] md:w-1/12') 1
+                                div(class='w-[5rem] md:w-2/12') 4
+                                div(class='w-[5rem] md:w-2/12') 5
+                                div(class='w-[5rem] md:w-2/12') 5
+            .flex.gap-4.flex-wrap
+                +chart("Berat (Kg)", "w", "bg-sky-50", "text-sky-500", "border-sky-600")
+                +chart("Tinggi (Cm)", "h", "bg-pink-50", "text-pink-500", "border-pink-600")
+script(src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js") 
+script(src="/assets/js/simulation.js")
+script(src="/assets/js/event.js") 

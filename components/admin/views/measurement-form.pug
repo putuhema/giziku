@@ -1,0 +1,47 @@
+include ./includes/head.pug
+body
+    include ./includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ./includes/nav.pug
+            main.w-full.h-full.mt-10
+                a.flex.gap-2.mt-2.ml-2.group.mb-10.items-center(href=`/admin/detail?id=${user.id}`)
+                    svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' class="transform group-hover:-translate-x-1 transition" fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                        path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
+                    span Kembali
+                // form
+                div.flex.max-w-2xl.mx-auto.gap-8
+                    div.grid.place-items-top(class='w-3/6')
+                        div.rounded.h-max.text-blue-500.border-sky-600.bg-sky-50.shadow.relative.mx-auto.p-2.pl-6.overflow-hidden(class="w-full before:inset-0 before:content-[''] before:w-2 before:h-full before:absolute before:bg-blue-200")
+                            p.font-bold.text-md Catatan
+                                ol.pl-2#note-ul.list-decimal
+                                    if edit 
+                                        each note in notes 
+                                            if !note.state
+                                                li.listItem.cursor-pointer= note.text
+                    div.mb-10(class='w-4/6')
+                        form(action=`${edit ? '/admin/edit-measurement' : '/admin/add-measurement'}` method="post")
+                            input#noteResult(type="hidden", name="notes")
+                            input(type="hidden", name="id" value=`${user.id}`)
+                            input(type="hidden", name="measurementId" value=`${edit && measurement.id}`)
+                            .flex.flex-row.gap-4.w-full
+                                .flex.flex-col.flex-1
+                                    label(for='weight') Berat (Kg)
+                                    input#weight(type='text' name='weight' step="0.01" value=`${edit ? measurement.weight : '' }`)
+                                .flex.flex-col.flex-1
+                                    label(for='heigt') Tinggi (Kg)
+                                    input#height(type='text' name='height' step="0.01" value=`${edit ? measurement.height : ''}`)
+                            .flex.flex-row.gap-4.w-full.mt-4
+                                .flex.flex-col.flex-1
+                                    label(for='heigt') Tanggal Pengukuran
+                                    input#height(type='date' name='date' value=`${edit ? measurement.date : ''}` )
+                            .flex.flex-row.w-full.gap-4.mt-4
+                                .flex.flex-col(class='w-4/5')
+                                    label(for='note') Catatan
+                                    textarea#note.resize-none(name='note' cols='30' rows='3')
+                                #notes-btn.cursor-pointer.px-4.py-2.h-max.rounded.border.border-sky-400.mt-6.grid.place-items-center(class='w-1/5')
+                                    svg.h-5.w-5.text-sky-400(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                        path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4')
+                            button.w-full.px-4.py-2.text-center.bg-sky-400.mt-8.rounded.font-bold.text-white(class="hover:bg-sky-300")
+                                | Simpan
+script(src='/assets/js/event.js')
