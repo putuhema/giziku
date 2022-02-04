@@ -1,11 +1,11 @@
 [
-  "IF tinggi NORMAL and gizi NORMAL then status_stunting NORMAL",
-  "IF tinggi NORMAL and gizi BERESIKO BURUK then status_stunting NORMAL",
-  "IF tinggi NORMAL and gizi BURUK then status_stunting NORMAL",
-  "IF tinggi PENDEK and gizi NORMAL then status_stunting BERESIKO STUNTING",
-  "IF tinggi PENDEK and gizi BERESIKO BURUK then status_stunting BERESIKO STUNTING ",
-  "IF tinggi PENDEK  and gizi BURUK then status_stunting BERESIKO STUNTING ",
-  "IF tinggi SANGAT PENDEK and gizi NORMAL then status_stunting BERESIKO STUNTING",
-  "IF tinggi SANGAT PENDEK and gizi BERESIKO BURUK then status_stunting STUNTING ",
-  "IF tinggi SANGAT PENDEK  and gizi BURUK then status_stunting STUNTING "
+  "IF T Level1 and G Level1 then SS NORMAL",
+  "IF T Level1 and G Level1 then SS NORMAL",
+  "IF T Level1 and G Level1 then SS NORMAL",
+  "IF T Level2 and G Level2 then SS BERESIKO STUNTING",
+  "IF T Level2 and G Level2 then SS BERESIKO STUNTING ",
+  "IF T Level2 and G Level2 then SS BERESIKO STUNTING ",
+  "IF T Level3 and G Level3 then SS BERESIKO STUNTING",
+  "IF T Level3 and G Level3 then SS STUNTING ",
+  "IF T Level3 and G Level3 then SS STUNTING "
 ]

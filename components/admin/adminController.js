@@ -1,9 +1,11 @@
 // @ts-nocheck
-const sequelize = require('sequelize');
+const moment = require('moment');
+const { validationResult } = require('express-validator');
+const { hash } = require('bcrypt');
 const { User, Note, Measurement, Fuzzy: FuzzyModel } = require('../users');
-const rules = require('../../data/rules.json');
+const Admin = require('./admin');
+const { rules, antropometri } = require('../../data');
 const {
-  selectedMonth,
   selectedOption,
   getMeasurementInfo,
   zScore,
@@ -18,15 +20,15 @@ let MEASUREMENT_API = {};
 
 exports.getIndex = async (req, res) => {
   try {
-    const users = await User.findAll({
-      where: { role: { [sequelize.Op.not]: 'admin' } },
-    });
-    const activeUser = await User.findOne({
+    const users = await User.findAll();
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
+    moment.locale('id');
     res.render('admin/views/index', {
       users,
       activeUser,
+      moment,
       title: 'Home',
       ssColor,
     });
@@ -37,12 +39,14 @@ exports.getIndex = async (req, res) => {
 
 exports.getAddUser = async (req, res) => {
   try {
-    const activeUser = await User.findOne({
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
     res.render('admin/views/user-form', {
       activeUser,
       edit: false,
+      error: undefined,
+      oldValue: {},
       user: {},
       fn: () => {},
       title: 'Tambah Kader',
@@ -54,7 +58,34 @@ exports.getAddUser = async (req, res) => {
 
 exports.postAddUser = async (req, res) => {
   try {
-    const { nik, mothername, toddlername, address, gender, placeOfBirth, dateOfBirth } = req.body;
+    const { nik, mothername, toddlername, address, gender, dateOfBirth } = req.body;
+    const hashPassword = await hash(nik, 10);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      console.log(error);
+      const activeUser = await Admin.findOne({
+        where: { id: req.session.userId },
+      });
+      return res.render('admin/views/user-form', {
+        activeUser,
+        edit: false,
+        error,
+        user: {},
+        oldValue: {
+          nik,
+          mothername,
+          toddlername,
+          address,
+          gender,
+          dateOfBirth,
+        },
+        fn: () => {},
+        title: 'Tambah Kader',
+      });
+    }
+
     await User.create({
       nik,
       mothername,
@@ -63,9 +94,8 @@ exports.postAddUser = async (req, res) => {
       gender,
       status: '-',
       imgSeed: toddlername,
-      placeOfBirth,
       dateOfBirth,
-      password: nik,
+      password: hashPassword,
       role: 'kader',
     });
     res.redirect('/admin/');
@@ -78,6 +108,16 @@ exports.postDeleteUser = async (req, res) => {
   const { id } = req.body;
   try {
     await Measurement.destroy({
+      where: {
+        userId: id,
+      },
+    });
+    await Note.destroy({
+      where: {
+        userId: id,
+      },
+    });
+    await FuzzyModel.destroy({
       where: {
         userId: id,
       },
@@ -97,7 +137,7 @@ exports.postDeleteUser = async (req, res) => {
 exports.getEditUser = async (req, res) => {
   const { id, edit } = req.query;
   try {
-    const activeUser = await User.findOne({
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
     const user = await User.findOne({
@@ -146,6 +186,94 @@ exports.postEditUser = async (req, res) => {
   }
 };
 
+exports.getAdminForm = async (req, res) => {
+  try {
+    const { userId } = req.session;
+    const activeUser = await Admin.findOne({ where: { id: userId } });
+    res.render('admin/views/admin-form', {
+      activeUser,
+      oldValue: {},
+      error: undefined,
+      edit: false,
+      title: 'Tambah Admin',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postAddAdmin = async (req, res) => {
+  try {
+    const { username, name, password } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      const { userId } = req.session;
+      const activeUser = await Admin.findOne({ where: { id: userId } });
+      return res.render('admin/views/admin-form', {
+        activeUser,
+        error,
+        oldValue: { username, name, password },
+        edit: false,
+        title: 'Tambah Admin',
+      });
+    }
+    const hashPassword = await hash(password, 10);
+    await Admin.create({
+      username,
+      name,
+      password: hashPassword,
+      imgSeed: username,
+      role: 'admin',
+    });
+
+    res.redirect('/admin/add-admin');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getEditAdmin = async (req, res) => {
+  try {
+    const { userId } = req.session;
+    const activeUser = await Admin.findOne({ where: { id: userId } });
+    res.render('admin/views/admin-form', {
+      activeUser,
+      edit: true,
+      title: 'Edit Profile',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postEditAdmin = async (req, res) => {
+  try {
+    const { username, admin, oldPassword, password } = req.body;
+    let hashPassword = '';
+    if (password) {
+      hashPassword = await hash(password, 10);
+    } else {
+      hashPassword = oldPassword;
+    }
+
+    await Admin.update(
+      {
+        username,
+        admin,
+        password: hashPassword,
+      },
+      {
+        where: { id: req.session.userId },
+      }
+    );
+
+    res.redirect('/admin/edit-admin');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.getAddMeasurement = async (req, res) => {
   try {
     const { id } = req.query;
@@ -154,12 +282,14 @@ exports.getAddMeasurement = async (req, res) => {
         id,
       },
     });
-    const activeUser = await User.findOne({
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
     res.render('admin/views/measurement-form', {
       activeUser,
       user,
+      oldValue: {},
+      error: undefined,
       measurement: {},
       edit: false,
       fn: () => {},
@@ -173,13 +303,50 @@ exports.getAddMeasurement = async (req, res) => {
 exports.postAddMeasurement = async (req, res) => {
   try {
     const { id, weight, height, date, notes: noteResult } = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      const user = await User.findOne({
+        where: {
+          id,
+        },
+      });
+      const activeUser = await Admin.findOne({
+        where: { id: req.session.userId },
+      });
+      return res.render('admin/views/measurement-form', {
+        activeUser,
+        user,
+        error,
+        oldValue: { weight, height, date },
+        measurement: {},
+        edit: false,
+        fn: () => {},
+        title: 'Tambah Pengukuran',
+      });
+    }
+
     const notes = noteResult.split(';').filter(note => note.length !== 0);
+    const floorHeight = +height - Math.floor(+height);
+    let calcHeight = 0;
+
+    if (floorHeight === 0) {
+      calcHeight = +height;
+    } else if (floorHeight <= 0.5) {
+      calcHeight = Math.floor(+height) + 0.5;
+    } else if (floorHeight > 0.5) {
+      calcHeight = Math.ceil(+height);
+    }
 
     const user = await User.findOne({ where: { id } });
-    const months = +user.dateOfBirth.split('-')[1];
-    const measurementMonth = +date.split('-')[1];
 
-    const age = measurementMonth - months;
+    const currentDate = new Date(date);
+    const userDate = new Date(user.dateOfBirth);
+    const dif = new Date(currentDate.getTime() - userDate.getTime());
+    const age = (dif.getUTCFullYear() - 1970) * 12 + dif.getUTCMonth();
+    console.log(age);
     let gender = '';
     if (user.gender === 'Laki - Laki') {
       gender = 'L';
@@ -189,9 +356,8 @@ exports.postAddMeasurement = async (req, res) => {
 
     const wZScore = zScore(age, +weight, 'BBU', gender);
     const hZScore = zScore(age, +height, 'PBU', gender);
-    const whZScore = zScoreAge(+height, +weight, 'BBPB', gender, age);
-
-    await Measurement.create({
+    const whZScore = zScoreAge(calcHeight, +weight, 'BBPB', gender, age);
+    const measurement = await Measurement.create({
       weight,
       height,
       age,
@@ -223,20 +389,16 @@ exports.getEditMeasurement = async (req, res) => {
 
     const measurement = await Measurement.findOne({
       where: {
-        userId: id,
+        id,
       },
     });
-
-    console.log(id, measurement);
-
     const notes = await Note.findAll({ where: { measurementId: id } });
-
     const user = await User.findOne({
       where: {
         id: measurement.get('userId'),
       },
     });
-    const activeUser = await User.findOne({
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
     res.render('admin/views/measurement-form', {
@@ -245,7 +407,6 @@ exports.getEditMeasurement = async (req, res) => {
       notes,
       measurement,
       user,
-      fn: selectedMonth,
       title: 'Edit Pengukuran',
     });
   } catch (err) {
@@ -257,10 +418,10 @@ exports.postEditMeasurement = async (req, res) => {
   try {
     const { measurementId, id: userId, weight, height, date } = req.body;
     const user = await User.findOne({ where: { id: userId } });
-    const months = +user.dateOfBirth.split('-')[1];
-    const measurementMonth = +date.split('-')[1];
-    const age = measurementMonth - months;
+    const [year, month] = user.dateOfBirth.split('-');
+    const [measurementYear, measurementMonth] = date.split('-');
 
+    const age = (measurementYear - year) * 12 + (measurementMonth - month);
     let gender = '';
     if (user.gender === 'Laki - Laki') {
       gender = 'L';
@@ -290,7 +451,7 @@ exports.postEditMeasurement = async (req, res) => {
       }
     );
 
-    res.redirect(`/admin/edit-measurement?id=${userId}`);
+    res.redirect(`/admin/add-measurement?id=${userId}`);
   } catch (err) {
     console.log(err);
   }
@@ -325,18 +486,18 @@ exports.getFuzzy = async (req, res) => {
   try {
     const { id } = req.query;
     const { userId } = req.session;
-    const activeUser = await User.findOne({ where: { id: userId } });
+    const activeUser = await Admin.findOne({ where: { id: userId } });
     const measurements = await Measurement.findAll({ where: { userId: id } });
     const { height, nutrition, defuzzification } = generateFuzzy(measurements);
     const status = stuntingStatus(defuzzification);
     res.render('admin/views/fuzzy', {
       id,
-      rules,
       activeUser,
-      height: { ...height, fuzzy: JSON.stringify(height.fuzzy) },
-      nutrition: { ...nutrition, fuzzy: JSON.stringify(nutrition.fuzzy) },
       defuzzification,
       status,
+      height: { ...height, fuzzy: JSON.stringify(height.fuzzy) },
+      nutrition: { ...nutrition, fuzzy: JSON.stringify(nutrition.fuzzy) },
+      rules,
       title: 'Fuzzy',
     });
   } catch (err) {
@@ -347,11 +508,11 @@ exports.getFuzzy = async (req, res) => {
 exports.getDetail = async (req, res) => {
   try {
     const { id } = req.query;
-
+    moment.locale('id');
     const user = await User.findOne({ where: { id } });
     const measurements = await Measurement.findAll({ where: { userId: id } });
     const notes = await Note.findAll({ where: { userId: id } });
-    const activeUser = await User.findOne({ where: { id: req.session.userId } });
+    const activeUser = await Admin.findOne({ where: { id: req.session.userId } });
     const { stuntingStatus: ss } = user.get();
     const status = ssColor(ss);
 
@@ -396,6 +557,7 @@ exports.getDetail = async (req, res) => {
       activeUser,
       user,
       measurements,
+      moment,
       notes,
       title: 'Detail',
       value: status.value,
@@ -408,7 +570,7 @@ exports.getDetail = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
-    const activeUser = await User.findOne({
+    const activeUser = await Admin.findOne({
       where: { id: req.session.userId },
     });
     res.render('admin/admin-profile', {
@@ -428,23 +590,116 @@ exports.getWeightApi = (_req, res) => {
   }
 };
 
-exports.postUpdateSetting = async (req, res) => {
+exports.getAntropometriIndex = async (req, res) => {
   try {
-    const { userId } = req.session;
-    const { nik, password, mothername, childname, address, imgsrc } = req.body;
+    const { index, gender } = req.params;
+    const { antropometri: antro } = antropometri;
+    const activeUser = await Admin.findOne({ where: { id: req.session.userId } });
+    let currentAntro = {};
+    let title = '';
+    let indexTitle = '';
+    let tableTitle1 = '';
+    let tableTitle2 = '';
+    let NSCategory = [];
+    switch (index) {
+      case 'bbu': {
+        currentAntro = antro.bbu;
+        title = 'bbu';
+        indexTitle = 'Berat Badan menurut Umur (BB/U)';
+        tableTitle1 = 'Umur (Bulan)';
+        tableTitle2 = 'Berat Badan (Kg)';
+        NSCategory = [
+          { title: 'Berat Badan Sangat Kurang', value: '< -3 SD' },
+          { title: 'Berat Badan Kurang', value: '-3 SD sd < -2 SD' },
+          { title: 'Berat Badan Normal', value: '-2 SD sd +1 SD' },
+          { title: 'Resiko Berat Badan Lebih', value: '> +1 SD' },
+        ];
+        break;
+      }
+      case 'pbu': {
+        currentAntro = antro.pbu;
+        title = 'pbu';
+        indexTitle = 'Panjang Badan / Tinggi Badan Menurut Umur (PB/U/TB/U)';
+        tableTitle1 = 'Umur (Bulan)';
+        tableTitle2 = 'Tinggi Badan (Cm)';
+        NSCategory = [
+          { title: 'Sangat Pendek', value: '< -3 SD' },
+          { title: 'Pendek', value: '-3 SD sd < -2 SD' },
+          { title: 'Normal', value: '-2 SD sd +3 SD' },
+          { title: 'Tinggi', value: '> +3 SD' },
+        ];
+        break;
+      }
+      case 'bbpb': {
+        currentAntro = antro.bbpb;
+        title = 'bbpb';
+        indexTitle = 'Berat Badan menurut Panjang Badan (BB/PB)';
+        tableTitle1 = 'Panjang Badan (Cm)';
+        tableTitle2 = 'Berat Badan (Kg)';
+        NSCategory = [
+          { title: 'Gizi Buruk', value: '< -3 SD' },
+          { title: 'Gizi Kurang', value: '-3 SD sd < -2 SD' },
+          { title: 'Gizi Baik', value: '-2 SD sd +1 SD' },
+          { title: 'Beresiko Gizi Lebih', value: '> +1 SD sd +2 SD' },
+          { title: 'Gizi Lebih', value: '>+2 SD sd +3 SD' },
+          { title: 'Obesitas', value: '> +3 SD' },
+        ];
+        break;
+      }
+      case 'bbtb': {
+        currentAntro = antro.bbtb;
+        title = 'bbtb';
+        indexTitle = 'Berat Badan menurut Tinggi Badan (BB/TB)';
+        tableTitle1 = 'Tinggi Badan (Cm)';
+        tableTitle2 = 'Berat Badan (Kg)';
+        NSCategory = [
+          { title: 'Gizi Buruk', value: '< -3 SD' },
+          { title: 'Gizi Kurang', value: '-3 SD sd < -2 SD' },
+          { title: 'Gizi Baik', value: '-2 SD sd +1 SD' },
+          { title: 'Beresiko Gizi Lebih', value: '> +1 SD sd +2 SD' },
+          { title: 'Gizi Lebih', value: '>+2 SD sd +3 SD' },
+          { title: 'Obesitas', value: '> +3 SD' },
+        ];
+        break;
+      }
+      default: {
+        currentAntro = antro.bbu;
+      }
+    }
+    let currentGender = '';
+    if (gender === 'L') {
+      currentAntro = currentAntro.L;
+      currentGender = 'Laki - Laki';
+    } else if (gender === 'P') {
+      currentAntro = currentAntro.P;
+      currentGender = 'Perempuan';
+    }
 
-    const value = {
-      nik,
-      password,
-      mothername,
-      childname,
-      address,
-      imgsrc,
-    };
+    res.render('admin/views/table', {
+      activeUser,
+      index,
+      title,
+      indexTitle,
+      tableTitle1,
+      tableTitle2,
+      NSCategory,
+      gender: currentGender,
+      antro: currentAntro,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    await User.update(value, { where: { id: userId } });
+exports.getFuzzyDetails = async (req, res) => {
+  try {
+    const activeUser = await Admin.findOne({ where: { id: req.session.userId } });
 
-    res.redirect('/admin/profile');
+    res.render('admin/views/fuzzyTsukamoto', {
+      activeUser,
+      rules,
+      title: 'Fuzzy Inference System',
+    });
   } catch (err) {
     console.log(err);
   }

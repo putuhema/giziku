@@ -1,0 +1,62 @@
+include ./includes/head.pug
+body
+    include ./includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ./includes/nav.pug
+            main.w-full.h-full.mt-10
+                .w-full.h-max.bg-white.rounded-md.shadow
+                    .flex.justify-between.items-center.p-2.mx-2(class=' md:mx-4')
+                        .flex.flex-col
+                            p.text-sm.font-bold.border-b(class='md:text-base')= indexTitle
+                            div.flex.mt-4.items-center
+                                p.text-sm.hidden.text-gray-700(class='md:block md:text-base max-w-[20rem]')
+                                | Anak 
+                                .group.relative.flex.justify-between.border.w-max.mx-4.px-2.items-center
+                                    p.mr-4= gender
+                                    svg(xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:transform group-hover:rotate-180 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                                        path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7")
+                                    div(class='hidden group-hover:block absolute top-6 pt-2 border left-0 bg-white w-full')
+                                        ul 
+                                            li(class="hover:bg-gray-100 p-2")
+                                                a(href=`/admin/antro/${index}/L`) Laki - Laki 
+                                            li(class="hover:bg-gray-100 p-2")
+                                                a(href=`/admin/antro/${index}/P`) Perempuan 
+                                p.text-sm.hidden.text-gray-700(class='md:block md:text-base max-w-[20rem]')
+                                | Umur 0 - 60 Bulan
+                    div(class='flex flex-col lg:flex-row').mt-4.gap-4.py-8.px-2
+                        div.flex.flex-col
+                            div
+                                #head.bg-gray-200.border.flex.font-bold.text-center
+                                    div.w-40.p-2.flex-1 Kategori Status Gizi
+                                    div.w-40.p-2.flex-1 Ambang Batas #[br] (Z-Score)
+                                each category in NSCategory
+                                    #body.flex.px-4.py-2
+                                        div.w-40.break-words.flex-1= category.title
+                                        div.w-40.text-center.flex-1= category.value
+                        #table-container.border.overflow-x-auto(class=" max-h-screen")
+                            table
+                                thead
+                                    tr.bg-white-100.text-center
+                                        th.w-28.border-r(rowspan='2')= tableTitle1
+                                        th(colspan='7')= tableTitle2
+                                    tr.bg-white-100.text-center
+                                        th.w-20 -3 SD
+                                        th.w-20 -2 SD 
+                                        th.w-20 -1 SD 
+                                        th.w-20 Median 
+                                        th.w-20 +1 SD 
+                                        th.w-20 +2 SD 
+                                        th.w-20 +3SD
+                                tbody
+                                    each a in antro
+                                        tr(class="even:bg-gray-100 text-center")
+                                            td.text-center= `${a.value}`
+                                            td.bg-red-300= `${a.min3sd}`
+                                            td.bg-red-200= `${a.min2sd}`
+                                            td.bg-yellow-200= `${a.min1sd}`
+                                            td.bg-green-100= `${a.median}`
+                                            td.bg-yellow-200= `${a.plus1sd}`
+                                            td.bg-red-200= `${a.plus2sd}`
+                                            td.bg-red-300= `${a.plus3sd}`
+script(src='/assets/js/event.js')

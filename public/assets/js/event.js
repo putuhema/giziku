@@ -7,7 +7,7 @@ const profileMenu = document.getElementById('profileMenu');
 const submenuProfile = document.getElementById('submenuProfile');
 const navToggle = document.querySelector('.dropdown');
 const navDropdown = document.querySelector('.nav__dropdown');
-// note stuff
+
 const notesInput = document.getElementById('note');
 const notesButton = document.getElementById('notes-btn');
 const noteUl = document.getElementById('note-ul');
@@ -18,7 +18,7 @@ const menu = document.querySelector('.account__menu');
 const dropdown = document.querySelector('.dropdown');
 const noteNodes = document.querySelectorAll('.state');
 const noteText = document.querySelectorAll('.note-text');
-const notesBtn = document.querySelector('.notes__btn');
+const notesBtn = document.getElementById('notes-save-btn');
 const avatar = document.getElementById('avatar');
 const menuNav = document.getElementById('menu');
 
@@ -98,8 +98,9 @@ if (dropdown) {
 if (noteNodes) {
   noteNodes.forEach((note, i) => {
     note.addEventListener('click', () => {
-      noteText[i].classList.toggle('done');
-      notesBtn.classList.add('notes__btn-show');
+      console.log(note.value);
+      noteText[i].classList.toggle('line-through');
+      notesBtn.classList.remove('hidden');
     });
   });
 }

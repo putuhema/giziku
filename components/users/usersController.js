@@ -1,3 +1,6 @@
+const { hash } = require('bcrypt');
+const moment = require('moment');
+
 const User = require('./user');
 const Note = require('./userNote');
 const Measurement = require('./userMeasurement');
@@ -16,7 +19,7 @@ exports.getIndex = async (req, res) => {
     const user = await User.findOne({ where: { id: userId } });
     const measurementDESC = await Measurement.findAll({
       where: { userId },
-      order: [['createdAt', 'DESC']],
+      order: [['createdAt', 'ASC']],
     });
     const measurements = await Measurement.findAll({ where: { userId } });
     const notes = await Note.findAll({ where: { state: false } });
@@ -28,14 +31,15 @@ exports.getIndex = async (req, res) => {
       gender = 'P';
     }
     MEASUREMENT_API = await getMeasurementInfo(measurements, user.dateOfBirth, gender);
-
+    moment.locale('id');
     res.render('users/views/index', {
       user,
       notes,
-      title: 'Home',
-      measurement: measurementDESC[0] || [],
-      measurements: measurementDESC,
       ssColor,
+      moment,
+      title: 'Home',
+      measurement: measurementDESC[measurementDESC.length - 1] || [],
+      measurements: measurementDESC,
     });
   } catch (err) {
     console.log(err);
@@ -64,11 +68,26 @@ exports.getUserSetting = async (req, res) => {
 };
 
 exports.getSimulation = async (req, res) => {
-  const { id } = req.query;
+  const { id, g } = req.query;
   const user = await User.findOne({ where: { id } });
+  let gender = '';
+  switch (g) {
+    case 'Laki - Laki': {
+      gender = 'L';
+      break;
+    }
+    case 'Perempuan': {
+      gender = 'P';
+      break;
+    }
+    default: {
+      gender = '';
+    }
+  }
   try {
     res.render('users/views/simulation', {
       user,
+      gender,
       title: 'simulasi',
     });
   } catch (err) {
@@ -78,11 +97,10 @@ exports.getSimulation = async (req, res) => {
 
 exports.postNoteState = async (req, res) => {
   try {
-    const { memberId } = req.session;
-    const states = req.body.state;
+    const { state } = req.body;
 
-    if (typeof states === 'object') {
-      states.forEach(async id => {
+    if (typeof state === 'object') {
+      state.forEach(async id => {
         await Note.update(
           {
             state: true,
@@ -101,13 +119,13 @@ exports.postNoteState = async (req, res) => {
         },
         {
           where: {
-            id: +states,
+            id: +state,
           },
         }
       );
     }
 
-    res.redirect(`/home?id=${memberId}`);
+    res.redirect(`/home`);
   } catch (err) {
     console.log(err);
   }
@@ -115,14 +133,19 @@ exports.postNoteState = async (req, res) => {
 
 exports.postUserSetting = async (req, res) => {
   try {
-    const { id, mothername, childname, nik, password, imgsrc } = req.body;
-
+    const { id, mothername, childname, nik, password, oldPassword, imgsrc } = req.body;
+    let hashPassword = '';
+    if (password) {
+      hashPassword = await hash(password.toString().trim(), 10);
+    } else {
+      hashPassword = oldPassword;
+    }
     await User.update(
       {
         nik,
         mothername,
         childname,
-        password: password.toString().trim(),
+        password: hashPassword,
         imgsrc,
       },
       {

@@ -44,11 +44,12 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                                         option(value="Perempuan" ) Perempuan
                             .flex.flex-col.flex-1 
                                 label(for="dateOfBirth") Tanggal Lahir 
-                                input#dateOfBirth(type="date", name="dateOfBirth" value= user.date)
+                                input#dateOfBirth(type="date", name="dateOfBirth" value= user.dateOfBirth)
                         .flex.gap-4.w-full 
                         .flex.flex-col.w-full 
                             label(for="password") Password
-                            input#password(type="password", name="password" value= user.password)
+                            input(type="hidden", name="odlPassword" value= user.password)
+                            input#password(type="password", name="password")
                         button.px-4.py-1.w-full.text-white.font-bold.bg-sky-400.rounded(class="hover:bg-sky-300")
                             | Simpan
 script(src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js") 

@@ -7,18 +7,17 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
         //- img section
         section.flex.gap-4.flex-col(class="md:flex-row xl:flex-col mt-10 xl:mt-28")
             div(class="shadow rounded h-max flex-1 text-center pb-4 relative  ")
-                a(class="absolute top-2 right-0 mt-2 mr-2 px-3 py-1 bg-sky-300 text-white rounded sm:px-4 sm:py-2" href=`/simulation?id=${user.id}`)
+                a(class="absolute top-2 right-0 mt-2 mr-2 px-3 py-1 bg-sky-300 text-white rounded sm:px-4 sm:py-2" href=`/simulation?id=${user.id}&g=${user.gender}`)
                     svg(xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor")
                         path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z")
                 img.mt-12.w-32.h-32.rounded-full.mx-auto.mt-4.border-2.border-sky-400(class="md:w-24 md:h-24 xl:w-32 xl:h-32" src=`https://avatars.dicebear.com/api/big-smile/${user.toddlername}.svg`, alt="profile picture")
                 p.mt-4.text-gray-500= user.nik
                 h1.font-bold.text-xl= user.toddlername
-                h1.font-bold= user.nutritionalStatus 
+                h1.font-bold.mt-2= user.nutritionalStatus 
                     - const {value, color} = ssColor(user.stuntingStatus)
                     span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-1  ${color.bg}`)= value
                 p.pt-2
-                    span.font-bold= user.placeOfBirth
-                    = `, ${user.dateOfBirth}`
+                    span= `${moment(user.dateOfBirth).format('LL')}`
             div.flex.flex-col.p-2.gap-2.flex-1
                 div.flex.gap-3.justify-between.h-max
                     mixin info(title, value, container, titlecolor, valuecolor)
@@ -35,17 +34,18 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                         svg(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor")
                             path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01")
                     ul(class="px-4 py-2 divide-y max-h-32 overflow-y-auto divide-sky-200 text-sky-600")
-                        mixin list(text)
-                            li.py-2.flex.justify-between.items-center
-                                span(class="max-w-[13rem] sm:max-w-full")= text
+                    form(action="/notes-state" method='post') 
+                        mixin list(text, id)
+                            li.py-2.px-4.flex.justify-between.items-center
+                                span.note-text(class="max-w-[13rem] sm:max-w-full ")= text
                                 unless notes.length === 0
-                                    input.ml-2.border(type="checkbox", name="isDone")
+                                    input.state.ml-2.border(type="checkbox", name="state" value= id)
                         if notes.length === 0
                             +list('tidak ada catatan')
                         else
                             each note in notes 
-                                +list(note.text)
-                    button.hidden.px-4.py-2.bg-sky-100.text-sky-600.absolute.right-0.-bottom-12.rounded.font-bold(class="hover:bg-sky-200") Simpan
+                                +list(note.text, note.id)
+                        button#notes-save-btn.hidden.px-4.py-2.bg-sky-100.text-sky-600.absolute.right-0.-bottom-12.rounded.font-bold(class="hover:bg-sky-200") Simpan
     //- chart
     div(class="xl:w-full xl:pl-[26rem] ")
         div(class="max-w-[22rem] sm:max-w-[35rem] md:max-w-[45rem] xl:max-w-[70rem] mx-auto flex flex-col gap-4 p-8 bg-white")

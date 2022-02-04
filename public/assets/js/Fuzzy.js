@@ -4,50 +4,50 @@ class Fuzzy {
   }
 
   fuzzificationNutrition(percentage) {
-    let level1 = 0;
-    let level2 = 0;
-    let level3 = 0;
+    let normal = 0;
+    let roWasted = 0;
+    let wasted = 0;
 
     if (percentage <= 35) {
-      level1 = 1;
+      normal = 1;
     } else if (percentage >= 35 && percentage <= 45) {
-      level1 = (45 - percentage) / 10;
-      level2 = (percentage - 35) / 10;
+      normal = (45 - percentage) / 10;
+      roWasted = (percentage - 35) / 10;
     } else if (percentage >= 45 && percentage <= 55) {
-      level2 = (55 - percentage) / 10;
-      level3 = (percentage - 45) / 10;
+      roWasted = (55 - percentage) / 10;
+      wasted = (percentage - 45) / 10;
     } else if (percentage >= 55) {
-      level3 = 1;
+      wasted = 1;
     }
 
     return {
-      level1,
-      level2,
-      level3,
+      gn: normal,
+      bgb: roWasted,
+      gb: wasted,
     };
   }
 
   fuzzificationHeight(percentage) {
-    let level1 = 0;
-    let level2 = 0;
-    let level3 = 0;
+    let normal = 0;
+    let roStunted = 0;
+    let stunted = 0;
 
     if (percentage <= 35) {
-      level1 = 1;
+      normal = 1;
     } else if (percentage >= 35 && percentage <= 45) {
-      level1 = (45 - percentage) / 10;
-      level2 = (percentage - 35) / 10;
+      normal = (45 - percentage) / 10;
+      roStunted = (percentage - 35) / 10;
     } else if (percentage >= 45 && percentage <= 55) {
-      level2 = (55 - percentage) / 10;
-      level3 = (percentage - 45) / 10;
+      roStunted = (55 - percentage) / 10;
+      stunted = (percentage - 45) / 10;
     } else if (percentage >= 55) {
-      level3 = 1;
+      stunted = 1;
     }
 
     return {
-      level1,
-      level2,
-      level3,
+      n: normal,
+      bs: roStunted,
+      s: stunted,
     };
   }
 
@@ -78,19 +78,18 @@ class Fuzzy {
   }
 
   defuzzification(heightPercentage, nutritionPercentage) {
-    const height = this.fuzzificationHeight(heightPercentage);
-    const nutrition = this.fuzzificationNutrition(nutritionPercentage);
+    const { n, bs, s } = this.fuzzificationHeight(heightPercentage);
+    const { gn, bgb, gb } = this.fuzzificationNutrition(nutritionPercentage);
 
-    this.thenNormal(height.level1, nutrition.level1);
-    this.thenNormal(height.level1, nutrition.level2);
-    this.thenNormal(height.level1, nutrition.level3);
-    this.thenRiskOfStunted(height.level2, nutrition.level1);
-    this.thenRiskOfStunted(height.level2, nutrition.level2);
-    this.thenRiskOfStunted(height.level2, nutrition.level3);
-    this.thenRiskOfStunted(height.level3, nutrition.level1);
-    this.thenStunted(height.level3, nutrition.level2);
-    this.thenStunted(height.level3, nutrition.level3);
-
+    this.thenNormal(n, gn);
+    this.thenNormal(n, bgb);
+    this.thenNormal(n, gb);
+    this.thenRiskOfStunted(bs, gn);
+    this.thenRiskOfStunted(bs, bgb);
+    this.thenRiskOfStunted(bs, gb);
+    this.thenRiskOfStunted(s, gn);
+    this.thenStunted(s, bgb);
+    this.thenStunted(s, gb);
     this.inference.forEach(e => {
       const z = this.findZvalue(e[0], e[1]);
       e[1] = z;
@@ -107,5 +106,3 @@ class Fuzzy {
     return x / y;
   }
 }
-
-module.exports = Fuzzy;

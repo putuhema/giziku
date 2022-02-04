@@ -1,17 +1,24 @@
+const { hash, compare } = require('bcrypt');
+
+const { Admin } = require('../admin');
 const { User } = require('../users');
 
 exports.getLogin = async (req, res) => {
   try {
     const { userId } = req.session;
+    const { err, n, p } = req.query;
     if (userId) {
-      const user = await User.findOne({ where: { id: userId } });
-      if (user.getDataValue('role') === 'admin') {
+      const admin = await Admin.findOne({ where: { id: userId } });
+      if (admin) {
         return res.redirect('/admin');
       }
       return res.redirect(`/home?id=${userId}`);
     }
     res.render('auth/views/login', {
       title: 'Login',
+      error: err,
+      nik: n,
+      password: p,
       data: req.cookies.nik,
     });
   } catch (err) {
@@ -23,25 +30,29 @@ exports.postLogin = async (req, res) => {
   try {
     const { nik, password } = req.body;
 
-    const user = await User.findOne({
-      where: {
-        nik,
-      },
-    });
+    const user = await User.findOne({ where: { nik } });
+    const admin = await Admin.findOne({ where: { username: nik } });
 
     if (user) {
-      if (password === user.get('password')) {
+      const result = await compare(password, user.get('password'));
+      if (result) {
         req.session.isLoggin = true;
         req.session.userId = user.get('id');
-        if (user.get('role') === 'admin') {
-          return res.redirect('/admin');
-        }
         res.redirect(`/home?id=${user.get('id')}`);
       } else {
-        res.redirect('/');
+        res.redirect(`/?err=true&n=${nik}&p=${password}`);
+      }
+    } else if (admin) {
+      const result = await compare(password, admin.get('password'));
+      if (result) {
+        req.session.isLoggin = true;
+        req.session.userId = admin.get('id');
+        res.redirect(`/admin`);
+      } else {
+        res.redirect(`/?err=true&n=${nik}&p=${password}`);
       }
     } else {
-      res.redirect('/');
+      res.redirect(`/?err=true&n=${nik}&p=${password}`);
     }
   } catch (err) {
     console.log(err);
@@ -52,7 +63,7 @@ exports.postSingup = async (req, res) => {
   try {
     const { nik, mothername, toddlername, gender, dateOfBirth, address } = req.body;
     const user = await User.findOne({ where: { nik } });
-
+    const hashPassword = await hash(nik, 10);
     if (!user) {
       await User.create({
         nik,
@@ -62,7 +73,7 @@ exports.postSingup = async (req, res) => {
         dateOfBirth,
         address,
         role: 'kader',
-        password: nik,
+        password: hashPassword,
         imgSeed: toddlername,
       });
       res.cookie('nik', nik, {

@@ -12,18 +12,18 @@ body
                                 svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' class='transform group-hover:-translate-x-1 transition' fill='none' viewbox='0 0 24 24' stroke='currentColor')
                                     path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
                                 span Kembali
-                            div(class="flex flex-col lg:flex-row p-4")
-                                div(class="w-full lg:w-2/5 grid p-4 h-max place-items-center border rounded")
+                            div(class="flex flex-col items-center lg:items-start gap-4 justify-center xl:flex-row px-4")
+                                div(class="w-full lg:w-[20rem] grid p-4 h-max place-items-center border rounded")
                                     div(class="w-[20rem] h-max pb-5 ")
                                         div(class="flex h-max flex-col items-center justify-center mt-5 ")
                                             img#modalImg(src=`https://avatars.dicebear.com/api/big-smile/${user.imgSeed}.svg` alt='' class="w-32 h-32 rounded-full border border-sky-400")
-                                            h1.mt-2.font-bold.text-2xl= user.toddlername
-                                            h2.font-bold.text-xl= user.nutritionalStatus
-                                                span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-0.5  ${color.bg}`)= value
-                                            p.font-bold= user.placeOfBirth
-                                                span.font-normal= `, ${user.dateOfBirth}`
-                                            p.mt-2= user.address
-                                div(class="w-full lg:w-3/5 ")
+                                            h1.mt-2.font-bold.text-xl= user.toddlername
+                                            if user.nutritionalStatus 
+                                                h2.font-bold.text-xl.mt-2= user.nutritionalStatus
+                                                    span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-0.5  ${color.bg}`)= value
+                                            p.font-bold= user.address
+                                                span.font-normal= `, ${moment(user.dateOfBirth).format('LL')}`
+                                div(class="w-full lg:p-4 lg:w-[50rem] ")
                                     div(class="p-2 flex items-center justify-between border rounded mb-4 mx-4")
                                         a(href=`/admin/fuzzy?id=${user.id}` class="flex gap-1 hover:text-teal-400")
                                             svg(xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor")
@@ -31,29 +31,35 @@ body
                                             | Fuzzy
                                         a(href=`/admin/add-measurement?id=${user.id}` class="bg-sky-400 hover:bg-sky-300 transform hover:-translate-y-1 transition p-1 px-2 text-white rounded") Tambah Data
                                     div.px-4.w-full.overflow-x-auto
-                                        div.w-max.px-2.border(class='md:w-full md:px-0 relative')
-                                            div#head.border-y.flex.items-center.h-14.px-4.text-center.uppercase
-                                                div(class='w-[3rem] md:w-1/12') id
-                                                div(class='w-[5rem] md:w-2/12') berat
-                                                div(class='w-[5rem] md:w-2/12') tinggi
-                                                div(class='w-[5rem] md:w-2/12') umur
-                                                div(class='w-[7rem] md:w-3/12') tanggal pengukuran
-                                                div(class='w-[10rem] md:w-4/12') catatan
-                                                div(class='w-[5rem] md:w-2/12') action
+                                        div.px-2.w-max.border(class='md:px-0 relative')
+                                            div#head.border-y.flex.items-center.h-14.px-4.text-center.uppercase(class='w-max')
+                                                div(class='w-[3rem]') NO 
+                                                div(class='w-[5rem]') umur
+                                                div(class='w-[5rem]') berat
+                                                div(class='w-[5rem]') tinggi
+                                                div(class='w-[5rem]') zScore Berat
+                                                div(class='w-[5rem]') zScore Tinggi
+                                                div(class='w-[7rem]') zScore Berat/Tinggi
+                                                div(class='w-[7rem]') tanggal pengukuran
+                                                div(class='w-[15rem]') catatan
+                                                div(class='w-[5rem]') action
                                             div#body.overflow-auto(class='h-[20rem] relative')
                                                 each measurement, index in measurements
                                                     div.px-4.py-2.flex.border-t.items-center(class="even:bg-gray-100 relative ")
-                                                        div(class='w-[3rem] md:w-1/12 text-center')= index + 1
-                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.weight
-                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.height 
-                                                        div(class='w-[5rem] md:w-2/12 text-center')= measurement.age
-                                                        div(class='w-[7em] md:w-3/12 text-center')= measurement.date 
-                                                        div(class='w-[10rem] md:w-4/12 text-center')
+                                                        div(class='w-[3rem] text-center')= index + 1
+                                                        div(class='w-[5rem] text-center')= `${measurement.age}`
+                                                        div(class='w-[5rem] text-center')= measurement.weight
+                                                        div(class='w-[5rem] text-center')= measurement.height 
+                                                        div(class='w-[5rem] text-center')= `${measurement.wZScore.toFixed(2)}`
+                                                        div(class='w-[5rem] text-center')= `${measurement.hZScore.toFixed(2)}`
+                                                        div(class='w-[7rem] text-center')= `${measurement.whZScore.toFixed(2)}`
+                                                        div(class='w-[7em] text-center')= measurement.date 
+                                                        div(class='w-[15rem] text-center px-4')
                                                             ol.list-decimal 
                                                                 each note in notes 
-                                                                    if note.nutritionId == measurement.id 
-                                                                        li= note.text
-                                                        div(class='w-[5rem] md:w-2/12 flex gap-2 text-gray-400 items-center justify-between z-0 px-4 relative')
+                                                                    if note.measurementId == measurement.id 
+                                                                        li(class=`${note.state ? 'line-through': ''}`)= note.text
+                                                        div(class='w-[5rem]  flex gap-2 text-gray-400 items-center justify-between z-0 px-4 relative')
                                                             div(class="icon group before:z-50 before:content-['edit'] before:hidden hover:before:block before:text-sky-400 before:bg-sky-100")
                                                                 a(href=`/admin/edit-measurement?id=${measurement.id}&edit=true`) 
                                                                     svg.h-5.w-5.cursor-pointer.flex-1(xmlns='http://www.w3.org/2000/svg' class='hover:text-sky-400' fill='none' viewbox='0 0 24 24' stroke='currentColor')

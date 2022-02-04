@@ -89,17 +89,17 @@ const find = (index, x) => {
 };
 
 const zScoreAge = (x, y, type, gender, age) => {
-  const BBU = antropometri.bbu;
-  const PBU = antropometri.pbu;
-  const BBPB = antropometri.bbpb;
-  const BBTB = antropometri.bbtb;
+  const { antropometri: antro } = antropometri;
+  const BBU = antro.bbu;
+  const PBU = antro.pbu;
+  const BBPB = antro.bbpb;
+  const BBTB = antro.bbtb;
 
   let median = 0;
   let plus1sd = 0;
   let min1sd = 0;
   let up = 0;
   let devider = 0;
-
   switch (type) {
     case 'BBU': {
       let B = {};
@@ -135,7 +135,6 @@ const zScoreAge = (x, y, type, gender, age) => {
         } else if (gender === 'P') {
           PB = find(BBPB.P, x);
         }
-
         min1sd = PB.min1sd;
         median = PB.median;
         plus1sd = PB.plus1sd;
@@ -146,7 +145,6 @@ const zScoreAge = (x, y, type, gender, age) => {
         } else if (gender === 'P') {
           TB = find(BBTB.P, x);
         }
-
         min1sd = TB.min1sd;
         median = TB.median;
         plus1sd = TB.plus1sd;
@@ -167,14 +165,23 @@ const zScoreAge = (x, y, type, gender, age) => {
   } else if (up < 0) {
     devider = median - min1sd;
   }
-  return up / devider;
+
+  let z = 0;
+  if (up === 0 && devider === 0) {
+    z = 0;
+  } else {
+    z = up / devider;
+  }
+
+  return z;
 };
 
 const zScore = (x, y, type, gender) => {
-  const BBU = antropometri.bbu;
-  const PBU = antropometri.pbu;
-  const BBPB = antropometri.bbpb;
-  const BBTB = antropometri.bbtb;
+  const { antropometri: antro } = antropometri;
+  const BBU = antro.bbu;
+  const PBU = antro.pbu;
+  const BBPB = antro.bbpb;
+  const BBTB = antro.bbtb;
 
   let median = 0;
   let plus1sd = 0;
@@ -190,7 +197,6 @@ const zScore = (x, y, type, gender) => {
       } else if (gender === 'P') {
         B = find(BBU.P, x);
       }
-
       min1sd = B.min1sd;
       median = B.median;
       plus1sd = B.plus1sd;
@@ -249,9 +255,19 @@ const zScore = (x, y, type, gender) => {
   } else if (up < 0) {
     devider = median - min1sd;
   }
-  return up / devider;
+  let z = 0;
+  if (up === 0 && devider === 0) {
+    z = 0;
+  } else {
+    z = up / devider;
+  }
+  return z;
 };
 
+/**
+ * Given a defuzzification value, return a string describing their stunting status.
+ * @returns stuntingStatus
+ */
 const stuntingStatus = d => {
   let status = '';
 
@@ -316,6 +332,10 @@ const ssColor = ss => {
   return status;
 };
 
+/**
+ * Given a z-score, return the corresponding nutritional status.
+ * @returns nutritionalStatus
+ */
 const nutritionalStatus = z => {
   let status = '';
 
@@ -336,6 +356,12 @@ const nutritionalStatus = z => {
   return status;
 };
 
+/**
+ * Cannot generate summary
+ * @param measurements - the list of measurements to be analyzed
+ * @param gender - the gender of the patient
+ * @returns {}
+ */
 const getMeasurementInfo = async (measurements, gender) => {
   const weight = { value: [], ZScore: [] };
   const height = { value: [], ZScore: [] };
@@ -360,6 +386,10 @@ const getMeasurementInfo = async (measurements, gender) => {
   };
 };
 
+/**
+ * Given a list of measurements, generate a fuzzy score for each measurement.
+ * @returns None
+ */
 const generateFuzzy = measurements => {
   const fuzzy = new Fuzzy();
   const heightZScores = measurements.map(m => m.hZScore);

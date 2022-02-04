@@ -16,7 +16,6 @@ const User = sequelize.define('user', {
   mothername: DataTypes.STRING,
   gender: DataTypes.STRING,
   dateOfBirth: DataTypes.STRING,
-  placeOfBirth: DataTypes.STRING,
   toddlername: DataTypes.STRING,
   address: DataTypes.STRING,
   role: DataTypes.STRING,

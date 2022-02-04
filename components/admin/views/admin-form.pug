@@ -1,0 +1,30 @@
+include ./includes/head.pug
+body
+    include ./includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ./includes/nav.pug
+            main.w-full.h-full.mt-10
+                div.w-full.bg-white.h-max.rounded-md
+                    div.mx-auto.bg-white.p-2.px-4.pb-10(class='w-[20rem] sm:w-[35rem]')
+                        a.flex.gap-2.mb-10.group.items-center(href='/')
+                            svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' class='transform group-hover:-translate-x-1 transition' fill='none' viewbox='0 0 24 24' stroke='currentColor')
+                                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
+                            span Kembali
+                        
+                        div.border-b.text-center.mb-10.text-xl.p-2= `${edit ? 'Masukkan data yang akan dirubah' : 'Masukkan data Admin'}`
+                        form.space-y-4(action=`${edit ? '/admin/edit-admin' : '/admin/add-admin'}` method='post')
+                            input(type="hidden", name="id" value=`${edit ?  activeUser.id : ''}`)
+                            div.flex.flex-col.gap-4.w-full(class='lg:flex-row')
+                                div.flex.flex-col.flex-1
+                                    label.text-sm(for='username') Username
+                                    input#username(class=`${error && error.param == 'username' ? 'border-red-400' : ''}` type='text' name='username' value=`${error ? oldValue.username : edit ? activeUser.username : ''}`)
+                                div.flex.flex-col.flex-1
+                                    label.text-sm(for='name') Nama
+                                    input#name(class=`${error && error.param == 'name' ? 'border-red-400' : ''}` type='text' name='name' value=`${error ? oldValue.name : edit ? activeUser.name : ''}`)
+                            div.flex.flex-col
+                                label.text-sm(for='password') Password 
+                                input(type="hidden", name="oldPassword" value=`${edit ? activeUser.password : ''}`)
+                                input#password(class=`${error && error.param == 'password' ? 'border-red-400' : ''}` type='password' name='password')
+                            button.w-full.p-2.px-5.rounded.font-bold.text-white(type='submit' class='bg-sky-400 hover:bg-sky-300') Submit
+script(src='/assets/js/event.js')

@@ -1,0 +1,41 @@
+include ./includes/head.pug
+body
+    include ./includes/sidebar.pug
+    div(class='lg:pl-80')
+        div.mx-auto(class='max-w-[22rem] sm:max-w-xl lg:max-w-3xl xl:max-w-6xl')
+            include ./includes/nav.pug
+            main.w-full.h-full.mt-10
+                div.w-full.h-max.mx-auto.rounded-md.shadow.bg-white.border
+                    div(class='flex flex-col lg:flex-row').rounded.w-full
+                        div.flex-1.p-4
+                            h1.font-bold VARIABEL INPUT
+                            div.group.relative.flex.justify-center
+                                p.text-center.pb-4(class='group-hover:block') Tinggi
+                                img.absolute.-right-32.-top-20.transition.hidden.border.shadow(class='group-hover:block' src="/assets/img/var1.png", alt="input variable")
+                            canvas#var1
+                        div.flex-1.p-4
+                            h1.font-bold VARIABEL INPUT
+                            div.group.relative.flex.justify-center
+                                p.text-center.pb-4(class='group-hover:block') Gizi
+                                img.absolute.-left-32.-top-20.transition.hidden.border.shadow(class='group-hover:block' src="/assets/img/var1.png", alt="input variable")
+                            canvas#var2
+                    div(class='flex flex-col lg:flex-row').p-4.flex.gap-4
+                        div.flex-1
+                            h1.font-bold RULES
+                            .flex.w-full.border.text-center.font-bold.py-4
+                                div(class="w-1/6") No 
+                                div(class="w-5/6") Rules / Aturan
+                            .overflow-y-auto.w-full.border(class=" max-h-60")
+                                each rule, i in rules 
+                                    .flex.p-1.mb-2.border-b
+                                        div(class="w-1/6 text-center")= i + 1
+                                        div(class="w-5/6")= rule
+                        div.flex-1
+                            h1.font-bold VARIABEL OUTPUT
+                            div.group.relative.flex.justify-center
+                                p.text-center.pb-4(class='group-hover:block') Diagnosa
+                                img.absolute.-left-32.-top-20.transition.hidden.border.shadow(class='group-hover:block' src="/assets/img/var2.png", alt="input variable")
+                            canvas#var3
+script(src='https://cdn.jsdelivr.net/npm/chart.js')
+script(src='/assets/js/event.js')
+script(src="/assets/js/fis.js") 

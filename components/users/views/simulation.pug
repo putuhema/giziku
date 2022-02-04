@@ -16,15 +16,19 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                     p.text-sky-400 simulasikan perkembangan balita untuk mencegah stunting dengan memasukkan berat, tinggi, dan umur.
                 form 
                     .px-4.w-full.space-y-4.mt-5
+                        .flex.gap-4.items-center
+                            h1.font-bold Status Stunting 
+                            h1#statusPlaceholder.border.p-2.rounded.hidden
                         .flex.gap-4
                             .flex.flex-col.flex-1
                                 label.text-sm(for="weight") Berat Badan (Kg)
                                 input#weight(type="text", name="weight", class="w-full" )
+                                input#gender(type="hidden", name="gender" value= gender)
                             .flex.flex-col.flex-1
                                 label.text-sm(for="weight") Tinggi Badan (Cm)
                                 input#height.w-full(type="text", name="height"  )
                         .flex.flex-col
-                            label.text-sm(for="weight") Umur (Kg)
+                            label.text-sm(for="weight") Umur (Bulan)
                             input#age(type="text", name="age", class="w-full" )
                         button#btnSubmit.px-4.py-2.bg-sky-400.rounded.font-bold.text-white.w-full.uppercase(class="hover:bg-sky-300") tambah
     //- chart
@@ -47,14 +51,10 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                             div(class='w-[5rem] md:w-2/12') tinggi
                             div(class='w-[5rem] md:w-2/12') umur
                         div#body.px-4.space-y-4.overflow-auto(class='h-[20rem]')
-                            div.flex.border-t.items-center.justify-between
-                                div(class='w-[3rem] md:w-1/12') 1
-                                div(class='w-[5rem] md:w-2/12') 4
-                                div(class='w-[5rem] md:w-2/12') 5
-                                div(class='w-[5rem] md:w-2/12') 5
             .flex.gap-4.flex-wrap
                 +chart("Berat (Kg)", "w", "bg-sky-50", "text-sky-500", "border-sky-600")
                 +chart("Tinggi (Cm)", "h", "bg-pink-50", "text-pink-500", "border-pink-600")
 script(src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js") 
+script(src="/assets/js/Fuzzy.js") 
 script(src="/assets/js/simulation.js")
 script(src="/assets/js/event.js") 

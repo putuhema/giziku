@@ -16,25 +16,18 @@ body
                             input(type="hidden", name="id" value=`${edit ?  user.id : ''}`)
                             div.flex.flex-col
                                 label.text-sm(for='nik') NIK
-                                input#nik(type='text' name='nik' value=`${edit ? user.nik : ''}`)
+                                input#nik( class=`${error && error.param === 'nik' ? 'border-red-400' : ''}` type='text' name='nik' value=`${error ? oldValue.nik : edit ? user.nik : ''}`)
                             div.flex.flex-col.gap-4(class='sm:flex-row')
                                 div.flex.flex-col.flex-1
                                     label.text-sm(for='mothername') Nama Ibu
-                                    input#mothername(type='text' name='mothername' value=`${edit ? user.mothername : ''}`)
+                                    input#mothername( class=`${error && error.param === 'mothername' ? 'border-red-400' : ''}` type='text' name='mothername' value=`${error ? oldValue.mothername :edit ? user.mothername : ''}`)
                                 div.flex.flex-col.flex-1
                                     label.text-sm(for='toddlername') Nama Balita
-                                    input#toddlername(type='text' name='toddlername' value=`${edit ? user.toddlername : ''}`)
+                                    input#toddlername(  class=`${error && error.param === 'toddlername' ? 'border-red-400' : ''}` type='text' name='toddlername' value=`${error ? oldValue.toddlername :edit ? user.toddlername : ''}`)
                             div.flex.flex-col.gap-4(class='sm:flex-row')
                                 div.flex.flex-col.flex-1
-                                    label(for='placeOfBirth') Tempat Lahir
-                                    input#placeOfBirth(type='text' name='placeOfBirth' value=`${edit ? user.placeOfBirth : ''}`)
-                                div.flex.flex-col.flex-1
-                                    label(for='dateOfBirth') Tanggal Lahir
-                                    input#dateOfBirth(type='date' name='dateOfBirth' value=`${edit ? user.dateOfBirth : ''}`)
-                            div.flex.flex-col.gap-4(class="sm:flex-row")
-                                div.flex.flex-col.flex-1
                                     label(for="gender") Jenis Kelamin
-                                    select#gender(name="gender") 
+                                    select#gender( class=`${error && error.param === 'gender' ? 'border-red-400' : ''}` name="gender") 
                                         if edit 
                                             if user.gender == 'Laki - Laki'
                                                 option(value="Laki - Laki" selected) Laki - Laki
@@ -44,9 +37,13 @@ body
                                                 option(value="Perempuan" selected ) Perempuan
                                         else
                                             option(value="Laki - Laki") Laki - Laki
-                                            option(value="Perempuan" ) Perempuan
+                                            option(value="Perempuan" ) Perempuan                               
+                                div.flex.flex-col.flex-1
+                                    label(for='dateOfBirth') Tanggal Lahir
+                                    input#dateOfBirth(  class=`${error && error.param === 'dateOfBirth' ? 'border-red-400' : ''}` type='date' name='dateOfBirth' value=`${error ? oldValue.dateOfBirth :edit ? user.dateOfBirth : ''}`)
+                            div.flex.flex-col.gap-4(class="sm:flex-row")
                                 div.flex.flex-col.flex-1
                                     label(for='address') Alamat
-                                    textarea#address.resize-none(name='address' cols='30' rows='3' )= `${edit ? user.address : ''}`
+                                    textarea#address.resize-none(  class=`${error && error.param === 'address' ? 'border-red-400' : ''}` name='address' cols='30' rows='3' )= `${error ? oldValue.address :edit ? user.address : ''}`
                             button.w-full.p-2.px-5.rounded.font-bold.text-white(type='submit' class='bg-sky-400 hover:bg-sky-300') Submit
 script(src='/assets/js/event.js')
