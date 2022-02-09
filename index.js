@@ -62,7 +62,6 @@ Measurement.hasMany(Note);
 Note.belongsTo(Measurement);
 
 sequelize
-  // .sync({ force: true })
   .sync()
   .then(async () => {
     const admin = await Admin.findOne({ where: { username: 'admin' } });

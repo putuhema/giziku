@@ -3,7 +3,7 @@ const heightAdminCtxAdmin = document.getElementById('heightChart').getContext('2
 const weightHeightCtxAdmin = document.getElementById('weightHeightChart').getContext('2d');
 const modalChart = document.getElementById('modalChart').getContext('2d');
 
-const chart = (ctx, labels, data, zScore, label, code) => {
+const chart = (ctx, labels, data, label, code) => {
   // eslint-disable-next-line no-undef
   let selectedColor = {};
   switch (code) {
@@ -36,13 +36,6 @@ const chart = (ctx, labels, data, zScore, label, code) => {
           borderWidth: 1,
           tension: 0.1,
         },
-        {
-          label: 'Z-Score',
-          data: zScore,
-          backgroundColor: '#cbd5e1',
-          borderColor: '#475569',
-          borderWidth: 1,
-        },
       ],
     },
     options: {
@@ -55,12 +48,11 @@ const chart = (ctx, labels, data, zScore, label, code) => {
   });
 };
 const request = async () => {
-  const res = await fetch('http://localhost:8080/admin/nutrition-api');
-  const { weight, height, ages, wh } = await res.json();
-  console.log(ages);
-  chart(weightCtxAdmin, ages, weight.value, weight.ZScore, 'Berat (Kg)', 'B');
-  chart(heightAdminCtxAdmin, ages, height.value, height.ZScore, 'Tinggi (Cm)', 'T');
-  chart(weightHeightCtxAdmin, weight.value, height.value, wh, 'Berat/Tinggi (Kg/Cm)', 'BT');
+  const res = await fetch('http://cekstunting.com/admin/nutrition-api');
+  const { weight, height, ages } = await res.json();
+  chart(weightCtxAdmin, ages, weight.value, 'Berat (Kg)', 'B');
+  chart(heightAdminCtxAdmin, ages, height.value, 'Tinggi (Cm)', 'T');
+  chart(weightHeightCtxAdmin, weight.value, height.value, 'Berat/Tinggi (Kg/Cm)', 'BT');
 
   const setModalContent = (id, title, desc, bg, color, descColor) => {
     modalId.value = id;
@@ -88,7 +80,7 @@ const request = async () => {
       if (ctx) {
         ctx.destroy();
       }
-      ctx = chart(modalChart, ages, weight.value, weight.ZScore, 'Berat (Kg)', 'B');
+      ctx = chart(modalChart, ages, weight.value, 'Berat (Kg)', 'B');
     });
   }
 
@@ -105,7 +97,7 @@ const request = async () => {
       if (ctx) {
         ctx.destroy();
       }
-      ctx = chart(modalChart, ages, height.value, height.ZScore, 'Tinggi (Cm)', 'T');
+      ctx = chart(modalChart, ages, height.value, 'Tinggi (Cm)', 'T');
     });
   }
 };

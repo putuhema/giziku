@@ -50,5 +50,5 @@ generateChart(var2, {
 });
 generateChart(var3, {
   label: [0.3, 0.35, 0.45, 0.55, 0.6],
-  title: ['Normal', 'Beresiko Stunting', 'Stunting'],
+  title: ['Stunting', 'Beresiko Stunting', 'Normal'],
 });

@@ -305,7 +305,6 @@ exports.postAddMeasurement = async (req, res) => {
     const { id, weight, height, date, notes: noteResult } = req.body;
 
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
       const user = await User.findOne({
@@ -540,7 +539,7 @@ exports.getDetail = async (req, res) => {
         );
       }
       await user.update({
-        nutritionalStatus: nutritionalStatus(measurements[0].wZScore),
+        nutritionalStatus: nutritionalStatus(measurements[measurements.length - 1].whZScore),
         stuntingStatus: stuntingStatus(defuzzification),
       });
     }
