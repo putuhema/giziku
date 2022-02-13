@@ -1,9 +1,11 @@
 // @ts-nocheck
 const moment = require('moment');
+const R = require('r-integration');
 const { validationResult } = require('express-validator');
 const { hash } = require('bcrypt');
 const { User, Note, Measurement, Fuzzy: FuzzyModel } = require('../users');
 const Admin = require('./admin');
+const Standard = require('./standar');
 const { rules, antropometri } = require('../../data');
 const {
   selectedOption,
@@ -329,42 +331,37 @@ exports.postAddMeasurement = async (req, res) => {
     }
 
     const notes = noteResult.split(';').filter(note => note.length !== 0);
-    const floorHeight = +height - Math.floor(+height);
-    let calcHeight = 0;
-
-    if (floorHeight === 0) {
-      calcHeight = +height;
-    } else if (floorHeight <= 0.5) {
-      calcHeight = Math.floor(+height) + 0.5;
-    } else if (floorHeight > 0.5) {
-      calcHeight = Math.ceil(+height);
-    }
-
     const user = await User.findOne({ where: { id } });
 
     const currentDate = new Date(date);
     const userDate = new Date(user.dateOfBirth);
     const dif = new Date(currentDate.getTime() - userDate.getTime());
     const age = (dif.getUTCFullYear() - 1970) * 12 + dif.getUTCMonth();
-    console.log(age);
-    let gender = '';
+
+    let sex = 0;
     if (user.gender === 'Laki - Laki') {
-      gender = 'L';
+      sex = 1;
     } else if (user.gender === 'Perempuan') {
-      gender = 'P';
+      sex = 2;
     }
 
-    const wZScore = zScore(age, +weight, 'BBU', gender);
-    const hZScore = zScore(age, +height, 'PBU', gender);
-    const whZScore = zScoreAge(calcHeight, +weight, 'BBPB', gender, age);
+    const result = R.callMethod('./script/anthro.r', 'anthro', {
+      sex,
+      age,
+      weight: +weight,
+      height: +height,
+    });
+
+    const { zlen, zwei, zwfl } = result[0][0];
+
     const measurement = await Measurement.create({
       weight,
       height,
       age,
       date,
-      wZScore,
-      hZScore,
-      whZScore,
+      wZScore: zwei,
+      hZScore: zlen,
+      whZScore: zwfl,
       userId: id,
     });
 
@@ -375,6 +372,12 @@ exports.postAddMeasurement = async (req, res) => {
         userId: id,
         measurementId: measurement.getDataValue('id'),
       });
+    });
+
+    await Standard.create({
+      age,
+      sex,
+      value: +height,
     });
 
     res.redirect(`/admin/add-measurement?id=${id}`);
@@ -418,20 +421,27 @@ exports.postEditMeasurement = async (req, res) => {
   try {
     const { measurementId, id: userId, weight, height, date } = req.body;
     const user = await User.findOne({ where: { id: userId } });
-    const [year, month] = user.dateOfBirth.split('-');
-    const [measurementYear, measurementMonth] = date.split('-');
 
-    const age = (measurementYear - year) * 12 + (measurementMonth - month);
-    let gender = '';
+    const currentDate = new Date(date);
+    const userDate = new Date(user.dateOfBirth);
+    const dif = new Date(currentDate.getTime() - userDate.getTime());
+    const age = (dif.getUTCFullYear() - 1970) * 12 + dif.getUTCMonth();
+
+    let sex = '';
     if (user.gender === 'Laki - Laki') {
-      gender = 'L';
+      sex = 1;
     } else if (user.gender === 'Perempuan') {
-      gender = 'P';
+      sex = 2;
     }
 
-    const wZScore = zScore(age, +weight, 'BBU', gender);
-    const hZScore = zScore(age, +height, 'PBU', gender);
-    const whZScore = zScoreAge(+height, +weight, 'BBPB', gender, age);
+    const result = await R.callMethodAsync('./script/anthro.r', 'anthro', {
+      sex,
+      age,
+      weight: +weight,
+      height: +height,
+    });
+
+    const { zlen, zwei, zwfl } = result[0][0];
 
     await Measurement.update(
       {
@@ -439,9 +449,9 @@ exports.postEditMeasurement = async (req, res) => {
         height,
         age,
         date,
-        wZScore,
-        hZScore,
-        whZScore,
+        wZScore: zwei,
+        hZScore: zlen,
+        whZScore: zwfl,
         userId,
       },
       {
@@ -540,7 +550,7 @@ exports.getDetail = async (req, res) => {
         );
       }
       await user.update({
-        nutritionalStatus: nutritionalStatus(measurements[0].wZScore),
+        nutritionalStatus: nutritionalStatus(measurements[measurements.length - 1].whZScore),
         stuntingStatus: stuntingStatus(defuzzification),
       });
     }

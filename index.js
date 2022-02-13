@@ -23,6 +23,8 @@ app.set('views', 'components');
 app.use(cors());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'libs')));
+app.use(express.static(path.join(__dirname, 'script')));
 app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use(
@@ -78,7 +80,9 @@ sequelize
     }
   })
   .then(() => {
-    app.listen();
+    app.listen(8080, () => {
+      console.log(`Run on port 8080`);
+    });
   })
   .catch(err => {
     console.log(err);

@@ -1,0 +1,14 @@
+anthro                  Compute the WHO Child Growth Standards
+anthro_api_compute_prevalence
+                        Compute prevalence of zscores
+anthro_api_compute_zscore
+                        Helper function to compute zscores
+anthro_api_compute_zscore_adjusted
+                        Helper function to compute the adjusted zscore
+anthro_api_standardize_oedema_var
+                        Standardize the Oedema input values
+anthro_api_standardize_sex_var
+                        Standardize the Sex input values
+anthro_prevalence       Compute prevalence estimates
+anthro_zscores          Calculate z-scores for the eight anthropometric
+                        indicators

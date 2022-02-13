@@ -37,9 +37,8 @@ body
                                                 div(class='w-[5rem]') umur
                                                 div(class='w-[5rem]') berat
                                                 div(class='w-[5rem]') tinggi
-                                                div(class='w-[5rem]') zScore Berat
-                                                div(class='w-[5rem]') zScore Tinggi
-                                                div(class='w-[7rem]') zScore Berat/Tinggi
+                                                div(class='w-[5rem]') z-Score TB/U
+                                                div(class='w-[5rem]') z-Score BB/TB
                                                 div(class='w-[7rem]') tanggal pengukuran
                                                 div(class='w-[15rem]') catatan
                                                 div(class='w-[5rem]') action
@@ -48,11 +47,10 @@ body
                                                     div.px-4.py-2.flex.border-t.items-center(class="even:bg-gray-100 relative ")
                                                         div(class='w-[3rem] text-center')= index + 1
                                                         div(class='w-[5rem] text-center')= `${measurement.age}`
-                                                        div(class='w-[5rem] text-center')= measurement.weight
+                                                        div(class='w-[5rem] text-center')= measurement.weight 
                                                         div(class='w-[5rem] text-center')= measurement.height 
-                                                        div(class='w-[5rem] text-center')= `${measurement.wZScore.toFixed(2)}`
                                                         div(class='w-[5rem] text-center')= `${measurement.hZScore.toFixed(2)}`
-                                                        div(class='w-[7rem] text-center')= `${measurement.whZScore.toFixed(2)}`
+                                                        div(class='w-[5rem] text-center')= `${measurement.whZScore.toFixed(2)}`
                                                         div(class='w-[7em] text-center')= measurement.date 
                                                         div(class='w-[15rem] text-center px-4')
                                                             ol.list-decimal 
