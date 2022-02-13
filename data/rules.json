@@ -1,11 +1,11 @@
 [
   "IF T Level1 and G Level1 then SS NORMAL",
-  "IF T Level1 and G Level1 then SS NORMAL",
-  "IF T Level1 and G Level1 then SS NORMAL",
-  "IF T Level2 and G Level2 then SS BERESIKO STUNTING",
+  "IF T Level1 and G Level2 then SS NORMAL",
+  "IF T Level1 and G Level3 then SS BERESIKO STUNTING",
+  "IF T Level2 and G Level1 then SS BERESIKO STUNTING",
   "IF T Level2 and G Level2 then SS BERESIKO STUNTING ",
-  "IF T Level2 and G Level2 then SS BERESIKO STUNTING ",
-  "IF T Level3 and G Level3 then SS BERESIKO STUNTING",
-  "IF T Level3 and G Level3 then SS STUNTING ",
+  "IF T Level2 and G Level3 then SS BERESIKO STUNTING ",
+  "IF T Level3 and G Level1 then SS BERESIKO STUNTING",
+  "IF T Level3 and G Level2 then SS STUNTING ",
   "IF T Level3 and G Level3 then SS STUNTING "
 ]

@@ -84,7 +84,7 @@ class Fuzzy {
     this.thenNormal(height.level1, nutrition.level1);
     this.thenNormal(height.level1, nutrition.level2);
     this.thenRiskOfStunted(height.level1, nutrition.level3);
-    this.thenNormal(height.level2, nutrition.level1);
+    this.thenRiskOfStunted(height.level2, nutrition.level1);
     this.thenRiskOfStunted(height.level2, nutrition.level2);
     this.thenRiskOfStunted(height.level2, nutrition.level3);
     this.thenRiskOfStunted(height.level3, nutrition.level1);

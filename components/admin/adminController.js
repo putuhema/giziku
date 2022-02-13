@@ -304,7 +304,6 @@ exports.postAddMeasurement = async (req, res) => {
     const { id, weight, height, date, notes: noteResult } = req.body;
 
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
       const user = await User.findOne({

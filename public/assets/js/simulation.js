@@ -337,7 +337,7 @@ const calculateInput = (e, antro) => {
 };
 
 (async () => {
-  const res = await fetch('http://localhost:8080/api/');
+const res = await fetch('http://cekstunting.com/api/');
   const antropometri = await res.json();
   submit.addEventListener('click', e => calculateInput(e, antropometri.antropometri));
 })();
