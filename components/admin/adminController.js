@@ -5,13 +5,10 @@ const { validationResult } = require('express-validator');
 const { hash } = require('bcrypt');
 const { User, Note, Measurement, Fuzzy: FuzzyModel } = require('../users');
 const Admin = require('./admin');
-const Standard = require('./standar');
 const { rules, antropometri } = require('../../data');
 const {
   selectedOption,
   getMeasurementInfo,
-  zScore,
-  zScoreAge,
   stuntingStatus,
   nutritionalStatus,
   generateFuzzy,
@@ -372,12 +369,6 @@ exports.postAddMeasurement = async (req, res) => {
         userId: id,
         measurementId: measurement.getDataValue('id'),
       });
-    });
-
-    await Standard.create({
-      age,
-      sex,
-      value: +height,
     });
 
     res.redirect(`/admin/add-measurement?id=${id}`);
