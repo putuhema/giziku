@@ -5,11 +5,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-const { hash } = require('bcrypt');
 
-const sequelize = require('./config/db');
 const { User, Measurement, Note, Fuzzy } = require('./components/users');
-const { Admin } = require('./components/admin');
 const { authRouter } = require('./components/auth');
 const { userRouter } = require('./components/users');
 const { adminRouter } = require('./components/admin');
@@ -70,26 +67,4 @@ Fuzzy.belongsTo(User);
 Measurement.hasMany(Note);
 Note.belongsTo(Measurement);
 
-sequelize
-  .sync()
-  .then(async () => {
-    const admin = await Admin.findOne({ where: { username: 'admin' } });
-    if (!admin) {
-      const hashPassword = await hash('admin', 10);
-      Admin.create({
-        username: 'admin',
-        name: 'admin',
-        password: hashPassword,
-        role: 'admin',
-        imgSeed: 'admin',
-      });
-    }
-  })
-  .then(() => {
-    app.listen(8080, () => {
-      console.log(`Run on port 8080`);
-    });
-  })
-  .catch(err => {
-    console.log(err);
-  });
+module.exports = app;
