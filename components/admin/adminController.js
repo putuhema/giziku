@@ -298,7 +298,7 @@ exports.getAddMeasurement = async (req, res) => {
   }
 };
 
-exports.postAddMeasurement = async (req, res) => {
+exports.postAddMeasurement = async (req, res, next) => {
   const { id, weight, height, date, notes: noteResult } = req.body;
   try {
     const errors = validationResult(req);
@@ -344,7 +344,6 @@ exports.postAddMeasurement = async (req, res) => {
       weight: +weight,
       height: +height,
     });
-
     const { zlen, zwei, zwfl } = result[0][0];
 
     const measurement = await Measurement.create({
@@ -369,7 +368,7 @@ exports.postAddMeasurement = async (req, res) => {
 
     res.redirect(`/admin/add-measurement?id=${id}`);
   } catch (err) {
-    res.redirect(`/admin/add-measurement?id=${id}`);
+    next(err);
   }
 };
 

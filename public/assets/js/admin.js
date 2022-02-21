@@ -48,7 +48,7 @@ const chart = (ctx, labels, data, label, code) => {
   });
 };
 const request = async () => {
-  const res = await fetch('http://localhost:8080/admin/nutrition-api');
+  const res = await fetch('http://cekstunting.com/admin/nutrition-api');
   const { weight, height, ages } = await res.json();
   chart(weightCtxAdmin, ages, weight.value, 'Berat (Kg)', 'B');
   chart(heightAdminCtxAdmin, ages, height.value, 'Tinggi (Cm)', 'T');

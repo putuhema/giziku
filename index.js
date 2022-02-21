@@ -50,6 +50,13 @@ app.use(authRouter);
 app.use(userRouter);
 app.use('/admin', adminRouter);
 app.use('/api', apiRouter);
+app.use((err, _req, res) => {
+  const { message } = err;
+
+  res.render('admin/views/error-page', {
+    message,
+  });
+});
 
 User.hasMany(Measurement);
 Measurement.belongsTo(User);
