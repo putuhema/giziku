@@ -31,8 +31,8 @@ app.use(
   session({
     key: 'session_user',
     resave: false,
-    saveUninitialized: false,
     secret: process.env.SECRET,
+    saveUninitialized: false,
     store: new MySQLStore({
       host: process.env.HOST,
       port: 3306,

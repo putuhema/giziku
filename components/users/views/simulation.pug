@@ -14,7 +14,7 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                 .px-4.py-1.border-b.border-sky-400.bg-sky-100 
                     h1.font-bold.text-xl.text-sky-500 SIMULASI STUNTING
                     p.text-sky-400 simulasikan perkembangan balita untuk mencegah stunting dengan memasukkan berat, tinggi, dan umur.
-                form 
+                form(action='/simulation',  method='POST')
                     .px-4.w-full.space-y-4.mt-5
                         .flex.gap-4.items-center
                             h1.font-bold Status Stunting 
@@ -23,6 +23,7 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                             .flex.flex-col.flex-1
                                 label.text-sm(for="weight") Berat Badan (Kg)
                                 input#weight(type="text", name="weight", class="w-full" )
+                                input#id(type="hidden", name='id', value= id)
                                 input#gender(type="hidden", name="gender" value= gender)
                             .flex.flex-col.flex-1
                                 label.text-sm(for="weight") Tinggi Badan (Cm)
@@ -51,6 +52,12 @@ div(class="z-0 flex flex-col xl:flex-row gap-4 items-center justify-center relat
                             div(class='w-[5rem] md:w-2/12') tinggi
                             div(class='w-[5rem] md:w-2/12') umur
                         div#body.px-4.space-y-4.overflow-auto(class='h-[20rem]')
+                            each m, i in anthroMeasurement
+                                div.flex.items-center.justify-between
+                                    div(class='w-[3rem] md:w-1/12')= `${i + 1}`
+                                    div(class='w-[5rem] md:w-2/12')= m.age
+                                    div(class='w-[5rem] md:w-2/12')= m.weight
+                                    div(class='w-[5rem] md:w-2/12')= m.height
             .flex.gap-4.flex-wrap
                 +chart("Berat (Kg)", "w", "bg-sky-50", "text-sky-500", "border-sky-600")
                 +chart("Tinggi (Cm)", "h", "bg-pink-50", "text-pink-500", "border-pink-600")

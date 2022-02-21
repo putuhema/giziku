@@ -36,6 +36,7 @@ router.post(
       if (admin) {
         return Promise.reject(new Error('username sudah terdaftar'));
       }
+      return true;
     })
   ),
   body(['username', 'name', 'password']).notEmpty(),
@@ -48,8 +49,21 @@ router.get('/add-measurement', adminController.getAddMeasurement);
 router.get('/edit-measurement', adminController.getEditMeasurement);
 router.post(
   '/add-measurement',
-  body(['weight', 'height', 'date']).notEmpty(),
-  body(['weight', 'height']).isNumeric(),
+  body(['weight', 'height']).notEmpty().isNumeric(),
+  body(['date'])
+    .notEmpty()
+    .custom((input, { req }) => {
+      const { id } = req.body;
+      return User.findOne({ where: { id } }).then(user => {
+        const currentDate = new Date(input);
+        const userDate = new Date(user.dateOfBirth);
+        const dif = new Date(currentDate.getTime() - userDate.getTime());
+        const age = (dif.getUTCFullYear() - 1970) * 12 + dif.getUTCMonth();
+        if (age < 0) {
+          return Promise.reject(new Error('salah memasukkan tanggal'));
+        }
+      });
+    }),
   adminController.postAddMeasurement
 );
 router.post('/edit-measurement', adminController.postEditMeasurement);

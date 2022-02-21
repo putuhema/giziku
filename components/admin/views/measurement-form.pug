@@ -10,8 +10,8 @@ body
                         path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 16l-4-4m0 0l4-4m-4 4h18')
                     span Kembali
                 // form
-                div.flex.max-w-2xl.mx-auto.gap-8
-                    div.grid.place-items-top(class='w-3/6')
+                div.flex.flex-col.max-w-2xl.mx-auto.gap-8(class='sm:flex-row')
+                    div.grid.place-items-top.flex-1(class='md:w-3/6 sm:w-full ')
                         div.rounded.h-max.text-blue-500.border-sky-600.bg-sky-50.shadow.relative.mx-auto.p-2.pl-6.overflow-hidden(class="w-full before:inset-0 before:content-[''] before:w-2 before:h-full before:absolute before:bg-blue-200")
                             p.font-bold.text-md Catatan
                                 ol.pl-2#note-ul.list-decimal
@@ -19,21 +19,21 @@ body
                                         each note in notes 
                                             if !note.state
                                                 li.listItem.cursor-pointer= note.text
-                    div.mb-10(class='w-4/6')
+                    div.mb-10(class='md:w-4/6 sm:w-full')
                         form(action=`${edit ? '/admin/edit-measurement' : '/admin/add-measurement'}` method="post")
                             input#noteResult(type="hidden", name="notes")
                             input(type="hidden", name="id" value=`${user.id}`)
                             input(  type="hidden", name="measurementId" value=`${edit && measurement.id}`)
-                            .flex.flex-row.gap-4.w-full
+                            .flex.flex-col.gap-4.w-full(class=' sm:flex-row')
                                 .flex.flex-col.flex-1
                                     label(for='weight') Berat (Kg)
                                     input#weight(class=`${error && error.param === 'weight' ? 'border-red-400' : ''}` type='text' name='weight' step="0.01" value=`${error ? oldValue.weight: edit ? measurement.weight : '' }`)
                                 .flex.flex-col.flex-1
-                                    label(for='heigt') Tinggi (Kg)
+                                    label(for='height') Tinggi (Kg)
                                     input#height(class=`${error && error.param === 'height' ? 'border-red-400' : ''}` type='text' name='height' step="0.01" value=`${error ? oldValue.height: edit ? measurement.height : ''}`)
                             .flex.flex-row.gap-4.w-full.mt-4
                                 .flex.flex-col.flex-1
-                                    label(for='heigt') Tanggal Pengukuran
+                                    label(for='date') Tanggal Pengukuran
                                     input#height(class=`${error && error.param === 'date' ? 'border-red-400' : ''}` type='date' name='date' value=`${error ? oldValue.date : edit ? measurement.date : ''}` )
                             .flex.flex-row.w-full.gap-4.mt-4
                                 .flex.flex-col(class='w-4/5')

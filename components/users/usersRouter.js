@@ -7,7 +7,8 @@ router.get('/home', isAuth, userController.getIndex);
 router.get('/nutrition-api', userController.getWeightApi);
 router.get('/setting', isAuth, userController.getUserSetting);
 router.get('/simulation', isAuth, userController.getSimulation);
-
+router.get('/zscore', userController.getZScore);
+router.post('/simulation', isAuth, userController.postSimulation);
 router.post('/notes-state', isAuth, userController.postNoteState);
 router.post('/setting', isAuth, userController.postUserSetting);
 

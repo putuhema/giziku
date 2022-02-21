@@ -1,6 +1,6 @@
 const { hash } = require('bcrypt');
 const moment = require('moment');
-
+const R = require('r-integration');
 const User = require('./user');
 const Note = require('./userNote');
 const Measurement = require('./userMeasurement');
@@ -12,9 +12,16 @@ let MEASUREMENT_API = {
   height: {},
   month: [],
 };
+let anthroMeasurement = [];
+let zH = [];
+let zWH = [];
 
 exports.getIndex = async (req, res) => {
   try {
+    anthroMeasurement = [];
+    zW = [];
+    zH = [];
+    zWH = [];
     const { userId } = req.session;
     const user = await User.findOne({ where: { id: userId } });
     const measurementDESC = await Measurement.findAll({
@@ -73,23 +80,58 @@ exports.getSimulation = async (req, res) => {
   let gender = '';
   switch (g) {
     case 'Laki - Laki': {
-      gender = 'L';
+      gender = 1;
       break;
     }
     case 'Perempuan': {
-      gender = 'P';
+      gender = 2;
       break;
     }
     default: {
-      gender = '';
+      gender = 0;
     }
   }
   try {
     res.render('users/views/simulation', {
       user,
       gender,
+      id,
+      anthroMeasurement,
       title: 'simulasi',
     });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getZScore = async (req, res) => {
+  try {
+    res.status(200).json(anthroMeasurement);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.postSimulation = async (req, res) => {
+  try {
+    const { weight, height, age, gender, id } = req.body;
+
+    const result = R.callMethod('./script/anthro.r', 'anthro', {
+      sex: +gender.toString().trim(),
+      age: +age.toString().trim(),
+      weight: +weight.toString().trim(),
+      height: +height.toString().trim(),
+    });
+    const { zlen, zwfl } = result[0][0];
+    zH.push(zlen);
+    zWH.push(zwfl);
+    anthroMeasurement.push({
+      weight,
+      height,
+      age,
+      zscore: { h: zH, wh: zWH },
+    });
+    res.redirect(`/simulation?id=${id}&g=${+gender === 1 ? 'Laki - Laki' : 'Perempuan'}`);
   } catch (err) {
     console.log(err);
   }

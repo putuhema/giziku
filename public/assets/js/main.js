@@ -49,7 +49,7 @@ const charts = (context, labels, data, label, code) => {
 };
 
 const req = async () => {
-  const res = await fetch('http://cekstunting.com/nutrition-api');
+  const res = await fetch('http://cekstunting/nutrition-api');
   const { weight, height, ages } = await res.json();
   charts(weightCtx, ages, weight.value, 'Berat (Kg)', 'B');
   charts(heightCtx, ages, height.value, 'Tinggi (Cm)', 'T');

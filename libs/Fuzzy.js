@@ -103,8 +103,8 @@ class Fuzzy {
       x += e[0] * e[1];
       y += e[0];
     });
-
-    return x / y;
+    const z = x / y;
+    return +z.toFixed(3);
   }
 }
 

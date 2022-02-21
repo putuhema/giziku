@@ -58,12 +58,11 @@ exports.getAddUser = async (req, res) => {
 exports.postAddUser = async (req, res) => {
   try {
     const { nik, mothername, toddlername, address, gender, dateOfBirth } = req.body;
-    const hashPassword = await hash(nik, 10);
+    const hashPassword = await hash(nik.toString().trim(), 10);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
-      console.log(error);
       const activeUser = await Admin.findOne({
         where: { id: req.session.userId },
       });
@@ -86,13 +85,13 @@ exports.postAddUser = async (req, res) => {
     }
 
     await User.create({
-      nik,
-      mothername,
-      toddlername,
-      address,
-      gender,
+      nik: nik.toString().trim(),
+      mothername: mothername.toString().trim(),
+      toddlername: toddlername.toString().trim(),
+      address: address.toString().trim(),
+      gender: gender.toString().trim(),
       status: '-',
-      imgSeed: toddlername,
+      imgSeed: toddlername.toString().trim(),
       dateOfBirth,
       password: hashPassword,
       role: 'kader',
@@ -300,9 +299,8 @@ exports.getAddMeasurement = async (req, res) => {
 };
 
 exports.postAddMeasurement = async (req, res) => {
+  const { id, weight, height, date, notes: noteResult } = req.body;
   try {
-    const { id, weight, height, date, notes: noteResult } = req.body;
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = errors.array()[0];
@@ -340,7 +338,6 @@ exports.postAddMeasurement = async (req, res) => {
     } else if (user.gender === 'Perempuan') {
       sex = 2;
     }
-
     const result = R.callMethod('./script/anthro.r', 'anthro', {
       sex,
       age,
@@ -372,7 +369,7 @@ exports.postAddMeasurement = async (req, res) => {
 
     res.redirect(`/admin/add-measurement?id=${id}`);
   } catch (err) {
-    console.log(err);
+    res.redirect(`/admin/add-measurement?id=${id}`);
   }
 };
 

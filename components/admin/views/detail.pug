@@ -17,10 +17,11 @@ body
                                     div(class="w-[20rem] h-max pb-5 ")
                                         div(class="flex h-max flex-col items-center justify-center mt-5 ")
                                             img#modalImg(src=`https://avatars.dicebear.com/api/big-smile/${user.imgSeed}.svg` alt='' class="w-32 h-32 rounded-full border border-sky-400")
-                                            h1.mt-2.font-bold.text-xl= user.toddlername
-                                            if user.nutritionalStatus 
-                                                h2.font-bold.text-xl.mt-2= user.nutritionalStatus
-                                                    span(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-0.5  ${color.bg}`)= value
+                                            h1.mt-2.font-bold.text-xl.mb-4= user.toddlername
+                                            .flex.flex-col.items-center.justify-between.border.px-3.py-2.rounded
+                                                if user.nutritionalStatus 
+                                                    h2.font-bold.text-lg.mb-2= user.nutritionalStatus
+                                                    p(class=`ml-2 text-sm font-bold ${color.text} opacity-70  border ${color.border} px-2 rounded p-0.5  ${color.bg}`)= value
                                             p.font-bold= user.address
                                                 span.font-normal= `, ${moment(user.dateOfBirth).format('LL')}`
                                 div(class="w-full lg:p-4 lg:w-[50rem] ")
@@ -49,8 +50,8 @@ body
                                                         div(class='w-[5rem] text-center')= `${measurement.age}`
                                                         div(class='w-[5rem] text-center')= measurement.weight 
                                                         div(class='w-[5rem] text-center')= measurement.height 
-                                                        div(class='w-[5rem] text-center')= `${measurement.hZScore.toFixed(2)}`
-                                                        div(class='w-[5rem] text-center')= `${measurement.whZScore.toFixed(2)}`
+                                                        div(class='w-[5rem] text-center')= `${measurement.hzScore ? measurement.hZScore.toFixed(2) :  measurement.hZScore}`
+                                                        div(class='w-[5rem] text-center')= `${measurement.whZscore ? measurement.whZScore.toFixed(2) : measurement.whZScore}`
                                                         div(class='w-[7em] text-center')= measurement.date 
                                                         div(class='w-[15rem] text-center px-4')
                                                             ol.list-decimal 
